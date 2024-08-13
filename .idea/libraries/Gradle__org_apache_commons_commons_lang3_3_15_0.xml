@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.apache.commons:commons-lang3:3.15.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.apache.commons" artifactId="commons-lang3" version="3.15.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.15.0/21581109b4be710ea4b195d5760392ec284f9f11/commons-lang3-3.15.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.15.0/636af5bee1fce148e8995cdc9d57f534e876b523/commons-lang3-3.15.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
