@@ -8497,3 +8497,410 @@
 06 Aug 2024 23:06:13,849 WARN  importer.merge.MergeService 77 replace - Replaced Institution{location='Suceava', name='Colegiul National Stefan Cel Mare'} with Institution{location='Suceava', name='Colegiul National "Stefan Cel Mare"'}
 06 Aug 2024 23:07:01,120 WARN  importer.merge.MergeService 77 replace - Replaced Institution{location='Prahova', name='Colegiul National "I. L. Caragiale"'} with Institution{location='Prahova', name='Colegiul National "Ion Luca Caragiale"'}
 06 Aug 2024 23:07:01,139 WARN  importer.merge.MergeService 77 replace - Replaced Institution{location='Bistrita-Nasaud', name='Colegiul Nationala Liviu Rebreanu'} with Institution{location='Bistrita-Nasaud', name='Colegiul National "Liviu Rebreanu"'}
+13 Aug 2024 20:25:37,511 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/_rels/workbook.xml.rels
+13 Aug 2024 20:25:37,517 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet1.xml.rels
+13 Aug 2024 20:25:37,519 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet4.xml.rels
+13 Aug 2024 20:25:37,521 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /_rels/.rels
+13 Aug 2024 20:25:37,640 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:25:37,643 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:25:37,644 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:25:37,644 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:25:37,645 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:25:37,645 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:25:37,654 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:25:37,655 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:25:37,665 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:25:37,665 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:25:37,666 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:25:37,666 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:25:37,667 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:25:37,667 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:25:37,705 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:25:37,706 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stylesheet5d8bdoctype
+13 Aug 2024 20:25:37,756 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctstylesheet4257type
+13 Aug 2024 20:25:37,762 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmtsb58btype
+13 Aug 2024 20:25:37,764 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmt3870type
+13 Aug 2024 20:25:37,765 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stnumfmtid76fbtype
+13 Aug 2024 20:25:37,771 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stxstringf179type
+13 Aug 2024 20:25:37,774 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfonts6623type
+13 Aug 2024 20:25:37,777 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfont14d8type
+13 Aug 2024 20:25:37,783 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfills2c6ftype
+13 Aug 2024 20:25:37,785 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfill550ctype
+13 Aug 2024 20:25:37,787 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborders0d66type
+13 Aug 2024 20:25:37,789 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborderf935type
+13 Aug 2024 20:25:37,794 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellxfs1322type
+13 Aug 2024 20:25:37,798 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctxf97f7type
+13 Aug 2024 20:25:37,802 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellstylexfsa81ftype
+13 Aug 2024 20:25:37,804 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdxfsb26atype
+13 Aug 2024 20:25:37,807 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle cttablestyles872ftype
+13 Aug 2024 20:25:37,811 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle sstf81fdoctype
+13 Aug 2024 20:25:37,829 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsst44f3type
+13 Aug 2024 20:25:37,840 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrsta472type
+13 Aug 2024 20:25:37,940 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle themefd26doctype
+13 Aug 2024 20:25:37,952 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdrawing2748type
+13 Aug 2024 20:25:37,963 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle workbookec17doctype
+13 Aug 2024 20:25:37,969 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworkbook83c3type
+13 Aug 2024 20:25:37,981 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheets49fdtype
+13 Aug 2024 20:25:37,988 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheet4dbetype
+13 Aug 2024 20:25:37,992 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle strelationshipid1e94type
+13 Aug 2024 20:25:37,994 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle worksheetf539doctype
+13 Aug 2024 20:25:38,001 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworksheet530dtype
+13 Aug 2024 20:25:38,027 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcols627ctype
+13 Aug 2024 20:25:38,037 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheetdata8408type
+13 Aug 2024 20:25:38,043 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrowdd39type
+13 Aug 2024 20:25:38,048 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcell842btype
+13 Aug 2024 20:25:38,054 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcellrefe4e0type
+13 Aug 2024 20:25:38,095 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcola95ftype
+13 Aug 2024 20:25:38,149 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcelltypebf95type
+13 Aug 2024 20:25:38,164 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrelt6464type
+13 Aug 2024 20:25:38,168 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrpreltecc2type
+13 Aug 2024 20:25:38,187 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfontname2dc3type
+13 Aug 2024 20:27:07,709 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/_rels/workbook.xml.rels
+13 Aug 2024 20:27:07,714 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet1.xml.rels
+13 Aug 2024 20:27:07,715 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet4.xml.rels
+13 Aug 2024 20:27:07,718 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /_rels/.rels
+13 Aug 2024 20:27:07,805 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:07,807 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:07,808 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:07,809 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:07,809 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:07,810 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:07,818 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:07,819 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:07,823 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:07,823 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:07,825 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:07,826 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:07,826 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:07,827 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:07,859 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:07,860 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stylesheet5d8bdoctype
+13 Aug 2024 20:27:07,895 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctstylesheet4257type
+13 Aug 2024 20:27:07,897 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmtsb58btype
+13 Aug 2024 20:27:07,898 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmt3870type
+13 Aug 2024 20:27:07,899 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stnumfmtid76fbtype
+13 Aug 2024 20:27:07,902 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stxstringf179type
+13 Aug 2024 20:27:07,903 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfonts6623type
+13 Aug 2024 20:27:07,905 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfont14d8type
+13 Aug 2024 20:27:07,908 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfills2c6ftype
+13 Aug 2024 20:27:07,909 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfill550ctype
+13 Aug 2024 20:27:07,911 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborders0d66type
+13 Aug 2024 20:27:07,912 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborderf935type
+13 Aug 2024 20:27:07,914 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellxfs1322type
+13 Aug 2024 20:27:07,915 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctxf97f7type
+13 Aug 2024 20:27:07,917 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellstylexfsa81ftype
+13 Aug 2024 20:27:07,918 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdxfsb26atype
+13 Aug 2024 20:27:07,919 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle cttablestyles872ftype
+13 Aug 2024 20:27:07,921 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle sstf81fdoctype
+13 Aug 2024 20:27:07,933 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsst44f3type
+13 Aug 2024 20:27:07,941 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrsta472type
+13 Aug 2024 20:27:08,028 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle themefd26doctype
+13 Aug 2024 20:27:08,036 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdrawing2748type
+13 Aug 2024 20:27:08,047 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle workbookec17doctype
+13 Aug 2024 20:27:08,052 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworkbook83c3type
+13 Aug 2024 20:27:08,065 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheets49fdtype
+13 Aug 2024 20:27:08,068 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheet4dbetype
+13 Aug 2024 20:27:08,070 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle strelationshipid1e94type
+13 Aug 2024 20:27:08,071 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle worksheetf539doctype
+13 Aug 2024 20:27:08,077 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworksheet530dtype
+13 Aug 2024 20:27:08,100 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcols627ctype
+13 Aug 2024 20:27:08,110 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheetdata8408type
+13 Aug 2024 20:27:08,112 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrowdd39type
+13 Aug 2024 20:27:08,116 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcell842btype
+13 Aug 2024 20:27:08,121 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcellrefe4e0type
+13 Aug 2024 20:27:08,161 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcola95ftype
+13 Aug 2024 20:27:08,201 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcelltypebf95type
+13 Aug 2024 20:27:08,212 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrelt6464type
+13 Aug 2024 20:27:08,215 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrpreltecc2type
+13 Aug 2024 20:27:08,231 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfontname2dc3type
+13 Aug 2024 20:27:08,472 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:27:47,914 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/_rels/workbook.xml.rels
+13 Aug 2024 20:27:47,921 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet1.xml.rels
+13 Aug 2024 20:27:47,922 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet4.xml.rels
+13 Aug 2024 20:27:47,923 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /_rels/.rels
+13 Aug 2024 20:27:48,010 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:48,012 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:48,013 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:48,014 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:48,014 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:48,015 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:48,023 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:27:48,024 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:48,032 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:27:48,034 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:48,035 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:27:48,036 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:48,036 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:27:48,037 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:48,065 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:27:48,066 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stylesheet5d8bdoctype
+13 Aug 2024 20:27:48,102 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctstylesheet4257type
+13 Aug 2024 20:27:48,105 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmtsb58btype
+13 Aug 2024 20:27:48,106 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmt3870type
+13 Aug 2024 20:27:48,107 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stnumfmtid76fbtype
+13 Aug 2024 20:27:48,110 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stxstringf179type
+13 Aug 2024 20:27:48,111 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfonts6623type
+13 Aug 2024 20:27:48,113 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfont14d8type
+13 Aug 2024 20:27:48,118 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfills2c6ftype
+13 Aug 2024 20:27:48,119 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfill550ctype
+13 Aug 2024 20:27:48,120 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborders0d66type
+13 Aug 2024 20:27:48,121 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborderf935type
+13 Aug 2024 20:27:48,123 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellxfs1322type
+13 Aug 2024 20:27:48,124 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctxf97f7type
+13 Aug 2024 20:27:48,126 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellstylexfsa81ftype
+13 Aug 2024 20:27:48,127 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdxfsb26atype
+13 Aug 2024 20:27:48,128 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle cttablestyles872ftype
+13 Aug 2024 20:27:48,130 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle sstf81fdoctype
+13 Aug 2024 20:27:48,141 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsst44f3type
+13 Aug 2024 20:27:48,150 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrsta472type
+13 Aug 2024 20:27:48,242 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle themefd26doctype
+13 Aug 2024 20:27:48,249 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdrawing2748type
+13 Aug 2024 20:27:48,260 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle workbookec17doctype
+13 Aug 2024 20:27:48,264 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworkbook83c3type
+13 Aug 2024 20:27:48,277 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheets49fdtype
+13 Aug 2024 20:27:48,279 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheet4dbetype
+13 Aug 2024 20:27:48,282 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle strelationshipid1e94type
+13 Aug 2024 20:27:48,283 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle worksheetf539doctype
+13 Aug 2024 20:27:48,289 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworksheet530dtype
+13 Aug 2024 20:27:48,317 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcols627ctype
+13 Aug 2024 20:27:48,325 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheetdata8408type
+13 Aug 2024 20:27:48,329 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrowdd39type
+13 Aug 2024 20:27:48,335 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcell842btype
+13 Aug 2024 20:27:48,340 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcellrefe4e0type
+13 Aug 2024 20:27:48,382 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcola95ftype
+13 Aug 2024 20:27:48,420 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcelltypebf95type
+13 Aug 2024 20:27:48,431 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrelt6464type
+13 Aug 2024 20:27:48,434 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrpreltecc2type
+13 Aug 2024 20:27:48,449 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfontname2dc3type
+13 Aug 2024 20:27:48,683 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:27:52,139 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='62'name='Paun Mara Ioana', schoolYear=2018} with Person{id='371'name='Paun C Mara Ioana', schoolYear=2018}
+13 Aug 2024 20:27:52,205 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='373'name='Arama Andrei', schoolYear=2018} with Person{id='75'name='Arama Andrei-Robert', schoolYear=2018}
+13 Aug 2024 20:27:52,209 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='375'name='Racovita Denis Gabriel', schoolYear=2018} with Person{id='59'name='Racovita Dennis-Gabriel', schoolYear=2018}
+13 Aug 2024 20:27:52,212 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='380'name='Popa Dan Sebastian', schoolYear=2018} with Person{id='67'name='Popa Dan-Sebastian', schoolYear=2018}
+13 Aug 2024 20:27:52,216 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='69'name='Radavoi David Alexandru', schoolYear=2018} with Person{id='391'name='Radavoi David-Alexandru', schoolYear=2018}
+13 Aug 2024 20:27:52,221 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='393'name='Apostol Mihnea', schoolYear=2017} with Person{id='84'name='Apostol Mihnea Petru', schoolYear=2017}
+13 Aug 2024 20:27:52,224 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='394'name='Morariu Iulia Ela', schoolYear=2017} with Person{id='82'name='Morariu Iulia-Ela', schoolYear=2017}
+13 Aug 2024 20:27:52,228 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='397'name='Stan Alexandru', schoolYear=2017} with Person{id='92'name='Stefan Alexandru', schoolYear=2017}
+13 Aug 2024 20:27:52,232 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='401'name='Teodorescu Cosmin', schoolYear=2017} with Person{id='105'name='Teodorescu Cosmin-Andrei', schoolYear=2017}
+13 Aug 2024 20:27:52,236 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='405'name='Dumitrache Andrei Bogdan', schoolYear=2017} with Person{id='90'name='Dumitrache Andrei-Bogdan', schoolYear=2017}
+13 Aug 2024 20:27:52,240 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='406'name='Draghici Ana', schoolYear=2017} with Person{id='109'name='Draghici Ana Veronica', schoolYear=2017}
+13 Aug 2024 20:27:52,246 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='412'name='Ardelean Mihai Alexandru', schoolYear=2017} with Person{id='91'name='Ardelean Alexandru-Mihai', schoolYear=2017}
+13 Aug 2024 20:27:52,252 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='425'name='Diaconu Andreea', schoolYear=2017} with Person{id='113'name='Diaconu Andreea-Bianca', schoolYear=2017}
+13 Aug 2024 20:27:52,258 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='435'name='Dedu Razvan Matei', schoolYear=2016} with Person{id='121'name='Dedu Razvan-Matei', schoolYear=2016}
+13 Aug 2024 20:27:52,262 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='132'name='Maican-Barbu Iustin-Cristian', schoolYear=2016} with Person{id='436'name='Maican-Barbu Iustin Cristian', schoolYear=2016}
+13 Aug 2024 20:27:52,272 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='437'name='Radoi Adelina', schoolYear=2016} with Person{id='123'name='Radoi Adelina-Ioana', schoolYear=2016}
+13 Aug 2024 20:27:52,277 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='126'name='Cornea Alexandru Mihai', schoolYear=2016} with Person{id='438'name='Cornea Alexandru-Mihai', schoolYear=2016}
+13 Aug 2024 20:27:52,286 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='141'name='Tita Georgiana Teodora', schoolYear=2016} with Person{id='439'name='Tita Georgiana-Teodora', schoolYear=2016}
+13 Aug 2024 20:27:52,292 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='440'name='Lupau Alin', schoolYear=2015} with Person{id='169'name='Lupau Alin George', schoolYear=2015}
+13 Aug 2024 20:27:52,297 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='441'name='Stupariu Teodor Mihai', schoolYear=2015} with Person{id='163'name='Stupariu Teodor-Mihai', schoolYear=2015}
+13 Aug 2024 20:27:52,301 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='442'name='Patrascu Vlad George', schoolYear=2015} with Person{id='215'name='Patrascu Vlad-George', schoolYear=2015}
+13 Aug 2024 20:27:52,305 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='446'name='Grecu Constantin Rares', schoolYear=2015} with Person{id='166'name='Grecu Constantin-Rares', schoolYear=2015}
+13 Aug 2024 20:27:52,309 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='447'name='Tomita Mircea Stefan', schoolYear=2015} with Person{id='172'name='Tomita Mircea-Stefan', schoolYear=2015}
+13 Aug 2024 20:27:52,314 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='218'name='Voicu Valeriu-Mihai', schoolYear=2014} with Person{id='451'name='Voicu Mihai-Valeriu', schoolYear=2014}
+13 Aug 2024 20:27:52,321 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='452'name='Militaru Mihai Adrian', schoolYear=2014} with Person{id='251'name='Militaru Mihai-Adrian', schoolYear=2014}
+13 Aug 2024 20:27:52,326 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='454'name='Petrescu Stefan Ioan', schoolYear=2014} with Person{id='233'name='Petrescu Ioan Stefan', schoolYear=2014}
+13 Aug 2024 20:27:52,330 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='455'name='Salian Shaan Stefan', schoolYear=2014} with Person{id='252'name='Salian Shaan-Stefan', schoolYear=2014}
+13 Aug 2024 20:27:52,334 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='456'name='Tomita Matei Alexandru', schoolYear=2014} with Person{id='241'name='Tomita Matei-Alexandru', schoolYear=2014}
+13 Aug 2024 20:27:52,339 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='458'name='Dobre Darius', schoolYear=2014} with Person{id='238'name='Dobre Darius Adrian', schoolYear=2014}
+13 Aug 2024 20:27:52,343 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='464'name='Tanasescu Andrei Rares', schoolYear=2014} with Person{id='237'name='Tanasescu Andrei-Rares', schoolYear=2014}
+13 Aug 2024 20:27:52,347 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='256'name='Crisan Bogdan', schoolYear=2014} with Person{id='469'name='Crisan Bogdan-Andrei', schoolYear=2014}
+13 Aug 2024 20:27:52,353 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='471'name='Arsenoiu Iulian George', schoolYear=2013} with Person{id='275'name='Arsenoiu Iulian-George', schoolYear=2013}
+13 Aug 2024 20:27:52,358 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='472'name='Cozma Tiberiu Stefan', schoolYear=2013} with Person{id='272'name='Cozma Tiberiu-Stefan', schoolYear=2013}
+13 Aug 2024 20:27:52,363 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='473'name='Voicu Tudor Catalin', schoolYear=2013} with Person{id='288'name='Voicu Tudor-Catalin', schoolYear=2013}
+13 Aug 2024 20:27:52,366 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='474'name='Benescu Alexandru Andrei', schoolYear=2013} with Person{id='293'name='Benescu Alexandru-Andrei', schoolYear=2013}
+13 Aug 2024 20:27:52,370 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='477'name='Musat Tudor Stefan', schoolYear=2013} with Person{id='271'name='Musat Tudor-Stefan', schoolYear=2013}
+13 Aug 2024 20:27:52,373 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='480'name='Burac Vlad Alexandru', schoolYear=2013} with Person{id='307'name='Burac Vlad-Alexandru', schoolYear=2013}
+13 Aug 2024 20:27:52,377 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='287'name='Stanciu Rares Stefan', schoolYear=2013} with Person{id='483'name='Stanciu Rares-Stefan', schoolYear=2013}
+13 Aug 2024 20:27:52,381 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='286'name='Nuta Stefan Alexandru', schoolYear=2013} with Person{id='486'name='Nuta Stefan-Alexandru', schoolYear=2013}
+13 Aug 2024 20:27:52,386 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='493'name='Mitri Robert Cristian', schoolYear=2013} with Person{id='290'name='Mitri Robert-Cristian', schoolYear=2013}
+13 Aug 2024 20:27:52,390 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='497'name='Todoran Alexandru Raul', schoolYear=2012} with Person{id='321'name='Todoran Alexandru-Raul', schoolYear=2012}
+13 Aug 2024 20:27:52,394 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='498'name='Titianu Mihai Cezar', schoolYear=2012} with Person{id='339'name='Titianu Mihai-Cezar', schoolYear=2012}
+13 Aug 2024 20:27:52,399 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='326'name='Popescu Adrian', schoolYear=2012} with Person{id='499'name='Popescu Adrian Andrei', schoolYear=2012}
+13 Aug 2024 20:27:52,406 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='331'name='Ardelean Alexandru', schoolYear=2012} with Person{id='500'name='Ardelean Alexandru-Petru', schoolYear=2012}
+13 Aug 2024 20:27:52,413 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='502'name='Busoi Radulescu Stefan', schoolYear=2012} with Person{id='340'name='Busoi-Radulescu Stefan', schoolYear=2012}
+13 Aug 2024 20:27:52,417 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='504'name='Ivan Andrei Cristian', schoolYear=2012} with Person{id='342'name='Ivan Andrei-Cristian', schoolYear=2012}
+13 Aug 2024 20:27:52,422 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='505'name='Rotariu Emanuel Antonio', schoolYear=2012} with Person{id='363'name='Rotariu Emanuel-Antonio', schoolYear=2012}
+13 Aug 2024 20:27:52,426 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='506'name='Predescu Sebastian Ion', schoolYear=2012} with Person{id='353'name='Predescu Sebastian-Ion', schoolYear=2012}
+13 Aug 2024 20:27:52,429 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='332'name='Mirea-Bulubasa Petre-Luca', schoolYear=2012} with Person{id='507'name='Mirea-Bulubasa Petre Luca', schoolYear=2012}
+13 Aug 2024 20:27:52,434 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='509'name='Ghiberdic David Cristian', schoolYear=2012} with Person{id='350'name='Ghiberdic David-Cristian', schoolYear=2012}
+13 Aug 2024 20:27:52,438 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='510'name='Popa Robert Andrei', schoolYear=2012} with Person{id='334'name='Popa Robert-Andrei', schoolYear=2012}
+13 Aug 2024 20:27:52,442 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='511'name='Chiributa Robert Adrian', schoolYear=2012} with Person{id='362'name='Chiributa Robert-Adrian', schoolYear=2012}
+13 Aug 2024 20:27:52,446 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='512'name='Darabaneanu Liviu Eugen', schoolYear=2012} with Person{id='365'name='Darabaneanu Liviu-Eugen', schoolYear=2012}
+13 Aug 2024 20:27:52,449 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='513'name='Haivas Vlad Alexandru', schoolYear=2012} with Person{id='322'name='Haivas Vlad-Alexandru', schoolYear=2012}
+13 Aug 2024 20:27:52,454 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='514'name='Arseniu Victor Stefan', schoolYear=2012} with Person{id='335'name='Arseniu Victor-Stefan', schoolYear=2012}
+13 Aug 2024 20:27:52,457 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='515'name='Pirtac Eduard Lucian', schoolYear=2012} with Person{id='344'name='Pirtac Eduard-Lucian', schoolYear=2012}
+13 Aug 2024 20:27:52,461 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='517'name='Lazarescu Andrei Vlad', schoolYear=2012} with Person{id='361'name='Lazarescu Andrei-Vlad', schoolYear=2012}
+13 Aug 2024 20:27:52,464 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='520'name='Raileanu Alin Gabriel', schoolYear=2012} with Person{id='360'name='Raileanu Alin-Gabriel', schoolYear=2012}
+13 Aug 2024 20:27:52,467 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='524'name='Chiper Alex', schoolYear=2012} with Person{id='366'name='Chiper Alexandru', schoolYear=2012}
+13 Aug 2024 20:28:02,321 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='1'name='Danciu Traian', schoolYear=2019} with Person{id='370'name='Danciu Traian', schoolYear=2018}
+13 Aug 2024 20:28:02,329 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='4'name='Mateescu Andrei', schoolYear=2019} with Person{id='379'name='Mateescu Andrei', schoolYear=2018}
+13 Aug 2024 20:29:17,055 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:36:06,551 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/_rels/workbook.xml.rels
+13 Aug 2024 20:36:06,557 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet1.xml.rels
+13 Aug 2024 20:36:06,559 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet4.xml.rels
+13 Aug 2024 20:36:06,561 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /_rels/.rels
+13 Aug 2024 20:36:06,677 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:06,680 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:06,682 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:06,682 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:06,682 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:06,683 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:06,692 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:06,693 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:06,698 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:06,699 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:06,700 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:06,700 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:06,701 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:06,701 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:06,736 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:06,737 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stylesheet5d8bdoctype
+13 Aug 2024 20:36:06,786 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctstylesheet4257type
+13 Aug 2024 20:36:06,789 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmtsb58btype
+13 Aug 2024 20:36:06,791 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmt3870type
+13 Aug 2024 20:36:06,792 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stnumfmtid76fbtype
+13 Aug 2024 20:36:06,796 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stxstringf179type
+13 Aug 2024 20:36:06,798 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfonts6623type
+13 Aug 2024 20:36:06,800 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfont14d8type
+13 Aug 2024 20:36:06,804 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfills2c6ftype
+13 Aug 2024 20:36:06,806 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfill550ctype
+13 Aug 2024 20:36:06,807 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborders0d66type
+13 Aug 2024 20:36:06,808 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborderf935type
+13 Aug 2024 20:36:06,810 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellxfs1322type
+13 Aug 2024 20:36:06,812 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctxf97f7type
+13 Aug 2024 20:36:06,814 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellstylexfsa81ftype
+13 Aug 2024 20:36:06,816 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdxfsb26atype
+13 Aug 2024 20:36:06,817 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle cttablestyles872ftype
+13 Aug 2024 20:36:06,819 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle sstf81fdoctype
+13 Aug 2024 20:36:06,831 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsst44f3type
+13 Aug 2024 20:36:06,835 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrsta472type
+13 Aug 2024 20:36:06,915 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle themefd26doctype
+13 Aug 2024 20:36:06,921 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdrawing2748type
+13 Aug 2024 20:36:06,929 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle workbookec17doctype
+13 Aug 2024 20:36:06,932 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworkbook83c3type
+13 Aug 2024 20:36:06,937 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheets49fdtype
+13 Aug 2024 20:36:06,940 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheet4dbetype
+13 Aug 2024 20:36:06,943 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle strelationshipid1e94type
+13 Aug 2024 20:36:06,945 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle worksheetf539doctype
+13 Aug 2024 20:36:06,949 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworksheet530dtype
+13 Aug 2024 20:36:06,966 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcols627ctype
+13 Aug 2024 20:36:06,972 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheetdata8408type
+13 Aug 2024 20:36:06,975 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrowdd39type
+13 Aug 2024 20:36:06,979 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcell842btype
+13 Aug 2024 20:36:06,983 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcellrefe4e0type
+13 Aug 2024 20:36:07,019 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcola95ftype
+13 Aug 2024 20:36:07,045 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcelltypebf95type
+13 Aug 2024 20:36:07,051 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrelt6464type
+13 Aug 2024 20:36:07,053 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrpreltecc2type
+13 Aug 2024 20:36:07,062 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfontname2dc3type
+13 Aug 2024 20:36:07,267 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:36:09,816 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='572'name='Arama Andrei', schoolYear=2018} with Person{id='75'name='Arama Andrei-Robert', schoolYear=2018}
+13 Aug 2024 20:36:09,847 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='573'name='Racovita Denis Gabriel', schoolYear=2018} with Person{id='59'name='Racovita Dennis-Gabriel', schoolYear=2018}
+13 Aug 2024 20:36:09,852 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='574'name='Popa Dan Sebastian', schoolYear=2018} with Person{id='67'name='Popa Dan-Sebastian', schoolYear=2018}
+13 Aug 2024 20:36:09,856 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='575'name='Apostol Mihnea', schoolYear=2017} with Person{id='84'name='Apostol Mihnea Petru', schoolYear=2017}
+13 Aug 2024 20:36:09,860 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='576'name='Morariu Iulia Ela', schoolYear=2017} with Person{id='82'name='Morariu Iulia-Ela', schoolYear=2017}
+13 Aug 2024 20:36:09,866 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='577'name='Stan Alexandru', schoolYear=2017} with Person{id='92'name='Stefan Alexandru', schoolYear=2017}
+13 Aug 2024 20:36:09,871 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='578'name='Teodorescu Cosmin', schoolYear=2017} with Person{id='105'name='Teodorescu Cosmin-Andrei', schoolYear=2017}
+13 Aug 2024 20:36:09,876 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='579'name='Dumitrache Andrei Bogdan', schoolYear=2017} with Person{id='90'name='Dumitrache Andrei-Bogdan', schoolYear=2017}
+13 Aug 2024 20:36:09,880 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='580'name='Draghici Ana', schoolYear=2017} with Person{id='109'name='Draghici Ana Veronica', schoolYear=2017}
+13 Aug 2024 20:36:09,883 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='581'name='Ardelean Mihai Alexandru', schoolYear=2017} with Person{id='91'name='Ardelean Alexandru-Mihai', schoolYear=2017}
+13 Aug 2024 20:36:09,887 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='582'name='Diaconu Andreea', schoolYear=2017} with Person{id='113'name='Diaconu Andreea-Bianca', schoolYear=2017}
+13 Aug 2024 20:36:09,890 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='583'name='Dedu Razvan Matei', schoolYear=2016} with Person{id='121'name='Dedu Razvan-Matei', schoolYear=2016}
+13 Aug 2024 20:36:09,894 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='584'name='Radoi Adelina', schoolYear=2016} with Person{id='123'name='Radoi Adelina-Ioana', schoolYear=2016}
+13 Aug 2024 20:36:09,897 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='585'name='Lupau Alin', schoolYear=2015} with Person{id='169'name='Lupau Alin George', schoolYear=2015}
+13 Aug 2024 20:36:09,901 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='586'name='Stupariu Teodor Mihai', schoolYear=2015} with Person{id='163'name='Stupariu Teodor-Mihai', schoolYear=2015}
+13 Aug 2024 20:36:09,905 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='587'name='Patrascu Vlad George', schoolYear=2015} with Person{id='215'name='Patrascu Vlad-George', schoolYear=2015}
+13 Aug 2024 20:36:09,909 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='588'name='Grecu Constantin Rares', schoolYear=2015} with Person{id='166'name='Grecu Constantin-Rares', schoolYear=2015}
+13 Aug 2024 20:36:09,912 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='589'name='Tomita Mircea Stefan', schoolYear=2015} with Person{id='172'name='Tomita Mircea-Stefan', schoolYear=2015}
+13 Aug 2024 20:36:09,914 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='590'name='Militaru Mihai Adrian', schoolYear=2014} with Person{id='251'name='Militaru Mihai-Adrian', schoolYear=2014}
+13 Aug 2024 20:36:09,918 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='591'name='Petrescu Stefan Ioan', schoolYear=2014} with Person{id='233'name='Petrescu Ioan Stefan', schoolYear=2014}
+13 Aug 2024 20:36:09,921 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='592'name='Salian Shaan Stefan', schoolYear=2014} with Person{id='252'name='Salian Shaan-Stefan', schoolYear=2014}
+13 Aug 2024 20:36:09,924 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='593'name='Tomita Matei Alexandru', schoolYear=2014} with Person{id='241'name='Tomita Matei-Alexandru', schoolYear=2014}
+13 Aug 2024 20:36:09,927 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='594'name='Dobre Darius', schoolYear=2014} with Person{id='238'name='Dobre Darius Adrian', schoolYear=2014}
+13 Aug 2024 20:36:09,930 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='595'name='Tanasescu Andrei Rares', schoolYear=2014} with Person{id='237'name='Tanasescu Andrei-Rares', schoolYear=2014}
+13 Aug 2024 20:36:09,932 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='596'name='Arsenoiu Iulian George', schoolYear=2013} with Person{id='275'name='Arsenoiu Iulian-George', schoolYear=2013}
+13 Aug 2024 20:36:09,935 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='597'name='Cozma Tiberiu Stefan', schoolYear=2013} with Person{id='272'name='Cozma Tiberiu-Stefan', schoolYear=2013}
+13 Aug 2024 20:36:09,938 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='598'name='Voicu Tudor Catalin', schoolYear=2013} with Person{id='288'name='Voicu Tudor-Catalin', schoolYear=2013}
+13 Aug 2024 20:36:09,940 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='599'name='Benescu Alexandru Andrei', schoolYear=2013} with Person{id='293'name='Benescu Alexandru-Andrei', schoolYear=2013}
+13 Aug 2024 20:36:09,943 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='600'name='Musat Tudor Stefan', schoolYear=2013} with Person{id='271'name='Musat Tudor-Stefan', schoolYear=2013}
+13 Aug 2024 20:36:09,945 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='601'name='Burac Vlad Alexandru', schoolYear=2013} with Person{id='307'name='Burac Vlad-Alexandru', schoolYear=2013}
+13 Aug 2024 20:36:09,948 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='602'name='Mitri Robert Cristian', schoolYear=2013} with Person{id='290'name='Mitri Robert-Cristian', schoolYear=2013}
+13 Aug 2024 20:36:09,951 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='603'name='Todoran Alexandru Raul', schoolYear=2012} with Person{id='321'name='Todoran Alexandru-Raul', schoolYear=2012}
+13 Aug 2024 20:36:09,953 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='604'name='Titianu Mihai Cezar', schoolYear=2012} with Person{id='339'name='Titianu Mihai-Cezar', schoolYear=2012}
+13 Aug 2024 20:36:09,956 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='605'name='Busoi Radulescu Stefan', schoolYear=2012} with Person{id='340'name='Busoi-Radulescu Stefan', schoolYear=2012}
+13 Aug 2024 20:36:09,958 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='606'name='Ivan Andrei Cristian', schoolYear=2012} with Person{id='342'name='Ivan Andrei-Cristian', schoolYear=2012}
+13 Aug 2024 20:36:09,961 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='607'name='Rotariu Emanuel Antonio', schoolYear=2012} with Person{id='363'name='Rotariu Emanuel-Antonio', schoolYear=2012}
+13 Aug 2024 20:36:09,964 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='608'name='Predescu Sebastian Ion', schoolYear=2012} with Person{id='353'name='Predescu Sebastian-Ion', schoolYear=2012}
+13 Aug 2024 20:36:09,966 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='609'name='Ghiberdic David Cristian', schoolYear=2012} with Person{id='350'name='Ghiberdic David-Cristian', schoolYear=2012}
+13 Aug 2024 20:36:09,969 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='610'name='Popa Robert Andrei', schoolYear=2012} with Person{id='334'name='Popa Robert-Andrei', schoolYear=2012}
+13 Aug 2024 20:36:09,972 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='611'name='Chiributa Robert Adrian', schoolYear=2012} with Person{id='362'name='Chiributa Robert-Adrian', schoolYear=2012}
+13 Aug 2024 20:36:09,975 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='612'name='Darabaneanu Liviu Eugen', schoolYear=2012} with Person{id='365'name='Darabaneanu Liviu-Eugen', schoolYear=2012}
+13 Aug 2024 20:36:09,978 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='613'name='Haivas Vlad Alexandru', schoolYear=2012} with Person{id='322'name='Haivas Vlad-Alexandru', schoolYear=2012}
+13 Aug 2024 20:36:09,980 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='614'name='Arseniu Victor Stefan', schoolYear=2012} with Person{id='335'name='Arseniu Victor-Stefan', schoolYear=2012}
+13 Aug 2024 20:36:09,986 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='615'name='Pirtac Eduard Lucian', schoolYear=2012} with Person{id='344'name='Pirtac Eduard-Lucian', schoolYear=2012}
+13 Aug 2024 20:36:09,989 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='616'name='Lazarescu Andrei Vlad', schoolYear=2012} with Person{id='361'name='Lazarescu Andrei-Vlad', schoolYear=2012}
+13 Aug 2024 20:36:09,992 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='617'name='Raileanu Alin Gabriel', schoolYear=2012} with Person{id='360'name='Raileanu Alin-Gabriel', schoolYear=2012}
+13 Aug 2024 20:36:09,995 WARN  importer.merge.MergeService 77 replace - Replaced Person{id='618'name='Chiper Alex', schoolYear=2012} with Person{id='366'name='Chiper Alexandru', schoolYear=2012}
+13 Aug 2024 20:36:22,940 WARN  importer.merge.MergeService 77 replace - Replaced Institution{location='Olt', name='Scoala Gimnaziala Nr. 146 "I.G.Duca"'} with Institution{location='Bucuresti', name='Scoala Gimnaziala Nr. 146 "I.G.Duca"'}
+13 Aug 2024 20:36:22,954 WARN  importer.merge.MergeService 77 replace - Replaced Institution{location='Olt', name='Liceul Teoretic National'} with Institution{location='Bucuresti', name='Liceul Teoretic National'}
+13 Aug 2024 20:36:33,352 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/_rels/workbook.xml.rels
+13 Aug 2024 20:36:33,357 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet1.xml.rels
+13 Aug 2024 20:36:33,358 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /xl/worksheets/_rels/sheet4.xml.rels
+13 Aug 2024 20:36:33,360 DEBUG org.apache.poi.openxml4j.opc.PackageRelationshipCollection 307 parseRelationshipsPart - Parsing relationship: /_rels/.rels
+13 Aug 2024 20:36:33,451 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:33,453 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:33,454 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:33,454 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:33,455 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 198 <init> - Loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:33,456 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:33,463 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLTOOLS
+13 Aug 2024 20:36:33,465 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:33,473 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLSCHEMA
+13 Aug 2024 20:36:33,473 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:33,474 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLLANG
+13 Aug 2024 20:36:33,474 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:33,476 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.xmlbeans.metadata.system.sXMLCONFIG
+13 Aug 2024 20:36:33,476 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 236 initFromHeader - Reading unresolved handles for type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:33,509 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 208 <init> - Finished loading type system org.apache.poi.schemas.ooxml.system.ooxml
+13 Aug 2024 20:36:33,510 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stylesheet5d8bdoctype
+13 Aug 2024 20:36:33,544 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctstylesheet4257type
+13 Aug 2024 20:36:33,547 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmtsb58btype
+13 Aug 2024 20:36:33,548 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctnumfmt3870type
+13 Aug 2024 20:36:33,549 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stnumfmtid76fbtype
+13 Aug 2024 20:36:33,553 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stxstringf179type
+13 Aug 2024 20:36:33,554 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfonts6623type
+13 Aug 2024 20:36:33,555 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfont14d8type
+13 Aug 2024 20:36:33,558 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfills2c6ftype
+13 Aug 2024 20:36:33,559 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfill550ctype
+13 Aug 2024 20:36:33,561 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborders0d66type
+13 Aug 2024 20:36:33,562 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctborderf935type
+13 Aug 2024 20:36:33,563 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellxfs1322type
+13 Aug 2024 20:36:33,565 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctxf97f7type
+13 Aug 2024 20:36:33,566 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcellstylexfsa81ftype
+13 Aug 2024 20:36:33,568 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdxfsb26atype
+13 Aug 2024 20:36:33,569 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle cttablestyles872ftype
+13 Aug 2024 20:36:33,570 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle sstf81fdoctype
+13 Aug 2024 20:36:33,583 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsst44f3type
+13 Aug 2024 20:36:33,586 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrsta472type
+13 Aug 2024 20:36:33,666 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle themefd26doctype
+13 Aug 2024 20:36:33,673 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctdrawing2748type
+13 Aug 2024 20:36:33,683 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle workbookec17doctype
+13 Aug 2024 20:36:33,685 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworkbook83c3type
+13 Aug 2024 20:36:33,693 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheets49fdtype
+13 Aug 2024 20:36:33,694 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheet4dbetype
+13 Aug 2024 20:36:33,698 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle strelationshipid1e94type
+13 Aug 2024 20:36:33,700 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle worksheetf539doctype
+13 Aug 2024 20:36:33,706 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctworksheet530dtype
+13 Aug 2024 20:36:33,721 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcols627ctype
+13 Aug 2024 20:36:33,729 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctsheetdata8408type
+13 Aug 2024 20:36:33,732 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrowdd39type
+13 Aug 2024 20:36:33,737 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcell842btype
+13 Aug 2024 20:36:33,743 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcellrefe4e0type
+13 Aug 2024 20:36:33,780 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctcola95ftype
+13 Aug 2024 20:36:33,805 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle stcelltypebf95type
+13 Aug 2024 20:36:33,809 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrelt6464type
+13 Aug 2024 20:36:33,812 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctrpreltecc2type
+13 Aug 2024 20:36:33,821 TRACE org.apache.xmlbeans.impl.schema.SchemaTypeSystemImpl 940 resolveHandle - Resolving type for handle ctfontname2dc3type
+13 Aug 2024 20:36:34,032 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:36:55,173 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider
+13 Aug 2024 20:37:52,200 DEBUG org.jboss.logging.LoggerProviders 152 logProvider - Logging Provider: org.jboss.logging.Log4j2LoggerProvider

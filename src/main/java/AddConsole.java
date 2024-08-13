@@ -18,7 +18,7 @@ public class AddConsole {
 		InstitutionMergeService institutionMergeService = new InstitutionMergeService(institutionRepository);
 		PersonMergeService personMergeService = new PersonMergeService(personRepository);
 		AddService addService = new AddService(contestRepository, resultRepository, institutionMergeService, personMergeService);
-		for (int year : List.of(2024)) {
+		for (int year : List.of(2023)) {
 			Contest contest = new Contest(year, "ONI", null);
 			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);

@@ -35,7 +35,7 @@ public class InstitutionMergeService extends MergeService<Institution, Integer> 
 	}
 
 	private Institution uglifyInstitution(Institution institution) {
-		Institution ans = new Institution(StringProcessor.uglifyString(institution.getRegion()), StringProcessor.uglifyString(institution.getCity()), StringProcessor.uglifyString(institution.getName()));
+		Institution ans = new Institution(StringProcessor.uglifyString(institution.getRegion()), institution.getCity() == null ? null : StringProcessor.uglifyString(institution.getCity()), StringProcessor.uglifyString(institution.getName()));
 		ans.tryFix();
 		return ans;
 	}

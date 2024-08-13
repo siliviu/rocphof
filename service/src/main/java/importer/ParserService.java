@@ -35,7 +35,8 @@ public class ParserService {
 				person.setSchoolYear(contest.getYear() - i);
 				Institution institution = new Institution();
 				institution.setRegion(StringProcessor.normaliseRegion(row.getCell(REGION_NAME).getStringCellValue()));
-				institution.setCity(StringProcessor.normalise(row.getCell(CITY_NAME).getStringCellValue()));
+				if (row.getCell(CITY_NAME) != null)
+					institution.setCity(StringProcessor.normalise(row.getCell(CITY_NAME).getStringCellValue()));
 				institution.setName(StringProcessor.normaliseInstitution(row.getCell(INST_NAME).getStringCellValue()));
 				institution.tryFix();
 				Result result = new Result();

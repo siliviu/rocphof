@@ -106,6 +106,7 @@ public class StringProcessor {
 
 	public static String normaliseChild(String childName) {
 		childName = childName
+				.replaceAll(" [a-zA-Z]\\.[a-zA-Z] ", "")
 				.replaceAll("[A-Z]\\.", "")
 				.replaceAll("[a-zA-Z][a-zA-Z]\\.", "")
 				.replaceAll(" [a-zA-Z][a-zA-Z] ", "");
@@ -113,6 +114,8 @@ public class StringProcessor {
 	}
 
 	public static String normaliseRegion(String region) {
+		if(region.contains("Sector"))
+			return "Bucuresti";
 		region = normaliseDash(region)
 				.replace(", ", "")
 				.replace("Sector", "")

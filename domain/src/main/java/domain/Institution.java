@@ -71,8 +71,9 @@ public class Institution extends Identifiable<Integer> {
 	public void tryFix() {
 		if (name.trim().endsWith(region))
 			name = name.substring(0, name.indexOf(region)).trim();
-		if (name.trim().endsWith(city))
-			name = name.substring(0, name.indexOf(city)).trim();
+		if (city != null)
+			if (name.trim().endsWith(city))
+				name = name.substring(0, name.indexOf(city)).trim();
 	}
 
 }
