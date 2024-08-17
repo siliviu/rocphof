@@ -1,8 +1,7 @@
 package importer.merge;
 
-import domain.Institution;
 import domain.Person;
-import importer.merge.MergeService;
+import domain.Result;
 import repo.PersonRepository;
 import utils.StringProcessor;
 import utils.Tuple;
@@ -29,7 +28,7 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 	@Override
 	protected void addMoreSuggestions(Person person, List<Person> currentSuggestions) {
 		repository.getAll().stream()
-				.filter(x -> StringProcessor.areStrictlySimilar(x.getName(), person.getName())
+				.filter(x -> StringProcessor.namesAreStrictlySimilar(x.getName(), person.getName())
 						&& Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1)
 				.forEach(currentSuggestions::add);
 	}
@@ -39,20 +38,30 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 		for (var suggested : suggestionList.second()) {
 			Person original = suggestionList.first();
 			if (original.getSchoolYear() == suggested.getSchoolYear()) {
-				Institution institution = ((PersonRepository) repository).getMostRecentInstitution(original);
-				if (!(institution == null || institution.equals(((PersonRepository) repository).getMostRecentInstitution(suggested))))
-					continue;
-				if (original.getName().length() > suggested.getName().length() || original.getName().contains("-"))
-					replace(suggested, original);
-				else
-					replace(original, suggested);
-				return true;
+				Result originalResult = ((PersonRepository) repository).getMostRecentResult(original);
+				Result suggestedResult = ((PersonRepository) repository).getMostRecentResult(suggested);
+				if (originalResult != null && suggestedResult != null && (suggestedResult.getInstitution()==null||originalResult.getInstitution()==null))
+					System.out.println("HAHA");
+				if (originalResult != null && suggestedResult != null &&
+						!originalResult.getContest().equals(suggestedResult.getContest()) &&
+						originalResult.getInstitution().getRegion().equals(suggestedResult.getInstitution().getRegion())) {
+					if (original.getName().length() > suggested.getName().length() || original.getName().contains("-"))
+						replace(suggested, original);
+					else
+						replace(original, suggested);
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	public Institution getRecentInstitution(Person person) {
-		return ((PersonRepository) repository).getMostRecentInstitution(person);
+	@Override
+	protected void tryMergeObjects(Person object, Person replacement) {
+
+	}
+
+	public Result getRecentResult(Person person) {
+		return ((PersonRepository) repository).getMostRecentResult(person);
 	}
 }

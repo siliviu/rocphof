@@ -1,6 +1,7 @@
 package domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -28,6 +29,7 @@ public class Result extends Identifiable<Integer> {
 
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	public Person getPerson() {
 		return person;
 	}
@@ -38,6 +40,7 @@ public class Result extends Identifiable<Integer> {
 
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	public Institution getInstitution() {
 		return institution;
 	}
@@ -48,6 +51,7 @@ public class Result extends Identifiable<Integer> {
 
 	@ManyToOne
 	@JoinColumn
+	@NotNull
 	public Contest getContest() {
 		return contest;
 	}
@@ -57,6 +61,7 @@ public class Result extends Identifiable<Integer> {
 	}
 
 	@Column
+	@NotNull
 	public int getYear() {
 		return year;
 	}

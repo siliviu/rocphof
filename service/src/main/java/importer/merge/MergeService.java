@@ -1,6 +1,7 @@
 package importer.merge;
 
 import domain.Identifiable;
+import domain.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repo.MergeRepository;
@@ -42,7 +43,7 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 		autoHandleSuggestions();
 	}
 
-	private void autoHandleSuggestions() {
+	public void autoHandleSuggestions() {
 		List<Tuple<T, List<T>>> newSuggestions = new ArrayList<>();
 		for (var suggestion : suggestions) {
 			if (!tryAutoHandleSuggestion(suggestion))
@@ -74,14 +75,21 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 	}
 
 	protected void replace(T object, T replacement) {
-		logger.warn("Replaced {} with {}", object, replacement);
+		tryMergeObjects(object, replacement);
+		logger.info("Replaced {} with {}", object, replacement);
 		cache.entrySet().stream().toList().stream()
 				.filter(x -> x.getKey().equals(object))
 				.forEach(x -> cache.put(x.getKey(), replacement));
+
+		suggestions.stream().
+				filter(v -> v.second().remove(object))
+				.forEach(v -> v.second().add(replacement));
 		repository.replace(object, replacement);
 		cache.put(object, replacement);
 
 	}
+
+	protected abstract void tryMergeObjects(T object, T replacement);
 
 	public HashMap<T, T> getMap() {
 		return cache;

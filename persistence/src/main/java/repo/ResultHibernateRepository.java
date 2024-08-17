@@ -63,7 +63,7 @@ public class ResultHibernateRepository implements ResultRepository {
 	@Override
 	public List<Result> getResultsByPerson(Person person) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			return session.createQuery("from Result r where r.person.id=?1", Result.class)
+			return session.createQuery("from Result r where r.person.id=?1 order by r.contest.year desc", Result.class)
 					.setParameter(1, person.getId())
 					.getResultList();
 		}	}

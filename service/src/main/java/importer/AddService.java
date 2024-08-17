@@ -42,6 +42,8 @@ public class AddService {
 			institutionMergeService.beginMerge(institutions);
 			personMergeService.beginMerge(people);
 			addProcessedData();
+			institutionMergeService.autoHandleSuggestions();
+			personMergeService.autoHandleSuggestions();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

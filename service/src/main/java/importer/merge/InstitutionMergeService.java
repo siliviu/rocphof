@@ -1,6 +1,7 @@
 package importer.merge;
 
 import domain.Institution;
+import org.apache.commons.lang3.StringUtils;
 import repo.InstitutionRepository;
 import utils.StringProcessor;
 import utils.Tuple;
@@ -16,41 +17,42 @@ public class InstitutionMergeService extends MergeService<Institution, Integer> 
 	protected List<Institution> tryAutoReplace(Institution institution) {
 		List<Institution> currentSuggestions = new ArrayList<>();
 		for (Institution similarInstitution : repository.getByName(institution.getName()))
-			if (StringProcessor.areSimilar(similarInstitution.getRegion(), institution.getRegion())) {
+			if (similarInstitution.getRegion().equals(institution.getRegion())) {
+				tryMergeObjects(institution, similarInstitution);
 				cache.put(institution, similarInstitution);
-				if (!similarInstitution.getRegion().equals(institution.getRegion()))
-					logger.warn(similarInstitution.getRegion() + " vs " + institution.getRegion() + "|" + institution.getName());
 				return null;
-			} else {
-				currentSuggestions.add(similarInstitution);
 			}
 		return currentSuggestions;
 	}
 
 	protected void addMoreSuggestions(Institution institution, List<Institution> currentSuggestions) {
 		repository.getAll().stream()
-				.filter(x -> StringProcessor.areSimilar(institution.getName(), x.getName()) &&
-						StringProcessor.areSimilar(institution.getRegion(), x.getRegion()))
+				.filter(x -> !x.getName().contains("Scoala Gimnaziala")
+						&& StringProcessor.areSimilar(institution.getName(), x.getName())
+						&& institution.getRegion().equals(x.getRegion()))
 				.forEach(currentSuggestions::add);
-	}
-
-	private Institution uglifyInstitution(Institution institution) {
-		Institution ans = new Institution(StringProcessor.uglifyString(institution.getRegion()), institution.getCity() == null ? null : StringProcessor.uglifyString(institution.getCity()), StringProcessor.uglifyString(institution.getName()));
-		ans.tryFix();
-		return ans;
 	}
 
 	protected boolean tryAutoHandleSuggestion(Tuple<Institution, List<Institution>> suggestion) {
 		for (var suggested : suggestion.second()) {
 			Institution original = suggestion.first();
-			if (uglifyInstitution(original).equals(suggested)) {
-				replace(suggested, original);
-				return true;
-			} else if (uglifyInstitution(suggested).equals(original)) {
-				replace(original, suggested);
+			if (StringProcessor.institutionsAreStrictlySimilar(original.getName(), suggested.getName())) {
+				if (original.getName().length() > suggested.getName().length() ||
+						StringUtils.countMatches(original.getName(), "-") > StringUtils.countMatches(suggested.getName(), "-") ||
+						StringUtils.countMatches(original.getName(), "\"") > StringUtils.countMatches(suggested.getName(), "\"")) {
+					replace(suggested, original);
+				} else {
+					replace(original, suggested);
+				}
 				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	protected void tryMergeObjects(Institution object, Institution replacement) {
+		if (replacement.getCity() == null && object.getCity() != null)
+			replacement.setCity(object.getCity());
 	}
 }

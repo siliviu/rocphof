@@ -1,6 +1,9 @@
 package utils;
 
+import importer.merge.MergeService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
@@ -8,6 +11,8 @@ import static java.util.Map.entry;
 import static org.apache.commons.lang3.math.NumberUtils.min;
 
 public class StringProcessor {
+	protected static final Logger logger = LogManager.getLogger(MergeService.class.getName());
+
 	public static int editDistance(String source, String target) {
 		int sourceLength = source.length();
 		int targetLength = target.length();
@@ -42,24 +47,41 @@ public class StringProcessor {
 		return a.contains(b) || b.contains(a) || editDistance(a, b) <= min(min(a.length(), b.length()) / 3, 5);
 	}
 
-	public static boolean areStrictlySimilar(String a, String b) {
+	public static boolean namesAreStrictlySimilar(String a, String b) {
 		if (a.startsWith(b) || b.startsWith(a))
 			return true;
 		String normalisedA = normalise(a.replace("-", " "));
 		String normalisedB = normalise(b.replace("-", " "));
-		if (editDistance(normalisedA, normalisedB) <= 2)
+		int editDistance = editDistance(normalisedA, normalisedB);
+		if (editDistance <= 1)
 			return true;
 		var namesA = new java.util.ArrayList<>(Arrays.stream(normalisedA.split(" ")).toList());
 		var namesB = new java.util.ArrayList<>(Arrays.stream(normalisedB.split(" ")).toList());
 		if (!namesA.remove(0).equals(namesB.remove(0)))
 			return false;
+		if (editDistance == 2)
+			return true;
 		namesA.sort(String::compareTo);
 		namesB.sort(String::compareTo);
 		return Collections.indexOfSubList(namesA, namesB) != -1 || Collections.indexOfSubList(namesB, namesA) != -1;
 	}
 
-	public static String getSmaller(String a, String b) {
-		return a.length() < b.length() ? a : b;
+	public static String uglifyString(String string) {
+		return string
+				.replace("\"", "")
+				.replace("-", " ")
+				.replace("\\.", "")
+				.trim();
+	}
+
+	public static boolean institutionsAreStrictlySimilar(String a, String b) {
+		a = uglifyString(a);
+		b = uglifyString(b);
+		if (a.contains("Nr") || a.contains("Scoala Gimnaziala"))
+			return a.equals(b);
+		if (editDistance(a, b) == 1)
+			logger.warn("{} similar with {}", a, b);
+		return editDistance(a, b) <= 1;
 	}
 
 	public static String normalisePrize(String s) {
@@ -88,21 +110,33 @@ public class StringProcessor {
 	}
 
 	public static String normaliseInstitution(String institutionName) {
-		if (institutionName.contains("/") || institutionName.contains(",")) {
+		if (institutionName.contains("/") || institutionName.contains(",") || institutionName.contains(";")) {
 			if (institutionName.contains("/"))
 				institutionName = institutionName.substring(0, institutionName.indexOf('/'));
 			if (institutionName.contains(","))
 				institutionName = institutionName.substring(0, institutionName.indexOf(','));
+			if (institutionName.contains(";"))
+				institutionName = institutionName.substring(0, institutionName.indexOf(';'));
 		}
+		institutionName = institutionName.replaceAll("(?<=[^ ])\"(?!(\\s|$))", " \"")
+				.replaceAll("\\.(?=[^ ])", ". ")
+				.replaceAll("Nr(?!\\.)", "Nr.")
+				.replace("C. N.", "Colegiul National")
+				.replace("C. N", "Colegiul National")
+				.replace("Cn", "Colegiul National")
+				.replace("L. T.", "Liceul Teoretic")
+				.replace("S. G.", "Scoala Gimnaziala")
+				.replace("Al.", "Alexandru")
+				.replace("Gh.", "Gheorghe")
+				.replace("Sf.", "Sfantul")
+				.replace("I. L.", "Ion Luca")
+				.replace("Gr.", "Grigore");
 		institutionName = normaliseDash(institutionName.replace('\'', '"'));
 		if (institutionName.contains("\"") && institutionName.substring(institutionName.indexOf("\"") + 1).contains("\""))
 			institutionName = institutionName.substring(0, institutionName.indexOf("\"", institutionName.indexOf("\"") + 1) + 1);
 		return institutionName;
 	}
 
-	public static String uglifyString(String string) {
-		return string.replace("\"", "");
-	}
 
 	public static String normaliseChild(String childName) {
 		childName = childName
@@ -114,13 +148,12 @@ public class StringProcessor {
 	}
 
 	public static String normaliseRegion(String region) {
-		if(region.contains("Sector"))
-			return "Bucuresti";
 		region = normaliseDash(region)
 				.replace(", ", "")
-				.replace("Sector", "")
 				.replaceAll("[0-9]", "")
 				.trim();
+		if (region.contains("Sector") || region.contains("sector"))
+			return "Bucuresti";
 		if (region.endsWith("-"))
 			region = region.replace("-", "")
 					.trim();
@@ -190,6 +223,7 @@ public class StringProcessor {
 				.trim()
 				.toLowerCase()
 				.replaceAll("[”“’„]", "\"")
+				.replaceAll("\" ", "\"")
 				.replace("˜", "")
 				.replace("ş", "ș")
 				.replace("Ş", "Ș")
@@ -200,9 +234,6 @@ public class StringProcessor {
 				.replace("î", "i").replace("Î", "I")
 				.replace("ș", "s").replace("Ș", "S")
 				.replace("ț", "t").replace("Ț", "T")
-
 		);
 	}
-
-
 }

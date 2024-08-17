@@ -63,9 +63,9 @@ public class PersonHibernateRepository implements PersonRepository {
 	}
 
 	@Override
-	public Institution getMostRecentInstitution(Person person) {
+	public Result getMostRecentResult(Person person) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			List<Institution> results = session.createQuery("select r.institution from Result r where r.person.id=?1", Institution.class).setParameter(1, person.getId()).getResultList();
+			List<Result> results = session.createQuery("from Result r where r.person.id=?1 order by r.year desc", Result.class).setParameter(1, person.getId()).getResultList();
 			return results.isEmpty() ? null : results.getFirst();
 		}
 	}

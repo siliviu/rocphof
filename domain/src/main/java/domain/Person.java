@@ -3,6 +3,7 @@ package domain;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -19,6 +20,7 @@ public class Person extends Identifiable<Integer> {
 		this.schoolYear = schoolYear;
 	}
 
+	@NotNull
 	@Column
 	public String getName() {
 		return name;
@@ -28,6 +30,7 @@ public class Person extends Identifiable<Integer> {
 		this.name = name;
 	}
 
+	@NotNull
 	@Column
 	public int getSchoolYear() {
 		return schoolYear;

@@ -2,6 +2,7 @@ package domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -20,6 +21,7 @@ public class Institution extends Identifiable<Integer> {
 		this.name = name;
 	}
 
+	@NotNull
 	@Column
 	public String getRegion() {
 		return region;
@@ -38,6 +40,7 @@ public class Institution extends Identifiable<Integer> {
 		this.city = city;
 	}
 
+	@NotNull
 	@Column
 	public String getName() {
 		return name;
@@ -63,7 +66,9 @@ public class Institution extends Identifiable<Integer> {
 	@Override
 	public String toString() {
 		return "Institution{" +
-				"location='" + region + '\'' +
+				"id='" + getId() + '\'' +
+				"region='" + region + '\'' +
+				", city='" + city + '\'' +
 				", name='" + name + '\'' +
 				'}';
 	}
@@ -71,7 +76,7 @@ public class Institution extends Identifiable<Integer> {
 	public void tryFix() {
 		if (name.trim().endsWith(region))
 			name = name.substring(0, name.indexOf(region)).trim();
-		if (city != null)
+		if (city != null && !city.isEmpty())
 			if (name.trim().endsWith(city))
 				name = name.substring(0, name.indexOf(city)).trim();
 	}

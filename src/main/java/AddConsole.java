@@ -18,7 +18,7 @@ public class AddConsole {
 		InstitutionMergeService institutionMergeService = new InstitutionMergeService(institutionRepository);
 		PersonMergeService personMergeService = new PersonMergeService(personRepository);
 		AddService addService = new AddService(contestRepository, resultRepository, institutionMergeService, personMergeService);
-		for (int year : List.of(2023)) {
+		for (int year : List.of(2024)) {
 			Contest contest = new Contest(year, "ONI", null);
 			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);
@@ -37,10 +37,10 @@ public class AddConsole {
 			{
 				List<Integer> replies = new ArrayList<>();
 				for (var suggestion : personMergeService.getSuggestions()) {
-					System.out.println("Suggestions for: " + suggestion.first() + " | " + personMergeService.getRecentInstitution(suggestion.first()));
+					System.out.println("Suggestions for: " + suggestion.first() + " | " + personMergeService.getRecentResult(suggestion.first()));
 					int i = 1;
 					for (var object : suggestion.second())
-						System.out.println(i++ + ": " + object + " | " + personMergeService.getRecentInstitution(object));
+						System.out.println(i++ + ": " + object + " | " + personMergeService.getRecentResult(object));
 					int reply = in.nextInt();
 					replies.add(reply);
 				}
