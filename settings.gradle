@@ -1,7 +1,5 @@
 rootProject.name = 'results'
 include 'domain'
-include 'domain:persistence'
-findProject(':domain:persistence')?.name = 'persistence'
 include 'persistence'
 include 'service'
-
+include 'rest'

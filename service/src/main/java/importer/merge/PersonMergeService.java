@@ -2,6 +2,8 @@ package importer.merge;
 
 import domain.Person;
 import domain.Result;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repo.PersonRepository;
 import utils.StringProcessor;
 import utils.Tuple;
@@ -9,8 +11,10 @@ import utils.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PersonMergeService extends MergeService<Person, Integer> {
 
+	@Autowired
 	public PersonMergeService(PersonRepository repository) {
 		super(repository);
 	}
@@ -27,7 +31,7 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 
 	@Override
 	protected void addMoreSuggestions(Person person, List<Person> currentSuggestions) {
-		repository.getAll().stream()
+		repository.findAll().stream()
 				.filter(x -> StringProcessor.namesAreStrictlySimilar(x.getName(), person.getName())
 						&& Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1)
 				.forEach(currentSuggestions::add);
@@ -40,8 +44,6 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 			if (original.getSchoolYear() == suggested.getSchoolYear()) {
 				Result originalResult = ((PersonRepository) repository).getMostRecentResult(original);
 				Result suggestedResult = ((PersonRepository) repository).getMostRecentResult(suggested);
-				if (originalResult != null && suggestedResult != null && (suggestedResult.getInstitution()==null||originalResult.getInstitution()==null))
-					System.out.println("HAHA");
 				if (originalResult != null && suggestedResult != null &&
 						!originalResult.getContest().equals(suggestedResult.getContest()) &&
 						originalResult.getInstitution().getRegion().equals(suggestedResult.getInstitution().getRegion())) {

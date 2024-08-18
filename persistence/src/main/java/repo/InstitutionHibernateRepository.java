@@ -1,17 +1,17 @@
 package repo;
 
 import domain.Institution;
-import domain.Person;
 import domain.Result;
 import org.hibernate.Session;
-import utils.HibernateUtils;
+import org.springframework.stereotype.Repository;
+import repo.utils.HibernateUtils;
 
 import java.util.List;
-import java.util.SequencedCollection;
 
+@Repository
 public class InstitutionHibernateRepository implements InstitutionRepository {
 	@Override
-	public Institution add(Institution elem) {
+	public Institution save(Institution elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});
@@ -38,14 +38,14 @@ public class InstitutionHibernateRepository implements InstitutionRepository {
 	}
 
 	@Override
-	public Institution getById(Integer integer) {
+	public Institution findById(Integer integer) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Institution where id=?1", Institution.class).setParameter(1, integer).uniqueResult();
 		}
 	}
 
 	@Override
-	public List<Institution> getAll() {
+	public List<Institution> findAll() {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Institution ", Institution.class).getResultList();
 		}

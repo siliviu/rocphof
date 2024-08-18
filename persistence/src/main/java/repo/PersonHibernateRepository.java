@@ -1,20 +1,21 @@
 package repo;
 
-import domain.Institution;
 import domain.Person;
 import domain.Result;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import utils.HibernateUtils;
+import org.springframework.stereotype.Repository;
+import repo.utils.HibernateUtils;
 
 import java.util.List;
 
+@Repository
 public class PersonHibernateRepository implements PersonRepository {
 	protected static final Logger logger = LogManager.getLogger(PersonHibernateRepository.class.getName());
 
 	@Override
-	public Person add(Person elem) {
+	public Person save(Person elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});
@@ -41,14 +42,14 @@ public class PersonHibernateRepository implements PersonRepository {
 	}
 
 	@Override
-	public Person getById(Integer integer) {
+	public Person findById(Integer integer) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Person where id=?1", Person.class).setParameter(1, integer).uniqueResult();
 		}
 	}
 
 	@Override
-	public List<Person> getAll() {
+	public List<Person> findAll() {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Person ", Person.class).getResultList();
 		}

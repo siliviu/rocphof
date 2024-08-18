@@ -2,6 +2,8 @@ package importer.merge;
 
 import domain.Institution;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import repo.InstitutionRepository;
 import utils.StringProcessor;
 import utils.Tuple;
@@ -9,7 +11,9 @@ import utils.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class InstitutionMergeService extends MergeService<Institution, Integer> {
+	@Autowired
 	public InstitutionMergeService(InstitutionRepository repository) {
 		super(repository);
 	}
@@ -26,10 +30,11 @@ public class InstitutionMergeService extends MergeService<Institution, Integer> 
 	}
 
 	protected void addMoreSuggestions(Institution institution, List<Institution> currentSuggestions) {
-		repository.getAll().stream()
-				.filter(x -> !x.getName().contains("Scoala Gimnaziala")
-						&& StringProcessor.areSimilar(institution.getName(), x.getName())
-						&& institution.getRegion().equals(x.getRegion()))
+		repository.findAll().stream()
+				.filter(x ->
+						(StringProcessor.institutionsAreStrictlySimilar(institution.getName(), x.getName()) ||
+								(!x.getName().contains("Scoala Gimnaziala") && StringProcessor.areSimilar(institution.getName(), x.getName())))
+								&& institution.getRegion().equals(x.getRegion()))
 				.forEach(currentSuggestions::add);
 	}
 

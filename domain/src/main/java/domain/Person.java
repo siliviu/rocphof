@@ -9,7 +9,11 @@ import java.util.Objects;
 
 @Entity
 public class Person extends Identifiable<Integer> {
+	@NotNull
+	@Column
 	private String name;
+	@NotNull
+	@Column
 	private int schoolYear;
 
 	public Person() {
@@ -20,8 +24,7 @@ public class Person extends Identifiable<Integer> {
 		this.schoolYear = schoolYear;
 	}
 
-	@NotNull
-	@Column
+
 	public String getName() {
 		return name;
 	}
@@ -30,8 +33,7 @@ public class Person extends Identifiable<Integer> {
 		this.name = name;
 	}
 
-	@NotNull
-	@Column
+
 	public int getSchoolYear() {
 		return schoolYear;
 	}

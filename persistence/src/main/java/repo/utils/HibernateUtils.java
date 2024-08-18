@@ -1,4 +1,4 @@
-package utils;
+package repo.utils;
 
 import domain.*;
 import org.hibernate.SessionFactory;

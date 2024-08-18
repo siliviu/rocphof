@@ -1,16 +1,17 @@
-package repo;
+package repo.old;
 
-import domain.Contest;
 import domain.Contest;
 import org.hibernate.Session;
-import utils.HibernateUtils;
+import org.springframework.stereotype.Repository;
+import repo.old.ContestRepository;
+import repo.utils.HibernateUtils;
 
 import java.util.List;
-import java.util.SequencedCollection;
 
+@Repository
 public class ContestHibernateRepository implements ContestRepository {
 	@Override
-	public Contest add(Contest elem) {
+	public Contest save(Contest elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});
@@ -37,14 +38,14 @@ public class ContestHibernateRepository implements ContestRepository {
 	}
 
 	@Override
-	public Contest getById(Integer integer) {
+	public Contest findById(Integer integer) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Contest where id=?1", Contest.class).setParameter(1, integer).uniqueResult();
 		}
 	}
 
 	@Override
-	public List<Contest> getAll() {
+	public List<Contest> findAll() {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Contest ", Contest.class).getResultList();
 		}

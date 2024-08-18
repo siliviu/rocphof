@@ -8,8 +8,14 @@ import java.util.Objects;
 
 @Entity
 public class Institution extends Identifiable<Integer> {
+
+	@NotNull
+	@Column
 	private String region;
+	@Column
 	private String city;
+	@NotNull
+	@Column
 	private String name;
 
 	public Institution() {
@@ -21,8 +27,6 @@ public class Institution extends Identifiable<Integer> {
 		this.name = name;
 	}
 
-	@NotNull
-	@Column
 	public String getRegion() {
 		return region;
 	}
@@ -31,7 +35,6 @@ public class Institution extends Identifiable<Integer> {
 		this.region = location;
 	}
 
-	@Column
 	public String getCity() {
 		return city;
 	}
@@ -40,8 +43,7 @@ public class Institution extends Identifiable<Integer> {
 		this.city = city;
 	}
 
-	@NotNull
-	@Column
+
 	public String getName() {
 		return name;
 	}

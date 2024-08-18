@@ -1,7 +1,6 @@
 package importer.merge;
 
 import domain.Identifiable;
-import domain.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import repo.MergeRepository;
@@ -18,7 +17,7 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 
 	protected List<Tuple<T, List<T>>> suggestions = new ArrayList<>();
 
-	protected final MergeRepository<T, ID> repository;
+	protected MergeRepository<T, ID> repository;
 
 	public MergeService(MergeRepository<T, ID> repository) {
 		this.repository = repository;
@@ -35,7 +34,7 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 			List<T> currentSuggestions = tryAutoReplace(object);
 			if (currentSuggestions != null) {
 				addMoreSuggestions(object, currentSuggestions);
-				cache.put(object, repository.add(object));
+				cache.put(object, repository.save(object));
 				if (!currentSuggestions.isEmpty())
 					suggestions.add(new Tuple<>(object, currentSuggestions));
 			}

@@ -10,9 +10,9 @@ import java.io.Serializable;
 
 @MappedSuperclass
 public class Identifiable<ID extends Serializable> implements Serializable {
-	private ID id;
 	@Id
 	@GeneratedValue(generator="increment")
+	private ID id;
 	public ID getId() {
 		return id;
 	}

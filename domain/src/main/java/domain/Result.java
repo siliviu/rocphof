@@ -7,13 +7,30 @@ import java.util.Objects;
 
 @Entity
 public class Result extends Identifiable<Integer> {
+	@ManyToOne
+	@JoinColumn
+	@NotNull
 	private Person person;
+	@ManyToOne
+	@JoinColumn
+	@NotNull
 	private Institution institution;
+	@ManyToOne
+	@JoinColumn
+	@NotNull
 	private Contest contest;
+	@Column
+	@NotNull
 	private int year;
+	@Column
 	private int score;
+	@Column
 	private int place;
+	@Enumerated(EnumType.STRING)
+	@Column
 	private Prize prize;
+	@Enumerated(EnumType.STRING)
+	@Column
 	private Medal medal;
 
 	public Result() {
@@ -24,12 +41,10 @@ public class Result extends Identifiable<Integer> {
 		this.institution = institution;
 		this.contest = contest;
 		this.year = year;
-		this.place=place;
+		this.place = place;
 	}
 
-	@ManyToOne
-	@JoinColumn
-	@NotNull
+
 	public Person getPerson() {
 		return person;
 	}
@@ -38,9 +53,7 @@ public class Result extends Identifiable<Integer> {
 		this.person = person;
 	}
 
-	@ManyToOne
-	@JoinColumn
-	@NotNull
+
 	public Institution getInstitution() {
 		return institution;
 	}
@@ -49,9 +62,7 @@ public class Result extends Identifiable<Integer> {
 		this.institution = institution;
 	}
 
-	@ManyToOne
-	@JoinColumn
-	@NotNull
+
 	public Contest getContest() {
 		return contest;
 	}
@@ -60,8 +71,7 @@ public class Result extends Identifiable<Integer> {
 		this.contest = contest;
 	}
 
-	@Column
-	@NotNull
+
 	public int getYear() {
 		return year;
 	}
@@ -70,7 +80,6 @@ public class Result extends Identifiable<Integer> {
 		this.year = year;
 	}
 
-	@Column
 	public int getScore() {
 		return score;
 	}
@@ -79,8 +88,7 @@ public class Result extends Identifiable<Integer> {
 		this.score = score;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column
+
 	public Prize getPrize() {
 		return prize;
 	}
@@ -89,8 +97,6 @@ public class Result extends Identifiable<Integer> {
 		this.prize = prize;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column
 	public Medal getMedal() {
 		return medal;
 	}
@@ -99,7 +105,6 @@ public class Result extends Identifiable<Integer> {
 		this.medal = medal;
 	}
 
-	@Column
 	public int getPlace() {
 		return place;
 	}
@@ -107,6 +112,7 @@ public class Result extends Identifiable<Integer> {
 	public void setPlace(int place) {
 		this.place = place;
 	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

@@ -1,6 +1,9 @@
 package repo;
 
 import domain.Contest;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ContestRepository extends Repository<Contest, Integer>{
+@Repository
+public interface ContestRepository extends JpaRepository<Contest, Integer> {
 }

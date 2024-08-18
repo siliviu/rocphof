@@ -2,13 +2,19 @@ package domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
 
 @Entity
 public class Contest extends Identifiable<Integer> {
+	@Column
+	@NotNull
 	private int year;
+	@Column
+	@NotNull
 	private String name;
+	@Column
 	private String desc;
 
 	public Contest() {
@@ -20,7 +26,6 @@ public class Contest extends Identifiable<Integer> {
 		this.desc = desc;
 	}
 
-	@Column
 	public int getYear() {
 		return year;
 	}
@@ -29,7 +34,6 @@ public class Contest extends Identifiable<Integer> {
 		this.year = year;
 	}
 
-	@Column
 	public String getName() {
 		return name;
 	}
@@ -38,7 +42,6 @@ public class Contest extends Identifiable<Integer> {
 		this.name = name;
 	}
 
-	@Column
 	public String getDesc() {
 		return desc;
 	}

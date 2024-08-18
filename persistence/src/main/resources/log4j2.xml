@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="info">
     <Appenders>
-        <!--        <Console name="Console" target="SYSTEM_OUT">-->
+        <!--        <console name="console" target="SYSTEM_OUT">-->
 
         <!--            <PatternLayout pattern="%d{DATE} %-5level %class{36} %L %M - %msg%n"/>-->
-        <!--        </Console>-->
+        <!--        </console>-->
         <File name="log" fileName="logs/merges.log" append="true">
             <PatternLayout pattern="%d{DATE} %-5level %class{36} %L %M - %msg%n"/>
         </File>
@@ -24,7 +24,7 @@
         </Logger>
         <Root level="trace">
             <AppenderRef ref="log"/>
-            <!--            <AppenderRef ref="Console"/>-->
+            <!--            <AppenderRef ref="console"/>-->
         </Root>
     </Loggers>
 </Configuration>
