@@ -1,23 +1,32 @@
+package console;
+
 import domain.Contest;
+import domain.Person;
 import importer.AddService;
 import importer.merge.InstitutionMergeService;
 import importer.merge.PersonMergeService;
-import repo.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+@Controller
 public class AddConsole {
+	private final InstitutionMergeService institutionMergeService;
 
-	public static void main(String[] args) throws Exception {
-		ContestRepository contestRepository = new ContestHibernateRepository();
-		InstitutionRepository institutionRepository = new InstitutionHibernateRepository();
-		PersonRepository personRepository = new PersonHibernateRepository();
-		ResultRepository resultRepository = new ResultHibernateRepository();
-		InstitutionMergeService institutionMergeService = new InstitutionMergeService(institutionRepository);
-		PersonMergeService personMergeService = new PersonMergeService(personRepository);
-		AddService addService = new AddService(contestRepository, resultRepository, institutionMergeService, personMergeService);
+	private final PersonMergeService personMergeService;
+	private final AddService addService;
+
+	public AddConsole(InstitutionMergeService institutionMergeService, PersonMergeService personMergeService, AddService addService) {
+		this.institutionMergeService = institutionMergeService;
+		this.personMergeService = personMergeService;
+		this.addService = addService;
+	}
+
+	public void run() {
 		for (int year : List.of(2024)) {
 			Contest contest = new Contest(year, "ONI", null);
 			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
@@ -32,7 +41,11 @@ public class AddConsole {
 					int reply = in.nextInt();
 					replies.add(reply);
 				}
-				institutionMergeService.handleSuggestions(replies);
+				try {
+					institutionMergeService.handleSuggestions(replies);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 			{
 				List<Integer> replies = new ArrayList<>();
@@ -44,7 +57,11 @@ public class AddConsole {
 					int reply = in.nextInt();
 					replies.add(reply);
 				}
-				personMergeService.handleSuggestions(replies);
+				try {
+					personMergeService.handleSuggestions(replies);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
 			}
 
 		}

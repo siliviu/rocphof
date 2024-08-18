@@ -1,18 +1,25 @@
-import domain.Contest;
-import domain.Person;
-import repo.PersonHibernateRepository;
-import repo.PersonRepository;
-import repo.ResultHibernateRepository;
-import repo.ResultRepository;
+package console;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import query.QueryService;
 import utils.StringProcessor;
 
 import java.util.Scanner;
 
+@Controller
 public class QueryConsole {
-	public static void main(String[] args) throws Exception {
-		ResultRepository resultRepository = new ResultHibernateRepository();
-		PersonRepository personRepository = new PersonHibernateRepository();
-		QueryService queryService = new QueryService(resultRepository, personRepository);
+
+	@Autowired
+	private final QueryService queryService;
+
+	public QueryConsole(QueryService queryService) {
+		this.queryService = queryService;
+		new Thread(this::run).start();
+	}
+
+	public void run() {
 		Scanner in = new Scanner(System.in);
 		System.out.println("SPY");
 		while (true) {
@@ -26,19 +33,15 @@ public class QueryConsole {
 			if (input.equals("P")) {
 				System.out.println("Enter id: ");
 				int id = in.nextInt();
-				Person p = new Person();
-				p.setId(id);
-				for (var v : queryService.getResultsByPerson(p))
+				for (var v : queryService.getResultsByPerson(id))
 					System.out.println(v.getContest().getYear() + " " + v.getYear() + " " + v.getInstitution().getRegion() + " " + v.getInstitution().getName() + " " + v.getPlace() + " " + v.getPrize() + " " + v.getMedal());
 			}
 			if (input.equals("Y")) {
 				System.out.println("Enter contest id: ");
 				int id = in.nextInt();
-				Contest c = new Contest();
-				c.setId(id);
 				System.out.println("Enter year: ");
 				int y = in.nextInt();
-				for (var v : queryService.getResultsByContest(c, y))
+				for (var v : queryService.getResultsByContest(id, y))
 					System.out.println(v.getPlace() + " " + v.getPerson().getName() + " " + v.getInstitution().getRegion() + " " + v.getInstitution().getName() + " " + v.getPlace() + " " + v.getPrize() + " " + v.getMedal());
 
 			}
