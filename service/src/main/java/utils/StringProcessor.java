@@ -92,6 +92,9 @@ public class StringProcessor {
 				.replace("Lea", "")
 				.replace("entiune", "")
 				.replace("MEN", "")
+				.replace("1", "I")
+				.replace("2", "II")
+				.replace("3", "III")
 				.trim()
 				.toUpperCase();
 	}

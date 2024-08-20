@@ -11,6 +11,7 @@ import query.QueryService;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/results")
 public class ResultsController {
 	@Autowired

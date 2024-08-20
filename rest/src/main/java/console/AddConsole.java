@@ -24,10 +24,11 @@ public class AddConsole {
 		this.institutionMergeService = institutionMergeService;
 		this.personMergeService = personMergeService;
 		this.addService = addService;
+//		new Thread(this::run).start();
 	}
 
 	public void run() {
-		for (int year : List.of(2024)) {
+		for (int year : List.of(2016)) {
 			Contest contest = new Contest(year, "ONI", null);
 			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);

@@ -45,6 +45,20 @@ public class QueryConsole {
 					System.out.println(v.getPlace() + " " + v.getPerson().getName() + " " + v.getInstitution().getRegion() + " " + v.getInstitution().getName() + " " + v.getPlace() + " " + v.getPrize() + " " + v.getMedal());
 
 			}
+			if (input.equals("RP")) {
+				System.out.println("Enter original id: ");
+				int id1 = in.nextInt();
+				System.out.println("Enter replacement id: ");
+				int id2 = in.nextInt();
+				queryService.replaceName(id1, id2);
+			}
+			if (input.equals("RI")) {
+				System.out.println("Enter original id: ");
+				int id1 = in.nextInt();
+				System.out.println("Enter replacement id: ");
+				int id2 = in.nextInt();
+				queryService.replaceInstitution(id1, id2);
+			}
 		}
 	}
 }

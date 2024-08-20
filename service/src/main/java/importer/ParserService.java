@@ -1,6 +1,7 @@
 package importer;
 
 import domain.*;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -44,7 +45,7 @@ public class ParserService {
 				Prize prize = row.getCell(PRIZE) == null ? null : Prize.fromString(StringProcessor.normalisePrize(row.getCell(PRIZE).getStringCellValue()));
 				result.setPrize(prize);
 				Medal medal = row.getCell(MEDAL) == null ? null : Medal.fromString(StringProcessor.normalise(row.getCell(MEDAL).getStringCellValue()));
-				if (row.getCell(SCORE) != null) {
+				if (row.getCell(SCORE) != null && row.getCell(SCORE).getCellType().equals(CellType.NUMERIC)) {
 					int score = (int) row.getCell(SCORE).getNumericCellValue();
 					if (score < curScore) {
 						curScore = score;

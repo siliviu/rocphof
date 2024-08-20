@@ -52,4 +52,11 @@ public class QueryService {
 	public List<Result> getResultsByRegion(String name) {
 		return resultRepository.getResultsByRegion(name);
 	}
+
+	public void replaceName(int original, int replacement){
+		personRepository.replace(personRepository.findById(original), personRepository.findById(replacement));
+	}
+	public void replaceInstitution(int original, int replacement){
+		institutionRepository.replace(institutionRepository.findById(original), institutionRepository.findById(replacement));
+	}
 }
