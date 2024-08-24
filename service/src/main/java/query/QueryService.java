@@ -59,4 +59,16 @@ public class QueryService {
 	public void replaceInstitution(int original, int replacement){
 		institutionRepository.replace(institutionRepository.findById(original), institutionRepository.findById(replacement));
 	}
+
+	public Person getPersonById(Integer id) {
+		return personRepository.findById(id);
+	}
+
+	public Contest getContest(Integer id) {
+		return contestRepository.findById(id).get();
+	}
+
+	public Institution getInstitutionById(Integer id) {
+		return institutionRepository.findById(id);
+	}
 }

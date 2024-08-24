@@ -73,7 +73,7 @@ public class ResultHibernateRepository implements ResultRepository {
 	@Override
 	public List<Result> getResultsByInstitution(Integer id) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			return session.createQuery("from Result r where r.institution.id=?1 order by r.contest.year desc", Result.class)
+			return session.createQuery("from Result r where r.institution.id=?1 order by r.contest.year desc, r.year desc, r.place", Result.class)
 					.setParameter(1, id)
 					.getResultList();
 		}
@@ -82,7 +82,7 @@ public class ResultHibernateRepository implements ResultRepository {
 	@Override
 	public List<Result> getResultsByRegion(String name) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			return session.createQuery("from Result r where r.institution.region=?1 order by r.contest.year desc", Result.class)
+			return session.createQuery("from Result r where r.institution.region=?1 order by r.contest.year desc, r.year desc, r.place", Result.class)
 					.setParameter(1, name)
 					.getResultList();
 		}
