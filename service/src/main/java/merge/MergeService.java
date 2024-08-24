@@ -1,4 +1,4 @@
-package importer.merge;
+package merge;
 
 import domain.Identifiable;
 import org.apache.logging.log4j.LogManager;

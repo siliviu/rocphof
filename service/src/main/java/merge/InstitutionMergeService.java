@@ -1,4 +1,4 @@
-package importer.merge;
+package merge;
 
 import domain.Institution;
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +57,7 @@ public class InstitutionMergeService extends MergeService<Institution, Integer> 
 
 	@Override
 	protected void tryMergeObjects(Institution object, Institution replacement) {
-		if (replacement.getCity() == null && object.getCity() != null)
+		if ((replacement.getCity() == null || replacement.getCity().isEmpty()) && object.getCity() != null)
 			replacement.setCity(object.getCity());
 	}
 }

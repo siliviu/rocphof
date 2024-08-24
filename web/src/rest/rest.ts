@@ -14,6 +14,16 @@ export function getInstitutionById(id: number) {
         .then(response => response.json())
 }
 
+export function getPreviousContest(id: number) {
+    return fetch(`${url}/contests/${id}/previous`)
+        .then(response => response.json());
+}
+
+export function getNextContest(id: number) {
+    return fetch(`${url}/contests/${id}/next`)
+        .then(response => response.json());
+}
+
 export function getResultsForContest(id: number, grade: number) {
     return fetch(`${url}/contests/${id}/results/${grade}`)
         .then(response => response.json())
@@ -31,5 +41,10 @@ export function getResultsForRegion(name: string) {
 
 export function getResultsForInstitution(id: number) {
     return fetch(`${url}/institutions/${id}/results`)
+        .then(response => response.json())
+}
+
+export function getPeopleByName(search: string) {
+    return fetch(`${url}/people?` + new URLSearchParams({ name: search }))
         .then(response => response.json())
 }

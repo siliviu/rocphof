@@ -9,11 +9,13 @@ import { ContestPage } from './components/contest-page.tsx'
 import { PersonPage } from './components/person-page.tsx'
 import { RegionPage } from './components/region-page.tsx'
 import { InstitutionPage } from './components/institution-page.tsx'
+import {SearchPage} from './components/search-page.tsx'
 
 export default function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<SearchPage />} />
         <Route path="/person/:id" element={<PersonPage />} />
         <Route path="/contest/:id/:grade" element={<ContestPage />} />
         <Route path="/region/:region" element={<RegionPage />} />

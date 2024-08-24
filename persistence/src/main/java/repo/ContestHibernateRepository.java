@@ -1,9 +1,8 @@
-package repo.old;
+package repo;
 
 import domain.Contest;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-import repo.old.ContestRepository;
 import repo.utils.HibernateUtils;
 
 import java.util.List;
@@ -48,6 +47,30 @@ public class ContestHibernateRepository implements ContestRepository {
 	public List<Contest> findAll() {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Contest ", Contest.class).getResultList();
+		}
+	}
+
+	@Override
+	public Contest findNext(Contest contest) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			List<Contest> contests = session.createQuery("from Contest where year > ?1 order by year", Contest.class)
+					.setParameter(1, contest.getYear())
+					.getResultList();
+			if (contests.isEmpty())
+				return null;
+			return contests.get(0);
+		}
+	}
+
+	@Override
+	public Contest findPrevious(Contest contest) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			List<Contest> contests = session.createQuery("from Contest where year < ?1 order by year desc", Contest.class)
+					.setParameter(1, contest.getYear())
+					.getResultList();
+			if (contests.isEmpty())
+				return null;
+			return contests.get(0);
 		}
 	}
 }

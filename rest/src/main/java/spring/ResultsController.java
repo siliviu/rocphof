@@ -44,6 +44,7 @@ public class ResultsController {
 	public Institution getInstitutionById(@PathVariable Integer id) {
 		return queryService.getInstitutionById(id);
 	}
+
 	@GetMapping(value = "/institutions/{id}/results")
 	public List<Result> getInstitutionResults(@PathVariable Integer id) {
 		return queryService.getResultsByInstitution(id);
@@ -65,6 +66,17 @@ public class ResultsController {
 	public Contest getContestById(@PathVariable Integer id) {
 		return queryService.getContest(id);
 	}
+
+	@GetMapping(value = "/contests/{id}/previous")
+	public Contest getPreviousContest(@PathVariable Integer id) {
+		return queryService.getPreviousContest(id);
+	}
+
+	@GetMapping(value = "/contests/{id}/next")
+	public Contest getNextContest(@PathVariable Integer id) {
+		return queryService.getNextContest(id);
+	}
+
 
 	@GetMapping(value = "/contests/{id}/results/{year}")
 	public List<Result> getContestYear(@PathVariable Integer id, @PathVariable Integer year) {

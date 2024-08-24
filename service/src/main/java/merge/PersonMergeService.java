@@ -1,4 +1,4 @@
-package importer.merge;
+package merge;
 
 import domain.Person;
 import domain.Result;

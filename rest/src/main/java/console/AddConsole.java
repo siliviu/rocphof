@@ -1,12 +1,9 @@
 package console;
 
 import domain.Contest;
-import domain.Person;
 import importer.AddService;
-import importer.merge.InstitutionMergeService;
-import importer.merge.PersonMergeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import merge.InstitutionMergeService;
+import merge.PersonMergeService;
 import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
@@ -28,7 +25,7 @@ public class AddConsole {
 	}
 
 	public void run() {
-		for (int year : List.of(2016)) {
+		for (int year : List.of(2015)) {
 			Contest contest = new Contest(year, "ONI", null);
 			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);

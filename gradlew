@@ -192,7 +192,7 @@ if "$cygwin" || "$msys" ; then
         # NB: a `for` loop captures its iteration list before it begins, so
         # changing the positional parameters here affects neither the number of
         # iterations, nor the values presented in `arg`.
-        shift                   # remove old arg
+        shift                   # remove jpa arg
         set -- "$@" "$arg"      # push replacement arg
     done
 fi

@@ -60,6 +60,8 @@ public class InstitutionHibernateRepository implements InstitutionRepository {
 
 	@Override
 	public void replace(Institution original, Institution replacement) {
+		if ((replacement.getCity() == null || replacement.getCity().isEmpty()) && original.getCity() != null)
+			replacement.setCity(original.getCity());
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			List<Result> results = session.createQuery("from Result r where r.institution.id=?1", Result.class)
 					.setParameter(1, original.getId())
@@ -68,7 +70,7 @@ public class InstitutionHibernateRepository implements InstitutionRepository {
 				result.setInstitution(replacement);
 				session.merge(result);
 			}
-			var entity = session.createQuery("from Institution where id=?1",Institution.class).setParameter(1, original.getId()).uniqueResult();
+			var entity = session.createQuery("from Institution where id=?1", Institution.class).setParameter(1, original.getId()).uniqueResult();
 			session.remove(entity);
 		});
 	}

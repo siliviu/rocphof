@@ -1,6 +1,6 @@
 package utils;
 
-import importer.merge.MergeService;
+import merge.MergeService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -232,6 +232,7 @@ public class StringProcessor {
 				.replace("Ş", "Ș")
 				.replace("ţ", "ț")
 				.replace("Ţ", "Ț")
+				.replace("ã", "a")
 				.replace("ă", "a").replace("Ă", "A")
 				.replace("â", "a").replace("Â", "A")
 				.replace("î", "i").replace("Î", "I")
