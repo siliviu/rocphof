@@ -1,0 +1,57 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+}
+
+table th,
+table td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 0.5em;
+}
+
+table thead {
+    background-color: #007BFF;
+    color: #ffffff;
+}
+
+table thead th {
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+table tbody tr:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+}
+
+table {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+
+tr {
+    background-color: #f1f1f1;
+}
+
+.gold {
+    background-color: #FFEE55;
+}
+
+.silver {
+    background-color: #CCCCCC;
+}
+
+.bronze {
+    background-color: #B87838;
+}

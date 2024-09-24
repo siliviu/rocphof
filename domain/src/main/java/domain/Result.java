@@ -23,9 +23,9 @@ public class Result extends Identifiable<Integer> {
 	@NotNull
 	private int year;
 	@Column
-	private int score;
+	private Integer score;
 	@Column
-	private int place;
+	private Integer place;
 	@Enumerated(EnumType.STRING)
 	@Column
 	private Prize prize;
@@ -80,11 +80,11 @@ public class Result extends Identifiable<Integer> {
 		this.year = year;
 	}
 
-	public int getScore() {
+	public Integer getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Integer score) {
 		this.score = score;
 	}
 
@@ -105,11 +105,11 @@ public class Result extends Identifiable<Integer> {
 		this.medal = medal;
 	}
 
-	public int getPlace() {
+	public Integer getPlace() {
 		return place;
 	}
 
-	public void setPlace(int place) {
+	public void setPlace(Integer place) {
 		this.place = place;
 	}
 

@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 @Controller
 public class AddConsole {
+
 	private final InstitutionMergeService institutionMergeService;
 
 	private final PersonMergeService personMergeService;
@@ -25,9 +26,9 @@ public class AddConsole {
 	}
 
 	public void run() {
-		for (int year : List.of(2015)) {
+		for (int year : List.of(2021)) {
 			Contest contest = new Contest(year, "ONI", null);
-			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + ".xlsx", contest);
+			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + "q.xlsx", contest);
 			Scanner in = new Scanner(System.in);
 			{
 				List<Integer> replies = new ArrayList<>();
@@ -61,7 +62,7 @@ public class AddConsole {
 					throw new RuntimeException(e);
 				}
 			}
-
+			addService.mergeQualified(contest.getId(),3);
 		}
 	}
 }

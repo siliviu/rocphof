@@ -1,9 +1,6 @@
 package query;
 
-import domain.Contest;
-import domain.Institution;
-import domain.Person;
-import domain.Result;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repo.*;
@@ -84,5 +81,9 @@ public class QueryService {
 
 	public Contest getNextContest(Integer id) {
 		return contestRepository.findNext(contestRepository.findById(id));
+	}
+
+	public List<RankingResult> getRanking(String region, Integer year) {
+		return resultRepository.getRanking(region, year);
 	}
 }

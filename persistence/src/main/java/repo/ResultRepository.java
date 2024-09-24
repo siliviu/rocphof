@@ -1,5 +1,6 @@
 package repo;
 
+import domain.RankingResult;
 import domain.Result;
 
 import java.util.List;
@@ -11,4 +12,8 @@ public interface ResultRepository extends MyRepository<Result, Integer> {
 	List<Result> getResultsByInstitution(Integer id);
 
 	List<Result> getResultsByRegion(String name);
+
+	Result getResultByContestAndPerson(Integer contestId, Integer personId);
+	void mergeQualified(Integer qualifiedId, Integer originalId);
+	List<RankingResult> getRanking(String region, Integer year);
 }

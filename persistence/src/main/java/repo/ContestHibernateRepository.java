@@ -2,6 +2,7 @@ package repo;
 
 import domain.Contest;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import repo.utils.HibernateUtils;
 
@@ -10,7 +11,7 @@ import java.util.List;
 @Repository
 public class ContestHibernateRepository implements ContestRepository {
 	@Override
-	public Contest save(Contest elem) {
+	public Contest add(Contest elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});

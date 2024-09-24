@@ -3,6 +3,7 @@ package repo;
 import domain.Institution;
 import domain.Result;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import repo.utils.HibernateUtils;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Repository
 public class InstitutionHibernateRepository implements InstitutionRepository {
 	@Override
-	public Institution save(Institution elem) {
+	public Institution add(Institution elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});

@@ -1,18 +1,62 @@
-body{
+body {
   background-color: white;
-  color:black;
+  color: black;
 }
 
 
 
 #root {
-  max-width: 1280px;
+  width: 75%;
   margin: 0 auto;
-  padding: 2rem;
+  padding-top: 3vh;
+  padding-bottom: 2vh;
   text-align: center;
+  min-height: 95vh;
+}
+
+.selector {
+  width: 40%;
+  display: grid;
+  justify-content: center;
+  padding: 0 30%;
+  grid-template-columns: 9% 80% 9%;
+  align-items: center;
+}
+
+.title {
+  font-weight: bolder;
+  font-size: 2em;
+  margin: 0;
+}
+
+.subtitle {
+  font-weight: bold;
+  font-size: 1.6em;
+  margin: 0;
+}
+
+.subsubtitle {
+  font-weight: bold;
+  font-size: 1.25em;
+  margin: 0.25em 0;
 }
 
 
+.panel {
+  padding: 8px 16px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.top-panel {
+  padding: 0 0;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+}
 
 .card {
   padding: 2em;
@@ -23,19 +67,73 @@ body{
 }
 
 
-a:link, a:visited{
+a:link,
+a:visited {
   color: #0F3678;
 }
 
-tr.gold {
-  background-color: #FFEE55;
+.arrow {
+  position: relative;
+  display: inline-block;
+  padding: 0em 0.25em;
+  margin: 0 0.25em;
+  height: 80%;
+  font-size: 80%;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: #333333;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-tr.silver {
-  background-color:#CCCCCC;
+.arrow:hover {
+  background-color: #e0e0e0;
 }
 
+.arrow:active {
+  background-color: #d0d0d0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
 
-tr.bronze {
-  background-color: #B87838;
+.arrow:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #cccccc;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  outline: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f1f1f1;
+  color: black;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f1f1f1;
+  border: 1px solid #dddddd;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+}
+
+.search-bar {
+  margin: 1em;
+}
+
+button:hover {
+  background-color: #bbb;
+}
+
+button:focus {
+  outline: none;
 }

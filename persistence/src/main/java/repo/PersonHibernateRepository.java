@@ -5,6 +5,7 @@ import domain.Result;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import repo.utils.HibernateUtils;
 
@@ -15,7 +16,7 @@ public class PersonHibernateRepository implements PersonRepository {
 	protected static final Logger logger = LogManager.getLogger(PersonHibernateRepository.class.getName());
 
 	@Override
-	public Person save(Person elem) {
+	public Person add(Person elem) {
 		HibernateUtils.getSessionFactory().inTransaction(session -> {
 			session.persist(elem);
 		});

@@ -13,8 +13,8 @@ export const RegionPage = () => {
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
-                        result.medal == Medal.BRONZE ? 'bronze' : ' '
-                }>
+                            result.medal == Medal.BRONZE ? 'bronze' : ' '
+                    }>
                         <td>{result.contest.year}</td>
                         <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
                         <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
@@ -31,7 +31,10 @@ export const RegionPage = () => {
 
     }, []);
     return <>
-        <p>{region}</p>
+        <div className='panel'>
+            <p className='title'>{region}</p>
+            <p className='subtitle'><Link to={`/ranking?region=${region}`}>Region Ranking</Link></p>
+        </div>
         <table>
             <tbody>
                 <tr>

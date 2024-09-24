@@ -48,3 +48,13 @@ export function getPeopleByName(search: string) {
     return fetch(`${url}/people?` + new URLSearchParams({ name: search }))
         .then(response => response.json())
 }
+
+export function getRanking(name: string, generation: number) {
+    const obj: any = {};
+    if (name)
+        obj.region = name;
+    if (generation)
+        obj.year = generation;
+    return fetch(`${url}/ranking?` + new URLSearchParams(obj))
+        .then(response => response.json())
+}

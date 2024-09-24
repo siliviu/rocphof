@@ -50,15 +50,18 @@ public class AddService {
 	}
 
 	public void addProcessedData() {
-		contest = contestRepository.save(contest);
+		contest = contestRepository.add(contest);
 		HashMap<Institution, Institution> institutionMap = institutionMergeService.getMap();
 		HashMap<Person, Person> personMap = personMergeService.getMap();
 		for (Result result : data) {
 			result.setPerson(personMap.get(result.getPerson()));
 			result.setInstitution(institutionMap.get(result.getInstitution()));
 			result.setContest(contest);
-			resultRepository.save(result);
+			resultRepository.add(result);
 		}
 	}
 
+	public void mergeQualified(Integer qualifiedId, Integer originalId) {
+		resultRepository.mergeQualified(qualifiedId, originalId);
+	}
 }

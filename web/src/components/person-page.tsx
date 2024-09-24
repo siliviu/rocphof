@@ -19,7 +19,7 @@ export const PersonPage = () => {
                 console.log(results);
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
-                            result.medal == Medal.SILVER ? 'silver' :
+                        result.medal == Medal.SILVER ? 'silver' :
                             result.medal == Medal.BRONZE ? 'bronze' : ' '
                     }>
                         <td>{result.contest.year}</td>
@@ -37,7 +37,9 @@ export const PersonPage = () => {
 
     }, [])
     return <>
-        <p>{person.name}</p>
+        <div className='panel'>
+            <p className='title'>{person.name}</p>
+        </div>
         <table>
             <tbody>
                 <tr>

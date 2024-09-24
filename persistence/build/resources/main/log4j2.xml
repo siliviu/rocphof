@@ -10,6 +10,8 @@
         </File>
     </Appenders>
     <Loggers>
+        <logger name="org.hibernate.cache" level="TRACE"/>
+        <logger name="org.infinispan" level="TRACE"/>
         <Logger name="org.hibernate" level="error" additivity="false">
             <AppenderRef ref="log"/>
         </Logger>
@@ -24,7 +26,9 @@
         </Logger>
         <Root level="trace">
             <AppenderRef ref="log"/>
-            <!--            <AppenderRef ref="console"/>-->
+        </Root>
+        <Root level="info">
+            <AppenderRef ref="log"/>
         </Root>
     </Loggers>
 </Configuration>

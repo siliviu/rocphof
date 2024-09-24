@@ -10,9 +10,13 @@ export const ContestPage = () => {
     const [contest, setContest] = useState<Contest>({});
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
+    const [generationStart, setGenerationStart] = useState(0);
     useEffect(() => {
         getContestById(Number(id))
-            .then(contest => setContest(contest))
+            .then(contest => {
+                setContest(contest);
+                setGenerationStart(contest.year - Number(grade));
+            })
         getPreviousContest(Number(id))
             .then(contest => setPrevContest(contest))
             .catch(() => setPrevContest(null))
@@ -38,31 +42,31 @@ export const ContestPage = () => {
                 ))
                 console.log(table);
             })
-
     }, [id, grade])
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
-    const generationStart = contest.year - Number(grade);
-    const generationEnd = contest.year - Number(grade) + 12;
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
     const nextContestGrade = nextContest ? nextContest.year - generationStart : 0;
     return <>
-        <p>
-            {prevContest && <Link to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link>}
-            {contest.name} {contest.year}
-            {nextContest && <Link to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link>}
-        </p>
-        <p>
-            {prevGrade >= 5 && <Link to={`/contest/${id}/${prevGrade}`}>&lt;  </Link>}
-            {grade}
-            {nextGrade <= 12 && <Link to={`/contest/${id}/${nextGrade}`}>  &gt;</Link>}
-        </p>
-        <p>
-            {prevContestGrade >= 5 && prevContest && <Link to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link>}
-            {generationStart + 5}-{generationEnd}
-            {nextContestGrade <= 12 && nextContest && <Link to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link>}
+        <div className='panel'>
+            <p className='title selector'>
+                {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
+                <span>{contest.name} {contest.year}</span>
+                {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
+            </p>
+            <p className='subtitle selector'>
+                {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                <span>{grade}</span>
+                {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
+            </p>
+            <p className='subsubtitle selector'>
+                {prevContestGrade >= 5 ? prevContest && <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                <span>{generationStart + 5}-{generationStart + 12}</span>
+                {nextContestGrade <= 12 ? nextContest && <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
 
-        </p>
+            </p>
+            <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
+        </div>
         <table>
             <tbody>
                 <tr>

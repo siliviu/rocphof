@@ -20,7 +20,6 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
     implementation 'org.glassfish:jakarta.el:4.0.2'
     implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final'
-
     implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
 
     implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
@@ -28,7 +27,7 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-slf4j-impl:2.23.1'
 
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 //    implementation 'org.springframework:spring-orm'
 }
 

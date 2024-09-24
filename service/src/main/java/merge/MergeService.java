@@ -34,7 +34,7 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 			List<T> currentSuggestions = tryAutoReplace(object);
 			if (currentSuggestions != null) {
 				addMoreSuggestions(object, currentSuggestions);
-				cache.put(object, repository.save(object));
+				cache.put(object, repository.add(object));
 				if (!currentSuggestions.isEmpty())
 					suggestions.add(new Tuple<>(object, currentSuggestions));
 			}

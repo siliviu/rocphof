@@ -33,8 +33,10 @@ export const InstitutionPage = () => {
 
     }, []);
     return <>
-        <p>{institution.name}</p>
-        <p>{institution.city}, {institution.region}</p >
+        <div className='panel'>
+            <p className='title'>{institution.name}</p>
+            <p className='subtitle'>{institution.city}, {institution.region}</p >
+        </div>
         <table>
             <tbody>
                 <tr>
