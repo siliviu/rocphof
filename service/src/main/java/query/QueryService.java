@@ -2,6 +2,7 @@ package query;
 
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import repo.*;
 import utils.StringProcessor;
@@ -20,7 +21,7 @@ public class QueryService {
 	@Autowired
 	private InstitutionRepository institutionRepository;
 
-
+//	@Cacheable
 	public List<Person> getPeopleByName(String person) {
 		String name = StringProcessor.normaliseChild(person);
 		return personRepository.findAll().stream()
@@ -31,26 +32,32 @@ public class QueryService {
 				.toList();
 	}
 
+//	@Cacheable
 	public List<Result> getResultsByContest(int contestId, int year) {
 		return resultRepository.getResultsByContest(contestId, year);
 	}
 
+//	@Cacheable
 	public List<Result> getResultsByPerson(Integer personId) {
 		return resultRepository.getResultsByPerson(personId);
 	}
 
+//	@Cacheable
 	public List<Contest> getContests() {
 		return contestRepository.findAll();
 	}
 
+//	@Cacheable
 	public List<Institution> getInstitutions() {
 		return institutionRepository.findAll();
 	}
 
+//	@Cacheable
 	public List<Result> getResultsByInstitution(Integer id) {
 		return resultRepository.getResultsByInstitution(id);
 	}
 
+//	@Cacheable
 	public List<Result> getResultsByRegion(String name) {
 		return resultRepository.getResultsByRegion(name);
 	}
@@ -63,26 +70,32 @@ public class QueryService {
 		institutionRepository.replace(institutionRepository.findById(original), institutionRepository.findById(replacement));
 	}
 
+//	@Cacheable
 	public Person getPersonById(Integer id) {
 		return personRepository.findById(id);
 	}
 
+//	@Cacheable
 	public Contest getContest(Integer id) {
 		return contestRepository.findById(id);
 	}
 
+//	@Cacheable
 	public Institution getInstitutionById(Integer id) {
 		return institutionRepository.findById(id);
 	}
 
+//	@Cacheable
 	public Contest getPreviousContest(Integer id) {
 		return contestRepository.findPrevious(contestRepository.findById(id));
 	}
 
+//	@Cacheable
 	public Contest getNextContest(Integer id) {
 		return contestRepository.findNext(contestRepository.findById(id));
 	}
 
+//	@Cacheable
 	public List<RankingResult> getRanking(String region, Integer year) {
 		return resultRepository.getRanking(region, year);
 	}

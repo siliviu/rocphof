@@ -6,7 +6,7 @@ import { Institution } from '../model/institution';
 
 export const InstitutionPage = () => {
     const { id } = useParams();
-    const [institution, setInstitution] = useState<Institution>({});
+    const [institution, setInstitution] = useState<Institution | null>(null);
     const [table, setTable] = useState();
     useEffect(() => {
         getInstitutionById(Number(id))
@@ -34,8 +34,8 @@ export const InstitutionPage = () => {
     }, []);
     return <>
         <div className='panel'>
-            <p className='title'>{institution.name}</p>
-            <p className='subtitle'>{institution.city}, {institution.region}</p >
+            <p className='title'>{institution ? institution.name : ''}</p>
+            <p className='subtitle'>{institution ? institution.city : ''}, {institution ? institution.region : ''}</p >
         </div>
         <table>
             <tbody>

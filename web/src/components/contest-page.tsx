@@ -7,7 +7,7 @@ import { Contest } from '../model/contest';
 export const ContestPage = () => {
     const { id, grade } = useParams();
     const [table, setTable] = useState();
-    const [contest, setContest] = useState<Contest>({});
+    const [contest, setContest] = useState<Contest | null>();
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
     const [generationStart, setGenerationStart] = useState(0);
@@ -51,7 +51,7 @@ export const ContestPage = () => {
         <div className='panel'>
             <p className='title selector'>
                 {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
-                <span>{contest.name} {contest.year}</span>
+                <span>{contest ? contest.name : ''} {contest ? contest.year : ''}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
             <p className='subtitle selector'>

@@ -14,7 +14,7 @@ public class CacheConfig extends CachingConfigurerSupport {
 	@Bean
 	@Override
 	public CaffeineCacheManager cacheManager() {
-		CaffeineCacheManager cacheManager = new CaffeineCacheManager("myCache");
+		CaffeineCacheManager cacheManager = new CaffeineCacheManager();
 		cacheManager.setCaffeine(caffeineCacheBuilder());
 		return cacheManager;
 	}

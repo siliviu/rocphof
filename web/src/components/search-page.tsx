@@ -1,7 +1,6 @@
-import { useParams, Link } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
-import { Medal, Result } from '../model/result';
-import { getPeopleByName, getPersonById, getResultsForPerson } from '../rest/rest';
+import { Link } from 'react-router-dom'
+import {  useState } from 'react'
+import { getPeopleByName } from '../rest/rest';
 import { Person } from '../model/person';
 
 export const SearchPage = () => {

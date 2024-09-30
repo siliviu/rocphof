@@ -8,7 +8,7 @@ export const RankingPage = () => {
     const [table, setTable] = useState();
     console.log(searchParams);
     useEffect(() => {
-        getRanking(searchParams.get("region"), searchParams.get("year"))
+        getRanking(searchParams.get("region")!, searchParams.get("year")! as unknown as number)
             .then(results => {
                 console.log(results);
                 setTable(results.map((result: RankingResult) =>

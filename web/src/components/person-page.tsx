@@ -1,5 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Medal, Result } from '../model/result';
 import { getPersonById, getResultsForPerson } from '../rest/rest';
 import { Person } from '../model/person';
@@ -7,7 +7,7 @@ import { Person } from '../model/person';
 export const PersonPage = () => {
     const { id } = useParams();
     const [table, setTable] = useState();
-    const [person, setPerson] = useState<Person>({});
+    const [person, setPerson] = useState<Person|null>(null);
     useEffect(() => {
         getPersonById(Number(id))
             .then(person => {
@@ -38,7 +38,7 @@ export const PersonPage = () => {
     }, [])
     return <>
         <div className='panel'>
-            <p className='title'>{person.name}</p>
+            <p className='title'>{person ? person.name : ''}</p>
         </div>
         <table>
             <tbody>
