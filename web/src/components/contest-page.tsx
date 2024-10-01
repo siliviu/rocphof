@@ -50,17 +50,17 @@ export const ContestPage = () => {
     return <>
         <div className='panel'>
             <p className='title selector'>
-                {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
+                {prevContest ? <Link className='arrow left' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
                 <span>{contest ? contest.name : ''} {contest ? contest.year : ''}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
             <p className='subtitle selector'>
-                {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                {prevGrade >= 5 ? <Link className='arrow left' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                 <span>{grade}</span>
                 {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
             </p>
             <p className='subsubtitle selector'>
-                {prevContestGrade >= 5 ? prevContest && <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                {prevContestGrade >= 5 ? prevContest && <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
                 <span>{generationStart + 5}-{generationStart + 12}</span>
                 {nextContestGrade <= 12 ? nextContest && <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
 
