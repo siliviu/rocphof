@@ -99,4 +99,8 @@ public class QueryService {
 	public List<RankingResult> getRanking(String region, Integer year) {
 		return resultRepository.getRanking(region, year);
 	}
+
+	public Long getParticipantsByContest(Integer id, Integer year) {
+		return resultRepository.getParticipants(id, year);
+	}
 }

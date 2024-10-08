@@ -22,7 +22,7 @@ public class AddConsole {
 		this.institutionMergeService = institutionMergeService;
 		this.personMergeService = personMergeService;
 		this.addService = addService;
-//		new Thread(this::run).start();
+		//new Thread(this::run).start();
 	}
 
 	public void run() {

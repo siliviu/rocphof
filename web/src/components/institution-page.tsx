@@ -13,7 +13,6 @@ export const InstitutionPage = () => {
             .then(institution => setInstitution(institution));
         getResultsForInstitution(Number(id))
             .then(results => {
-                console.log(results);
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
@@ -28,14 +27,13 @@ export const InstitutionPage = () => {
                         <td>{result.medal}</td>
                     </tr>
                 ))
-                console.log(table);
             })
 
     }, []);
     return <>
         <div className='panel'>
             <p className='title'>{institution ? institution.name : ''}</p>
-            <p className='subtitle'>{institution ? institution.city : ''}, {institution ? institution.region : ''}</p >
+            <p className='subtitle'>{institution ? institution.city : ''},  {institution ? institution.region : ''}</p >
         </div>
         <table>
             <tbody>

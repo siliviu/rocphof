@@ -147,4 +147,14 @@ public class ResultHibernateRepository implements ResultRepository {
 			return query.getResultList();
 		}
 	}
+
+	@Override
+	public Long getParticipants(Integer contestId, Integer year) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			return (Long)session.createQuery("select count(*) from Result where contest.id=?1 and year=?2")
+					.setParameter(1, contestId)
+					.setParameter(2, year)
+					.uniqueResult();
+		}
+	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ResultRepository extends MyRepository<Result, Integer> {
 	List<Result> getResultsByContest(Integer contestId, int year);
+
 	List<Result> getResultsByPerson(Integer personId);
 
 	List<Result> getResultsByInstitution(Integer id);
@@ -14,6 +15,10 @@ public interface ResultRepository extends MyRepository<Result, Integer> {
 	List<Result> getResultsByRegion(String name);
 
 	Result getResultByContestAndPerson(Integer contestId, Integer personId);
+
 	void mergeQualified(Integer qualifiedId, Integer originalId);
+
 	List<RankingResult> getRanking(String region, Integer year);
+
+	Long getParticipants(Integer contestId, Integer year);
 }

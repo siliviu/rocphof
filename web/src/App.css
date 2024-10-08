@@ -135,10 +135,31 @@ button {
   margin: 1em;
 }
 
+.search-bar label {
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 1em;
+}
+
 button:hover {
   background-color: #bbb;
 }
 
 button:focus {
   outline: none;
+}
+
+.contest-list {
+  list-style-position: inside;
+}
+
+.contest-list a{
+  font-size: 1.5rem;
+  font-weight:bold;
+}
+
+.contest-list li {
+  list-style-type: none;
+  margin-left: -2.5rem;
+  padding-left: 0;
 }

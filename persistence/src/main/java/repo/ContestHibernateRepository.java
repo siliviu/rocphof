@@ -47,7 +47,7 @@ public class ContestHibernateRepository implements ContestRepository {
 	@Override
 	public List<Contest> findAll() {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			return session.createQuery("from Contest ", Contest.class).getResultList();
+			return session.createQuery("from Contest order by year desc", Contest.class).getResultList();
 		}
 	}
 

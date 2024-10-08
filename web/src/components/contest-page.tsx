@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Medal, Result } from '../model/result';
-import { getContestById, getNextContest, getPreviousContest, getResultsForContest } from '../rest/rest';
+import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../rest/rest';
 import { Contest } from '../model/contest';
 
 export const ContestPage = () => {
@@ -11,6 +11,7 @@ export const ContestPage = () => {
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
     const [generationStart, setGenerationStart] = useState(0);
+    const [participants, setParticipants] = useState(0);
     useEffect(() => {
         getContestById(Number(id))
             .then(contest => {
@@ -42,6 +43,10 @@ export const ContestPage = () => {
                 ))
                 console.log(table);
             })
+        getParticipantsForContest(Number(id), Number(grade))
+            .then(nr => {
+                setParticipants(nr)
+            });
     }, [id, grade])
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
@@ -66,6 +71,7 @@ export const ContestPage = () => {
 
             </p>
             <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
+            <div>{participants} participants</div>
         </div>
         <table>
             <tbody>

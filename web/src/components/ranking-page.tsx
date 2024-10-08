@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { RankingResult } from '../model/result';
+import { RankingNumber, RankingResult } from '../model/result';
 import { getRanking, } from '../rest/rest';
 
 export const RankingPage = () => {
@@ -11,8 +11,19 @@ export const RankingPage = () => {
         getRanking(searchParams.get("region")!, searchParams.get("year")! as unknown as number)
             .then(results => {
                 console.log(results);
-                setTable(results.map((result: RankingResult) =>
-                    <tr>
+                let display = 0;
+                let count = 0;
+                let last: RankingNumber;
+                setTable(results.map((result: RankingResult) => {
+                    let cur = { ...result };
+                    cur.person = { id: 0, name: '', schoolYear: 0 };
+                    count += 1;
+                    if (JSON.stringify(cur) != JSON.stringify(last)) {
+                        display = count;
+                    }
+                    last = cur;
+                    return <tr>
+                        <td>{display}</td>
                         <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
                         <td className='gold'>{result.gold}</td>
                         <td className='silver'>{result.silver}</td>
@@ -20,6 +31,7 @@ export const RankingPage = () => {
                         <td>{result.medals}</td>
                         <td>{result.participations}</td>
                     </tr>
+                }
                 ))
                 console.log(table);
             })
@@ -36,6 +48,7 @@ export const RankingPage = () => {
         <table>
             <tbody>
                 <tr>
+                    <th>Position</th>
                     <th>Name</th>
                     <th className='gold'>Gold</th>
                     <th className='silver'>Silver</th>

@@ -14,6 +14,11 @@ export function getInstitutionById(id: number) {
         .then(response => response.json())
 }
 
+export function getAllContests() {
+    return fetch(`${url}/contests`)
+        .then(response => response.json());
+}
+
 export function getPreviousContest(id: number) {
     return fetch(`${url}/contests/${id}/previous`)
         .then(response => response.json());
@@ -29,6 +34,11 @@ export function getResultsForContest(id: number, grade: number) {
         .then(response => response.json())
 }
 
+export function getParticipantsForContest(id: number, grade: number) {
+    return fetch(`${url}/contests/${id}/participants/${grade}`)
+        .then(response => response.text())
+}
+    
 export function getResultsForPerson(id: number) {
     return fetch(`${url}/people/${id}/results`)
         .then(response => response.json())

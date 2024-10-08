@@ -80,9 +80,13 @@ public class ResultsController {
 	public List<Result> getContestYear(@PathVariable Integer id, @PathVariable Integer year) {
 		return queryService.getResultsByContest(id, year);
 	}
+	@GetMapping(value = "/contests/{id}/participants/{year}")
+	public Long getContestYearParticipants(@PathVariable Integer id, @PathVariable Integer year) {
+		return queryService.getParticipantsByContest(id, year);
+	}
 
 	@GetMapping(value = "/ranking")
-	public List<RankingResult> getContestYear(@RequestParam(required = false) String region, @RequestParam(required = false) Integer year) {
+	public List<RankingResult> getRanking(@RequestParam(required = false) String region, @RequestParam(required = false) Integer year) {
 		return queryService.getRanking(region,year);
 	}
 }

@@ -25,10 +25,14 @@ export interface Result {
     place: number,
     prize: Prize | null,
     medal: Medal | null
+    total: string | null;
 }
 
-export interface RankingResult {
+export interface RankingResult extends RankingNumber {
     person: Person,
+}
+
+export interface RankingNumber {
     gold: number,
     silver: number,
     bronze: number,

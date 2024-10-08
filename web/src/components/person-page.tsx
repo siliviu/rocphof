@@ -1,22 +1,24 @@
 import { useParams, Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { Medal, Result } from '../model/result';
-import { getPersonById, getResultsForPerson } from '../rest/rest';
+import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../rest/rest';
 import { Person } from '../model/person';
 
 export const PersonPage = () => {
     const { id } = useParams();
     const [table, setTable] = useState();
-    const [person, setPerson] = useState<Person|null>(null);
+    const [person, setPerson] = useState<Person | null>(null);
     useEffect(() => {
         getPersonById(Number(id))
             .then(person => {
-                console.log(person);
                 setPerson(person);
             })
         getResultsForPerson(Number(id))
-            .then(results => {
-                console.log(results);
+            .then(async (results) => {
+                await Promise.all(results.map(async (result: Result) => {
+                    result.total = await getParticipantsForContest(result.contest.id, result.year);
+                    return result;
+                }));
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
@@ -27,12 +29,11 @@ export const PersonPage = () => {
                         <td><Link to={`/region/${result.institution.region}`}>{result.institution.region}</Link></td>
                         <td><Link to={`/institution/${result.institution.id}`}>{result.institution.name}</Link></td>
                         <td>{result.score}</td>
-                        <td>{result.place}</td>
+                        <td>{result.place} / {result.total}</td>
                         <td>{result.prize}</td>
                         <td>{result.medal}</td>
                     </tr>
                 ))
-                console.log(table);
             })
 
     }, [])
