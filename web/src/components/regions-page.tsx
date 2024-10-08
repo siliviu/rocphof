@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getAllContests } from '../rest/rest';
-import { Contest } from '../model/contest';
 
 export const RegionPages = () => {
-    const [regions, setRegions] = useState<string[]>();
+    const [regions, setRegions] = useState<any>();
     const data = [
         "Alba",
         "Arad",

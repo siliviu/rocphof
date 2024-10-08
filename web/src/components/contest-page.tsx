@@ -45,7 +45,7 @@ export const ContestPage = () => {
             })
         getParticipantsForContest(Number(id), Number(grade))
             .then(nr => {
-                setParticipants(nr)
+                setParticipants(Number(nr))
             });
     }, [id, grade])
     const prevGrade = Number(grade) - 1;
