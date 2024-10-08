@@ -18,8 +18,8 @@ export const RegionPage = () => {
                         <td>{result.contest.year}</td>
                         <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
                         <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                        <td>{result.institution.city}</td>
-                        <td><Link to={`/institution/${result.institution.id}`}>{result.institution.name}</Link></td>
+                        <td>{result.institution!.city}</td>
+                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
                         <td>{result.score}</td>
                         <td>{result.place}</td>
                         <td>{result.prize}</td>

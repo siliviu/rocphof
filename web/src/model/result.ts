@@ -20,7 +20,7 @@ export interface Result {
     person: Person,
     institution: Institution | null,
     contest: Contest,
-    year: number | null,
+    year: number,
     score: number | null,
     place: number | null,
     prize: Prize | null,

@@ -30,8 +30,8 @@ export const PersonPage = () => {
                         }>
                             <td>{result.contest.year}</td>
                             <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
-                            <td><Link to={`/region/${result.institution.region}`}>{result.institution.region}</Link></td>
-                            <td><Link to={`/institution/${result.institution.id}`}>{result.institution.name}</Link></td>
+                            <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                            <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
                             <td>{result.score}</td>
                             <td>{result.place} / {result.total}</td>
                             <td>{result.prize}</td>
@@ -41,11 +41,8 @@ export const PersonPage = () => {
                 setTableLOT(results
                     .filter((result: Result) => result.contest.name == "LOT")
                     .map((result: Result) =>
-                        <tr className={result.medal == Medal.GOLD ? 'gold' :
-                            result.medal == Medal.SILVER ? 'silver' :
-                                result.medal == Medal.BRONZE ? 'bronze' : ' '
-                        }>
-                            <td>{result.contest.year}</td>
+                        <tr>
+                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
                             <td>{result.year == 1 ? "JUNIOR" : "SENIOR"}</td>
                             <td>{result.score}</td>
                             <td>{result.place}</td>

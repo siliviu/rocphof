@@ -18,7 +18,7 @@ export const ContestPage = () => {
                 setContest(contest);
                 setGenerationStart(contest.year - Number(grade));
             })
-    }, []);
+    }, [id]);
     useEffect(() => {
         getPreviousContest(Number(id))
             .then(contest => setPrevContest(contest))
@@ -54,7 +54,7 @@ export const ContestPage = () => {
             .then(nr => {
                 setParticipants(Number(nr))
             });
-    }, [id, grade, contest])
+    }, [grade, contest])
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
