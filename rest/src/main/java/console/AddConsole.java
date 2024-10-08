@@ -22,13 +22,15 @@ public class AddConsole {
 		this.institutionMergeService = institutionMergeService;
 		this.personMergeService = personMergeService;
 		this.addService = addService;
-		//new Thread(this::run).start();
+//		new Thread(this::run).start();
 	}
 
 	public void run() {
-		for (int year : List.of(2021)) {
-			Contest contest = new Contest(year, "ONI", null);
-			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + "q.xlsx", contest);
+		for (int year : List.of(2023)) {
+//			Contest contest = new Contest(year, "ONI", null);
+			Contest contest = new Contest(year, "LOT", null);
+//			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + "q.xlsx", contest);
+			addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\lot" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);
 			{
 				List<Integer> replies = new ArrayList<>();

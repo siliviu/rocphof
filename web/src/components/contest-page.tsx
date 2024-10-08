@@ -18,6 +18,8 @@ export const ContestPage = () => {
                 setContest(contest);
                 setGenerationStart(contest.year - Number(grade));
             })
+    }, []);
+    useEffect(() => {
         getPreviousContest(Number(id))
             .then(contest => setPrevContest(contest))
             .catch(() => setPrevContest(null))
@@ -26,7 +28,6 @@ export const ContestPage = () => {
             .catch(() => setNextContest(null))
         getResultsForContest(Number(id), Number(grade))
             .then(results => {
-                console.log(results);
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
@@ -34,20 +35,26 @@ export const ContestPage = () => {
                     }>
                         <td>{result.place}</td>
                         <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                        <td><Link to={`/region/${result.institution.region}`}>{result.institution.region}</Link></td>
-                        <td><Link to={`/institution/${result.institution.id}`}>{result.institution.name}</Link></td>
+                        {
+                            contest && contest.name == "ONI" ?
+                                <>
+                                    <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                                    <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                                </>
+                                :
+                                <></>
+                        }
                         <td>{result.score}</td>
                         <td>{result.prize}</td>
-                        <td>{result.medal}</td>
+                        {contest && contest.name == "ONI" && <td>{result.medal}</td>}
                     </tr>
                 ))
-                console.log(table);
             })
         getParticipantsForContest(Number(id), Number(grade))
             .then(nr => {
                 setParticipants(Number(nr))
             });
-    }, [id, grade])
+    }, [id, grade, contest])
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
@@ -59,18 +66,30 @@ export const ContestPage = () => {
                 <span>{contest ? contest.name : ''} {contest ? contest.year : ''}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
-            <p className='subtitle selector'>
-                {prevGrade >= 5 ? <Link className='arrow left' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
-                <span>{grade}</span>
-                {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
-            </p>
-            <p className='subsubtitle selector'>
-                {prevContestGrade >= 5 ? prevContest && <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
-                <span>{generationStart + 5}-{generationStart + 12}</span>
-                {nextContestGrade <= 12 ? nextContest && <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
+            {contest && contest.name == "ONI" ?
+                <>
+                    <p className='subtitle selector'>
+                        {prevGrade >= 5 ? <Link className='arrow left' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        <span>{grade}</span>
+                        {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
+                    </p>
+                    <p className='subsubtitle selector'>
+                        {prevContestGrade >= 5 ? prevContest && <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        <span>{generationStart + 5}-{generationStart + 12}</span>
+                        {nextContestGrade <= 12 ? nextContest && <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
 
-            </p>
-            <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
+                    </p>
+                    <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
+                </>
+                :
+                <>
+                    <p className='subtitle selector'>
+                        {grade == "2" ? <Link className='arrow left' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
+                        <span>{grade == "1" ? "Junior" : "Senior"}</span>
+                        {grade == "1" ? <Link className='arrow left' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
+                    </p>
+                </>}
+
             <div>{participants} participants</div>
         </div>
         <table>
@@ -78,11 +97,17 @@ export const ContestPage = () => {
                 <tr>
                     <th>Place</th>
                     <th>Name</th>
-                    <th>Region</th>
-                    <th>Institution</th>
+                    {contest && contest.name == "ONI" ?
+                        <>
+                            <th>Region</th>
+                            <th>Institution</th>
+                        </>
+                        :
+                        <></>
+                    }
                     <th>Score</th>
                     <th>Prize</th>
-                    <th>Medal</th>
+                    {contest && contest.name == "ONI" && <th>Medal</th>}
                 </tr>
                 {table}
             </tbody>

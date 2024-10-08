@@ -2,6 +2,7 @@ package domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 
 import java.util.Objects;
 
@@ -13,17 +14,15 @@ public class Result extends Identifiable<Integer> {
 	private Person person;
 	@ManyToOne
 	@JoinColumn
-	@NotNull
 	private Institution institution;
 	@ManyToOne
 	@JoinColumn
 	@NotNull
 	private Contest contest;
 	@Column
-	@NotNull
 	private int year;
 	@Column
-	private Integer score;
+	private Float score;
 	@Column
 	private Integer place;
 	@Enumerated(EnumType.STRING)
@@ -80,11 +79,11 @@ public class Result extends Identifiable<Integer> {
 		this.year = year;
 	}
 
-	public Integer getScore() {
+	public Float getScore() {
 		return score;
 	}
 
-	public void setScore(Integer score) {
+	public void setScore(Float score) {
 		this.score = score;
 	}
 

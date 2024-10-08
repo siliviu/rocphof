@@ -18,11 +18,11 @@ export enum Medal {
 export interface Result {
     id: number,
     person: Person,
-    institution: Institution,
+    institution: Institution | null,
     contest: Contest,
-    year: number,
-    score: number,
-    place: number,
+    year: number | null,
+    score: number | null,
+    place: number | null,
     prize: Prize | null,
     medal: Medal | null
     total: string | null;

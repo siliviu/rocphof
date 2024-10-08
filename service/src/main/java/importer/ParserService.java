@@ -23,12 +23,13 @@ public class ParserService {
 			PRIZE = 6,
 			MEDAL = 7;
 
-	public static List<Result> parse(String filePath, Contest contest) throws Exception {
+	public static List<Result> parseONI(String filePath, Contest contest) throws Exception {
 		FileInputStream file = new FileInputStream(filePath);
 		Workbook workbook = new XSSFWorkbook(file);
 		List<Result> results = new ArrayList<>();
 		for (int i = 5; i <= 12; ++i) {
-			int curScore = 10000, curPos = 0, nextPos = 1;
+			float curScore = 10000;
+			int curPos = 0, nextPos = 1;
 			Sheet sheet = workbook.getSheetAt(i - 5);
 			for (Row row : sheet) {
 				Person person = new Person();
@@ -46,7 +47,7 @@ public class ParserService {
 				result.setPrize(prize);
 				Medal medal = row.getCell(MEDAL) == null ? null : Medal.fromString(StringProcessor.normalise(row.getCell(MEDAL).getStringCellValue()));
 				if (row.getCell(SCORE) != null && row.getCell(SCORE).getCellType().equals(CellType.NUMERIC)) {
-					int score = (int) row.getCell(SCORE).getNumericCellValue();
+					float score = (float) row.getCell(SCORE).getNumericCellValue();
 					if (score < curScore) {
 						curScore = score;
 						curPos = nextPos;
@@ -62,6 +63,48 @@ public class ParserService {
 				result.setMedal(medal);
 				result.setPerson(person);
 				result.setInstitution(institution);
+				results.add(result);
+			}
+		}
+		return results;
+	}
+
+	public static List<Result> parseLOT(String filePath, Contest contest) throws Exception {
+		FileInputStream file = new FileInputStream(filePath);
+		Workbook workbook = new XSSFWorkbook(file);
+		List<Result> results = new ArrayList<>();
+		for (int i = 1; i <= 2; ++i) {
+			float curScore = 10000;
+			int curPos = 0, nextPos = 1;
+			Sheet sheet = workbook.getSheetAt(i - 1);
+			for (Row row : sheet) {
+				Person person = new Person();
+				person.setName(StringProcessor.normaliseChild(row.getCell(PERS_NAME).getStringCellValue()));
+				person.setSchoolYear(1337);
+				Institution institution = new Institution();
+				institution.setRegion(StringProcessor.normaliseRegion(row.getCell(REGION_NAME).getStringCellValue()));
+				institution.tryFix();
+				Result result = new Result();
+				result.setYear(i);
+				Prize prize = row.getCell(PRIZE) == null ? null : Prize.fromString(StringProcessor.normalisePrize(row.getCell(PRIZE).getStringCellValue()));
+				result.setPrize(prize);
+				if (row.getCell(SCORE) != null && row.getCell(SCORE).getCellType().equals(CellType.NUMERIC)) {
+					float score = (float) row.getCell(SCORE).getNumericCellValue();
+					if (score < curScore) {
+						curScore = score;
+						curPos = nextPos;
+						++nextPos;
+					} else {
+						assert (score == curScore);
+						++nextPos;
+					}
+					result.setPlace(curPos);
+					result.setScore(score);
+				} else
+					result.setPlace((int) row.getCell(POS).getNumericCellValue());
+				result.setPerson(person);
+				result.setInstitution(institution);
+				System.out.println(result);
 				results.add(result);
 			}
 		}

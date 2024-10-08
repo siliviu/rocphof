@@ -33,7 +33,7 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 	protected void addMoreSuggestions(Person person, List<Person> currentSuggestions) {
 		repository.findAll().stream()
 				.filter(x -> StringProcessor.namesAreStrictlySimilar(x.getName(), person.getName())
-						&& Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1)
+						&& (Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1 || person.getSchoolYear() == 1337))
 				.forEach(currentSuggestions::add);
 	}
 
@@ -41,12 +41,16 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 	protected boolean tryAutoHandleSuggestion(Tuple<Person, List<Person>> suggestionList) {
 		for (var suggested : suggestionList.second()) {
 			Person original = suggestionList.first();
-			if (original.getSchoolYear() == suggested.getSchoolYear()) {
+			if (original.getSchoolYear() == suggested.getSchoolYear() || (original.getSchoolYear() == 1337 && suggestionList.second().size() == 1)) {
 				Result originalResult = ((PersonRepository) repository).getMostRecentResult(original);
 				Result suggestedResult = ((PersonRepository) repository).getMostRecentResult(suggested);
-				if (originalResult != null && suggestedResult != null &&
+				if (original.getSchoolYear() == 1337) {
+					replace(original, suggested);
+					return true;
+				}
+				if ((originalResult != null && suggestedResult != null &&
 						!originalResult.getContest().equals(suggestedResult.getContest()) &&
-						originalResult.getInstitution().getRegion().equals(suggestedResult.getInstitution().getRegion())) {
+						originalResult.getInstitution().getRegion().equals(suggestedResult.getInstitution().getRegion()))) {
 					if (original.getName().length() > suggested.getName().length() || original.getName().contains("-"))
 						replace(suggested, original);
 					else

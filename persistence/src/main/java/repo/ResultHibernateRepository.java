@@ -134,7 +134,8 @@ public class ResultHibernateRepository implements ResultRepository {
 					"       SUM(CASE WHEN medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals," +
 					"       COUNT(*) as participations " +
 					"FROM Result " +
-					(region != null || year != null ? "WHERE " : " ") +
+					"WHERE contest.name='ONI' " +
+					(region != null || year != null ? "AND " : " ") +
 					(region != null ? "institution.region =?1" : " ") +
 					(year != null ? "person.schoolYear =?1" : " ") +
 					" " +
@@ -151,7 +152,7 @@ public class ResultHibernateRepository implements ResultRepository {
 	@Override
 	public Long getParticipants(Integer contestId, Integer year) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			return (Long)session.createQuery("select count(*) from Result where contest.id=?1 and year=?2")
+			return (Long) session.createQuery("select count(*) from Result where contest.id=?1 and year=?2")
 					.setParameter(1, contestId)
 					.setParameter(2, year)
 					.uniqueResult();

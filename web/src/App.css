@@ -91,7 +91,7 @@ a:visited {
 }
 
 .arrow.left {
-  left: -1em;
+  right: 1.25em;
 }
 
 .arrow:hover {

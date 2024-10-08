@@ -30,7 +30,7 @@ public class AddService {
 	public void addDataFromFile(String file, Contest contest) {
 		this.contest = contest;
 		try {
-			data = ParserService.parse(file, contest);
+			data = contest.getName().equals("ONI") ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file, contest);
 			List<Institution> institutions = data.stream()
 					.map(Result::getInstitution)
 					.sorted(Comparator.comparing(x -> x.getRegion().length()))
@@ -39,10 +39,12 @@ public class AddService {
 			List<Person> people = data.stream()
 					.map(Result::getPerson)
 					.toList();
-			institutionMergeService.beginMerge(institutions);
+			if (contest.getName().equals("ONI"))
+				institutionMergeService.beginMerge(institutions);
 			personMergeService.beginMerge(people);
 			addProcessedData();
-			institutionMergeService.autoHandleSuggestions();
+			if (contest.getName().equals("ONI"))
+				institutionMergeService.autoHandleSuggestions();
 			personMergeService.autoHandleSuggestions();
 		} catch (Exception e) {
 			throw new RuntimeException(e);
@@ -55,7 +57,9 @@ public class AddService {
 		HashMap<Person, Person> personMap = personMergeService.getMap();
 		for (Result result : data) {
 			result.setPerson(personMap.get(result.getPerson()));
-			result.setInstitution(institutionMap.get(result.getInstitution()));
+			result.setInstitution(contest.getName().equals("ONI") ?
+					institutionMap.get(result.getInstitution()) :
+					null);
 			result.setContest(contest);
 			resultRepository.add(result);
 		}

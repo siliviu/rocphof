@@ -14,7 +14,6 @@ public class Institution extends Identifiable<Integer> {
 	private String region;
 	@Column
 	private String city;
-	@NotNull
 	@Column
 	private String name;
 
@@ -76,7 +75,7 @@ public class Institution extends Identifiable<Integer> {
 	}
 
 	public void tryFix() {
-		if (name.trim().endsWith(region))
+		if (name != null && name.trim().endsWith(region))
 			name = name.substring(0, name.indexOf(region)).trim();
 		if (city != null && !city.isEmpty())
 			if (name.trim().endsWith(city))

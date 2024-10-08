@@ -5,7 +5,7 @@ import domain.Result;
 
 import java.util.List;
 
-public interface ResultRepository extends MyRepository<Result, Integer> {
+public interface ResultRepository extends Repository<Result, Integer> {
 	List<Result> getResultsByContest(Integer contestId, int year);
 
 	List<Result> getResultsByPerson(Integer personId);

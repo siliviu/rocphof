@@ -54,8 +54,9 @@ public class ContestHibernateRepository implements ContestRepository {
 	@Override
 	public Contest findNext(Contest contest) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			List<Contest> contests = session.createQuery("from Contest where year > ?1 order by year", Contest.class)
+			List<Contest> contests = session.createQuery("from Contest where year > ?1 and name=?2 order by year", Contest.class)
 					.setParameter(1, contest.getYear())
+					.setParameter(2, contest.getName())
 					.getResultList();
 			if (contests.isEmpty())
 				return null;
@@ -66,8 +67,9 @@ public class ContestHibernateRepository implements ContestRepository {
 	@Override
 	public Contest findPrevious(Contest contest) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			List<Contest> contests = session.createQuery("from Contest where year < ?1 order by year desc", Contest.class)
+			List<Contest> contests = session.createQuery("from Contest where year < ?1 and name=?2 order by year desc", Contest.class)
 					.setParameter(1, contest.getYear())
+					.setParameter(2, contest.getName())
 					.getResultList();
 			if (contests.isEmpty())
 				return null;
