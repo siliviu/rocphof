@@ -16,10 +16,11 @@ export const ContestPage = () => {
         getContestById(Number(id))
             .then(contest => {
                 setContest(contest);
-                setGenerationStart(contest.year - Number(grade));
             })
     }, [id]);
     useEffect(() => {
+        if (contest)
+            setGenerationStart(contest.year - Number(grade));
         getPreviousContest(Number(id))
             .then(contest => setPrevContest(contest))
             .catch(() => setPrevContest(null))
@@ -74,9 +75,9 @@ export const ContestPage = () => {
                         {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
                     </p>
                     <p className='subsubtitle selector'>
-                        {prevContestGrade >= 5 ? prevContest && <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        {prevContest && prevContestGrade >= 5 ? <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
                         <span>{generationStart + 5}-{generationStart + 12}</span>
-                        {nextContestGrade <= 12 ? nextContest && <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
+                        {nextContest && nextContestGrade <= 12? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
 
                     </p>
                     <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
