@@ -26,7 +26,7 @@ public class AddConsole {
 	}
 
 	public void run() {
-		for (int year : List.of(2020)) {
+		for (int year : List.of(2019)) {
 //			Contest contest = new Contest(year, "ONI", null);
 			Contest contest = new Contest(year, "LOT", null);
 //			addService.addDataFromFile("C:\\Users\\Liviu\\Desktop\\" + year + "q.xlsx", contest);

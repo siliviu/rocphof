@@ -82,8 +82,6 @@ public class ParserService {
 				person.setName(StringProcessor.normaliseChild(row.getCell(PERS_NAME).getStringCellValue()));
 				person.setSchoolYear(1337);
 				Institution institution = new Institution();
-				institution.setRegion(StringProcessor.normaliseRegion(row.getCell(REGION_NAME).getStringCellValue()));
-				institution.tryFix();
 				Result result = new Result();
 				result.setYear(i);
 				Prize prize = row.getCell(PRIZE) == null ? null : Prize.fromString(StringProcessor.normalisePrize(row.getCell(PRIZE).getStringCellValue()));

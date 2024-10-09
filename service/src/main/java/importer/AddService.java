@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repo.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -31,11 +32,14 @@ public class AddService {
 		this.contest = contest;
 		try {
 			data = contest.getName().equals("ONI") ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file, contest);
-			List<Institution> institutions = data.stream()
-					.map(Result::getInstitution)
-					.sorted(Comparator.comparing(x -> x.getRegion().length()))
-					.distinct()
-					.toList();
+
+			List<Institution> institutions = new ArrayList<>();
+			if (contest.getName().equals("ONI"))
+				institutions = data.stream()
+						.map(Result::getInstitution)
+						.sorted(Comparator.comparing(x -> x.getRegion().length()))
+						.distinct()
+						.toList();
 			List<Person> people = data.stream()
 					.map(Result::getPerson)
 					.toList();

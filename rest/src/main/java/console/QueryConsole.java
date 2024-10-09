@@ -16,7 +16,7 @@ public class QueryConsole {
 
 	public QueryConsole(QueryService queryService) {
 		this.queryService = queryService;
-		new Thread(this::run).start();
+//		new Thread(this::run).start();
 	}
 
 	public void run() {
