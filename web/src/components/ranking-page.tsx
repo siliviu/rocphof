@@ -42,8 +42,8 @@ export const RankingPage = () => {
         <div className='panel'>
             <p className='title'> {
                 searchParams.get("region") ??
-                searchParams.get("year") ??
-                "All-time"} Ranking</p>
+                    searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
+                    "All-time"} Ranking</p>
         </div>
         <table>
             <tbody>
