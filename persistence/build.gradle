@@ -31,6 +31,14 @@ dependencies {
 //    implementation 'org.springframework:spring-orm'
 }
 
+bootJar {
+	enabled = false
+}
+
+jar {
+	enabled = true
+}
+
 test {
     useJUnitPlatform()
 }

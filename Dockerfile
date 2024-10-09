@@ -1,16 +1,16 @@
 # Use the official Gradle image to build the app
 
-FROM openjdk:17-oracle AS builder
+FROM gradle:jdk17 AS builder
 WORKDIR /home/gradle/project
 
 # Copy the project files
 COPY . .
-#
-## Build the project and generate the JAR file
-#RUN gradle build --no-daemon
+
+# Build the project and generate the JAR file
+RUN gradle build --no-daemon
 
 # Use a smaller base image to run the JAR file
-FROM openjdk:17-oracle
+FROM openjdk:17
 WORKDIR /app
 
 # Copy the JAR file from the build stage
