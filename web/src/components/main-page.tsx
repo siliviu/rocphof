@@ -27,9 +27,10 @@ export const MainPage = () => {
     }, [input]);
     return <>
         <div className='panel'>
-            <p><Link className='subtitle' to="/contests">See Results by Contest</Link></p>
-            <p><Link className='subtitle' to="/regions">See Results by Region</Link></p>
-            <p><Link className='subtitle' to="/ranking">See All-time Ranking</Link></p>
+            <p className='subtitle'>See Results By:</p>
+            <Link className='subtitle' to="/contests">Contest </Link>  <span className='title'>     |     </span>  
+            <Link className='subtitle' to="/regions"> Region</Link>
+            <p><Link className='subtitle' to="/ranking">All-time Ranking</Link></p>
         </div>
         <div className='panel'>
             <div className="search-bar">

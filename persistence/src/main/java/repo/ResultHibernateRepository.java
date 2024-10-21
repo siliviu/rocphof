@@ -5,7 +5,6 @@ import domain.Person;
 import domain.RankingResult;
 import domain.Result;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import repo.utils.HibernateUtils;
 
@@ -16,9 +15,7 @@ import java.util.List;
 public class ResultHibernateRepository implements ResultRepository {
 	@Override
 	public Result add(Result elem) {
-		HibernateUtils.getSessionFactory().inTransaction(session -> {
-			session.persist(elem);
-		});
+		HibernateUtils.getSessionFactory().inTransaction(session -> session.persist(elem));
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Result where id=(select max(id) from Result)", Result.class).uniqueResult();
 		}
@@ -125,7 +122,7 @@ public class ResultHibernateRepository implements ResultRepository {
 	}
 
 	@Override
-	public List<RankingResult> getRanking(String region, Integer year) {
+	public List<RankingResult> getRanking(String region, String institution, Integer year) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			var query = session.createQuery("SELECT person as person," +
 					"       SUM(CASE WHEN medal = 'GOLD' THEN 1 ELSE 0 END)   as gold," +
@@ -135,20 +132,24 @@ public class ResultHibernateRepository implements ResultRepository {
 					"       COUNT(*) as participations " +
 					"FROM Result " +
 					"WHERE contest.name='ONI' " +
-					(region != null || year != null ? "AND " : " ") +
+					(region != null || year != null || institution != null ? "AND " : " ") +
 					(region != null ? "institution.region =?1" : " ") +
+					(institution != null ? "institution.id =?1" : " ") +
 					(year != null ? "person.schoolYear =?1" : " ") +
 					" " +
 					"GROUP BY person.id " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc LIMIT 250", RankingResult.class);
 			if (region != null)
 				query.setParameter(1, region);
+			if (institution != null)
+				query.setParameter(1, institution);
 			if (year != null)
 				query.setParameter(1, year);
 			return query.getResultList();
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Long getParticipants(Integer contestId, Integer year) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {

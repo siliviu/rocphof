@@ -43,7 +43,9 @@ export const ContestPage = () => {
                                     <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
                                 </>
                                 :
-                                <></>
+                                <>
+                                    <td>{ contest && contest.year - result.person.schoolYear}</td>
+                                </>
                         }
                         <td>{result.score}</td>
                         <td>{result.prize}</td>
@@ -64,7 +66,7 @@ export const ContestPage = () => {
         <div className='panel'>
             <p className='title selector'>
                 {prevContest ? <Link className='arrow left' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
-                <span>{contest ? contest.name : ''} {contest ? contest.year : ''}</span>
+                <span>{contest && contest.name} {contest && contest.year}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
             {contest && contest.name == "ONI" ?
@@ -104,7 +106,7 @@ export const ContestPage = () => {
                             <th>Institution</th>
                         </>
                         :
-                        <></>
+                        <><th>Grade</th></>
                     }
                     <th>Score</th>
                     <th>Prize</th>

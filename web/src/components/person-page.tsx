@@ -14,6 +14,8 @@ export const PersonPage = () => {
             .then(person => {
                 setPerson(person);
             })
+    }, [])
+    useEffect(() => {
         getResultsForPerson(Number(id))
             .then(async (results) => {
                 await Promise.all(results
@@ -44,6 +46,7 @@ export const PersonPage = () => {
                         <tr>
                             <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
                             <td>{result.year == 1 ? "JUNIOR" : "SENIOR"}</td>
+                            <td>{person && result.contest.year - person.schoolYear}</td>
                             <td>{result.score}</td>
                             <td>{result.place}</td>
                             <td>{result.prize}</td>
@@ -51,10 +54,10 @@ export const PersonPage = () => {
                     ))
             })
 
-    }, [])
+    }, [person]);
     return <>
         <div className='panel'>
-            <p className='title'>{person ? person.name : ''}</p>
+            <p className='title'>{person && person.name}</p>
         </div>
         <div className='panel'>
             <p className='title'>ONI</p>
@@ -82,6 +85,7 @@ export const PersonPage = () => {
                     <tbody>
                         <tr>
                             <th>Year</th>
+                            <th>Level</th>
                             <th>Grade</th>
                             <th>Score</th>
                             <th>Place</th>

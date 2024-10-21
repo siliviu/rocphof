@@ -37,7 +37,7 @@ export function getParticipantsForContest(id: number, grade: number) {
     return fetch(`${url}/contests/${id}/participants/${grade}`)
         .then(response => response.text())
 }
-    
+
 export function getResultsForPerson(id: number) {
     return fetch(`${url}/people/${id}/results`)
         .then(response => response.json())
@@ -58,10 +58,12 @@ export function getPeopleByName(search: string) {
         .then(response => response.json())
 }
 
-export function getRanking(name: string, generation: number) {
+export function getRanking(name: string, institution: string, generation: number) {
     const obj: any = {};
     if (name)
         obj.region = name;
+    if (institution)
+        obj.institution = institution;
     if (generation)
         obj.year = generation;
     return fetch(`${url}/ranking?` + new URLSearchParams(obj))

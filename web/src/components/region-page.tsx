@@ -9,7 +9,6 @@ export const RegionPage = () => {
     useEffect(() => {
         getResultsForRegion(region!)
             .then(results => {
-                console.log(results);
                 setTable(results.map((result: Result) =>
                     <tr className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
@@ -26,7 +25,6 @@ export const RegionPage = () => {
                         <td>{result.medal}</td>
                     </tr>
                 ))
-                console.log(table);
             })
 
     }, []);

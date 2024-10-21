@@ -2,7 +2,6 @@ package spring;
 
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import query.QueryService;
 
@@ -80,13 +79,14 @@ public class ResultsController {
 	public List<Result> getContestYear(@PathVariable Integer id, @PathVariable Integer year) {
 		return queryService.getResultsByContest(id, year);
 	}
+
 	@GetMapping(value = "/contests/{id}/participants/{year}")
 	public Long getContestYearParticipants(@PathVariable Integer id, @PathVariable Integer year) {
 		return queryService.getParticipantsByContest(id, year);
 	}
 
 	@GetMapping(value = "/ranking")
-	public List<RankingResult> getRanking(@RequestParam(required = false) String region, @RequestParam(required = false) Integer year) {
-		return queryService.getRanking(region,year);
+	public List<RankingResult> getRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
+		return queryService.getRanking(region, institution,year);
 	}
 }

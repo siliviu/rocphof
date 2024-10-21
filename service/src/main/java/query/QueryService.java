@@ -2,7 +2,6 @@ package query;
 
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import repo.*;
 import utils.StringProcessor;
@@ -96,8 +95,8 @@ public class QueryService {
 	}
 
 //	@Cacheable
-	public List<RankingResult> getRanking(String region, Integer year) {
-		return resultRepository.getRanking(region, year);
+	public List<RankingResult> getRanking(String region, String institution, Integer year) {
+		return resultRepository.getRanking(region, institution,year);
 	}
 
 	public Long getParticipantsByContest(Integer id, Integer year) {

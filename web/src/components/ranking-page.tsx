@@ -1,16 +1,16 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { RankingNumber, RankingResult } from '../model/result';
-import { getRanking, } from '../rest/rest';
+import { getInstitutionById, getRanking, } from '../rest/rest';
+import { Institution } from '../model/institution';
 
 export const RankingPage = () => {
     const [searchParams, _] = useSearchParams();
     const [table, setTable] = useState();
-    console.log(searchParams);
+    const [institution, setInstitution] = useState<Institution | null>();
     useEffect(() => {
-        getRanking(searchParams.get("region")!, searchParams.get("year")! as unknown as number)
+        getRanking(searchParams.get("region")!, searchParams.get("institution")!, Number(searchParams.get("year")!))
             .then(results => {
-                console.log(results);
                 let display = 0;
                 let count = 0;
                 let last: RankingNumber;
@@ -33,17 +33,19 @@ export const RankingPage = () => {
                     </tr>
                 }
                 ))
-                console.log(table);
             })
-
+        if (searchParams.has("institution"))
+            getInstitutionById(Number(searchParams.get("institution")))
+                .then(institution => setInstitution(institution));
     }, []);
 
     return <>
         <div className='panel'>
             <p className='title'> {
-                searchParams.get("region") ??
-                    searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
-                    "All-time"} Ranking</p>
+                searchParams.has("region") ? searchParams.get("region") :
+                    searchParams.has("institution") && institution ? institution.name :
+                        searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
+                            "All-time"} Ranking</p>
         </div>
         <table>
             <tbody>

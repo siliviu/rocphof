@@ -32,8 +32,9 @@ export const InstitutionPage = () => {
     }, []);
     return <>
         <div className='panel'>
-            <p className='title'>{institution ? institution.name : ''}</p>
-            <p className='subtitle'>{institution ? institution.city : ''},  {institution ? institution.region : ''}</p >
+            <p className='title'>{institution && institution.name }</p>
+            <p className='subtitle'>{institution && institution.city},  {institution && institution.region}</p >
+            <p className='subtitle'><Link to={institution ? `/ranking?institution=${institution.id}` : ''}>Institution Ranking</Link></p>
         </div>
         <table>
             <tbody>

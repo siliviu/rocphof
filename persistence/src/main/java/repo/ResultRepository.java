@@ -18,7 +18,7 @@ public interface ResultRepository extends Repository<Result, Integer> {
 
 	void mergeQualified(Integer qualifiedId, Integer originalId);
 
-	List<RankingResult> getRanking(String region, Integer year);
+	List<RankingResult> getRanking(String region, String institution, Integer year);
 
 	Long getParticipants(Integer contestId, Integer year);
 }
