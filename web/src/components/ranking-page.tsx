@@ -38,14 +38,15 @@ export const RankingPage = () => {
             getInstitutionById(Number(searchParams.get("institution")))
                 .then(institution => setInstitution(institution));
     }, []);
-
+    const title = (searchParams.has("region") ?
+        searchParams.get("region") :
+        searchParams.has("institution") && institution ? institution.name :
+            searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
+                "All-time") + " Ranking";
+    document.title = title;
     return <>
         <div className='panel'>
-            <p className='title'> {
-                searchParams.has("region") ? searchParams.get("region") :
-                    searchParams.has("institution") && institution ? institution.name :
-                        searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
-                            "All-time"} Ranking</p>
+            <p className='title'> {title}</p>
         </div>
         <table>
             <tbody>

@@ -28,6 +28,7 @@ export const RegionPage = () => {
             })
 
     }, []);
+    document.title = region ?? "";
     return <>
         <div className='panel'>
             <p className='title'>{region}</p>

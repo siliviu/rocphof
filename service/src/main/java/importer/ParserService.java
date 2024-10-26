@@ -39,7 +39,10 @@ public class ParserService {
 				institution.setRegion(StringProcessor.normaliseRegion(row.getCell(REGION_NAME).getStringCellValue()));
 				if (row.getCell(CITY_NAME) != null)
 					institution.setCity(StringProcessor.normaliseDash(row.getCell(CITY_NAME).getStringCellValue()));
-				institution.setName(StringProcessor.normaliseInstitution(row.getCell(INST_NAME).getStringCellValue()));
+				if (row.getCell(INST_NAME) != null)
+					institution.setName(StringProcessor.normaliseInstitution(row.getCell(INST_NAME).getStringCellValue()));
+				else
+					institution.setName("Unknown");
 				institution.tryFix();
 				Result result = new Result();
 				result.setYear(i);
@@ -69,7 +72,7 @@ public class ParserService {
 		return results;
 	}
 
-	public static List<Result> parseLOT(String filePath, Contest contest) throws Exception {
+	public static List<Result> parseLOT(String filePath) throws Exception {
 		FileInputStream file = new FileInputStream(filePath);
 		Workbook workbook = new XSSFWorkbook(file);
 		List<Result> results = new ArrayList<>();
@@ -98,7 +101,7 @@ public class ParserService {
 					}
 					result.setPlace(curPos);
 					result.setScore(score);
-				} else
+				} else if (row.getCell(POS) != null)
 					result.setPlace((int) row.getCell(POS).getNumericCellValue());
 				result.setPerson(person);
 				result.setInstitution(institution);

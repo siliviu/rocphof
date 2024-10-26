@@ -6,6 +6,7 @@ import { Person } from '../model/person';
 export const MainPage = () => {
     const [input, setInput] = useState('');
     const [table, setTable] = useState();
+    document.title = "ROCHPOF"
     const search = () => {
         getPeopleByName(input)
             .then(results => {
@@ -27,7 +28,7 @@ export const MainPage = () => {
     }, [input]);
     return <>
         <div className='panel'>
-            <p className='subtitle'>See Results By:</p>
+            <p className='subtitle'>Results By</p>
             <Link className='subtitle' to="/contests">Contest </Link>  <span className='title'>     |     </span>  
             <Link className='subtitle' to="/regions"> Region</Link>
             <p><Link className='subtitle' to="/ranking">All-time Ranking</Link></p>

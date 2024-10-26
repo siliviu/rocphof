@@ -31,7 +31,7 @@ public class AddService {
 	public void addDataFromFile(String file, Contest contest) {
 		this.contest = contest;
 		try {
-			data = contest.getName().equals("ONI") ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file, contest);
+			data = contest.getName().equals("ONI") ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file);
 
 			List<Institution> institutions = new ArrayList<>();
 			if (contest.getName().equals("ONI"))

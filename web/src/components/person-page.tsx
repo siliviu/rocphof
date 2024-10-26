@@ -13,6 +13,7 @@ export const PersonPage = () => {
         getPersonById(Number(id))
             .then(person => {
                 setPerson(person);
+                document.title = person.name;
             })
     }, [])
     useEffect(() => {
@@ -53,7 +54,6 @@ export const PersonPage = () => {
                         </tr>
                     ))
             })
-
     }, [person]);
     return <>
         <div className='panel'>

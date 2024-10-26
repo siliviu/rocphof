@@ -10,7 +10,10 @@ export const InstitutionPage = () => {
     const [table, setTable] = useState();
     useEffect(() => {
         getInstitutionById(Number(id))
-            .then(institution => setInstitution(institution));
+            .then(institution => {
+                setInstitution(institution)
+                document.title = institution.name;
+            });
         getResultsForInstitution(Number(id))
             .then(results => {
                 setTable(results.map((result: Result) =>
