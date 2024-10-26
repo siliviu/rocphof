@@ -90,13 +90,27 @@ export const ContestPage = () => {
                     <p className='subtitle selector'>
                         {grade == "2" ? <Link className='arrow left' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
                         <span>{grade == "1" ? "Junior" : "Senior"}</span>
-                        {grade == "1" ? <Link className='arrow left' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
+                        {grade == "1" ? <Link className='arrow' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
                     </p>
                 </>}
 
             <div>{participants} participants</div>
         </div>
         <table>
+            <colgroup>
+                <col className="place" />
+                <col className="name" />
+                {contest && contest.name == "ONI" ? <>
+                    <col className="region" />
+                    <col className="institution" />
+                </>
+                    :
+                    <col className="grade" />}
+                <col className="score" />
+                <col className="prize" />
+                {contest && contest.name == "ONI" ?
+                    <col className="medal" /> : <></>}
+            </colgroup>
             <tbody>
                 <tr>
                     <th>Place</th>
@@ -115,6 +129,6 @@ export const ContestPage = () => {
                 </tr>
                 {table}
             </tbody>
-        </table>
+        </table >
     </>
 }

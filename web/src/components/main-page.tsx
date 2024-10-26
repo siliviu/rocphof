@@ -6,7 +6,6 @@ import { Person } from '../model/person';
 export const MainPage = () => {
     const [input, setInput] = useState('');
     const [table, setTable] = useState();
-    document.title = "ROCHPOF"
     const search = () => {
         getPeopleByName(input)
             .then(results => {
