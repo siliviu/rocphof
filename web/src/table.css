@@ -55,3 +55,22 @@ tr {
 .bronze {
     background-color: #B87838;
 }
+
+.place,
+.grade,
+.score {
+  width: 7.5%;
+}
+
+.region {
+  width: 12.5%;
+}
+
+.prize,
+.medal {
+  width: 10%;
+}
+
+.institution {
+  width: 30%;
+}
