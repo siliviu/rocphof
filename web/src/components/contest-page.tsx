@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Medal, Result } from '../model/result';
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../rest/rest';
 import { Contest } from '../model/contest';
+import './contest.css'
 
 export const ContestPage = () => {
     const { id, grade } = useParams();
@@ -14,20 +15,19 @@ export const ContestPage = () => {
     const [participants, setParticipants] = useState(0);
     useEffect(() => {
         getContestById(Number(id))
-            .then(contest => {
-                setContest(contest);
-                document.title = contest.name + " " + contest.year + " " + grade;
-            })
-    }, [id]);
-    useEffect(() => {
-        if (contest)
-            setGenerationStart(contest.year - Number(grade));
+            .then(setContest)
         getPreviousContest(Number(id))
-            .then(contest => setPrevContest(contest))
+            .then(setPrevContest)
             .catch(() => setPrevContest(null))
         getNextContest(Number(id))
-            .then(contest => setNextContest(contest))
+            .then(setNextContest)
             .catch(() => setNextContest(null))
+    }, [id]);
+    useEffect(() => {
+        if (contest) {
+            setGenerationStart(contest.year - Number(grade));
+            document.title = contest.name + " " + contest.year + " " + grade;
+        }
         getResultsForContest(Number(id), Number(grade))
             .then(results => {
                 setTable(results.map((result: Result) =>

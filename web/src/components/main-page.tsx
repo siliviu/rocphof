@@ -25,6 +25,7 @@ export const MainPage = () => {
         }
         search();
     }, [input]);
+    document.title = "ROCPHOF";
     return <>
         <div className='panel'>
             <p className='subtitle'>Results By</p>

@@ -13,6 +13,7 @@ export const RegionPages = () => {
         "Botosani",
         "Braila",
         "Brasov",
+        "Bucuresti",
         "Buzau",
         "Calarasi",
         "Caras-Severin",
@@ -45,16 +46,18 @@ export const RegionPages = () => {
         "Valcea",
         "Vaslui",
         "Vrancea",
-        "Bucuresti"
     ];
     useEffect(() => {
         setRegions(data.map((region: string) => <li><Link to={`/region/${region}`}>{region}</Link></li>))
     }, []);
+    document.title = "ROCPHOF";
     return <>
         <div className='panel'>
-            <ul className='contest-list'>
-                {regions}
-            </ul>
+            <div className='contest-list'>
+                <ul>
+                    {regions}
+                </ul>
+            </div>
         </div>
     </>
 }

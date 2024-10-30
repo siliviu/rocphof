@@ -1,0 +1,43 @@
+.selector {
+    width: 40%;
+    display: grid;
+    justify-content: center;
+    padding: 0 30%;
+    grid-template-columns: 9% 80% 9%;
+    align-items: center;
+}
+
+.arrow {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.25em;
+    margin: 0 0.25em;
+    height: 80%;
+    font-size: 80%;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 1rem;
+}
+
+.arrow.left {
+    right: 1.25em;
+}
+
+.arrow:hover {
+    background-color: #e0e0e0;
+}
+
+.arrow:active {
+    background-color: #d0d0d0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.arrow:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #cccccc;
+}
