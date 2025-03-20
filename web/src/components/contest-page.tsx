@@ -49,7 +49,7 @@ export const ContestPage = () => {
                                 </>
                         }
                         <td>{result.score}</td>
-                        {contest && (contest.name == "ONI" || contest.name == "LOT") && <td>result.prize</td>}
+                        {contest && (contest.name == "ONI" || contest.name == "LOT") && <td>{result.prize}</td>}
                         {contest && (contest.name == "ONI" || contest.name != "LOT") && <td>{result.medal}</td>}
                     </tr>
                 ))

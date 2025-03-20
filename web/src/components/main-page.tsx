@@ -53,6 +53,7 @@ export const MainPage = () => {
             </table>
         </div>
         <div className='panel'>
+            <p><strong>Archive for Romanian informatics competitions where you can see past results from ONI, LOT and International Competitions</strong></p>
             <p>Made by Liviu Silion</p>
             <p>Contact me on Discord @starlights_ for any mistakes</p>
         </div>
