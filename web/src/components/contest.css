@@ -10,8 +10,8 @@
 .arrow {
     position: relative;
     display: inline-block;
-    padding: 0 0.25em;
-    margin: 0 0.25em;
+    padding: 0 0.25rem;
+    margin: 0 0.25rem;
     height: 80%;
     font-size: 80%;
     font-family: Arial, sans-serif;
@@ -25,7 +25,7 @@
 }
 
 .arrow.left {
-    right: 1.25em;
+    right: 1.25rem;
 }
 
 .arrow:hover {

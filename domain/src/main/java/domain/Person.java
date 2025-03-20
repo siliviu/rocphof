@@ -2,7 +2,6 @@ package domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Objects;
@@ -62,5 +61,10 @@ public class Person extends Identifiable<Integer> {
 				"name='" + name + '\'' +
 				", schoolYear=" + schoolYear +
 				'}';
+	}
+
+	@Override
+	public Identifiable<Integer> copy() {
+		return new Person(name, schoolYear);
 	}
 }

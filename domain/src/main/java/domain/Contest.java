@@ -71,4 +71,9 @@ public class Contest extends Identifiable<Integer> {
 				", desc='" + desc + '\'' +
 				'}';
 	}
+
+	@Override
+	public Identifiable<Integer> copy() {
+		return new Contest(year, name, desc);
+	}
 }

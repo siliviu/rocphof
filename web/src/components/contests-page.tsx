@@ -6,16 +6,19 @@ import { Contest } from '../model/contest';
 export const ContestPages = () => {
     const [contestsONI, setContestsONI] = useState();
     const [contestsLOT, setContestsLOT] = useState();
+    const [contestsInternational, setContestsInternational] = useState();
     document.title = "Contests"
     useEffect(() => {
         getAllContests().then(data => {
             setContestsONI(data
                 .filter((contest: Contest) => contest.name == "ONI")
-                .map((contest: Contest) => <li><Link to={`/contest/${contest.id}/${contest.name == "ONI" ? 5 : 2}`}>{contest.name} {contest.year}</Link></li>))
+                .map((contest: Contest) => <li><Link to={`/contest/${contest.id}/5`}>{contest.name} {contest.year}</Link></li>))
             setContestsLOT(data
                 .filter((contest: Contest) => contest.name == "LOT")
-                .map((contest: Contest) => <li><Link to={`/contest/${contest.id}/${contest.name == "ONI" ? 5 : 2}`}>{contest.name} {contest.year}</Link></li>))
-
+                .map((contest: Contest) => <li><Link to={`/contest/${contest.id}/2`}>{contest.name} {contest.year}</Link></li>))
+            setContestsInternational(data
+                .filter((contest: Contest) => contest.name != "ONI" && contest.name != "LOT")
+                .map((contest: Contest) => <li><Link to={`/contest/${contest.id}/1`}>{contest.name} {contest.year}</Link></li>))
         })
     }, []);
     return <>
@@ -28,6 +31,10 @@ export const ContestPages = () => {
                 <ul>
                     <span className='title'>LOT</span>
                     {contestsLOT}
+                </ul>
+                <ul>
+                    <span className='title'>INTERNATIONAL</span>
+                    {contestsInternational}
                 </ul>
             </div>
         </div>

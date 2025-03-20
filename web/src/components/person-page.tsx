@@ -8,6 +8,7 @@ export const PersonPage = () => {
     const { id } = useParams();
     const [tableONI, setTableONI] = useState();
     const [tableLOT, setTableLOT] = useState<any>();
+    const [tableInternational, setTableInternational] = useState<any>();
     const [person, setPerson] = useState<Person | null>(null);
     useEffect(() => {
         getPersonById(Number(id))
@@ -53,6 +54,20 @@ export const PersonPage = () => {
                             <td>{result.prize}</td>
                         </tr>
                     ))
+                setTableInternational(results
+                    .filter((result: Result) => result.contest.name != "ONI" && result.contest.name != "LOT")
+                    .map((result: Result) =>
+                        <tr className={result.medal == Medal.GOLD ? 'gold' :
+                            result.medal == Medal.SILVER ? 'silver' :
+                                result.medal == Medal.BRONZE ? 'bronze' : ' '
+                        }>
+                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
+                            <td>{person && result.contest.year - person.schoolYear}</td>
+                            <td>{result.score}</td>
+                            <td>{result.place}</td>
+                            <td>{result.medal}</td>
+                        </tr>
+                    ))
             })
     }, [person]);
     return <>
@@ -92,6 +107,23 @@ export const PersonPage = () => {
                             <th>Prize</th>
                         </tr>
                         {tableLOT}
+                    </tbody>
+                </table>
+            </div>
+        }
+        {
+            tableInternational && tableInternational.length > 0 && <div className='panel'>
+                <p className='title'>INTERNATIONAL</p>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Year</th>
+                            <th>Grade</th>
+                            <th>Score</th>
+                            <th>Place</th>
+                            <th>Medal</th>
+                        </tr>
+                        {tableInternational}
                     </tbody>
                 </table>
             </div>

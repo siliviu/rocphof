@@ -1,9 +1,14 @@
 package query;
 
 import domain.*;
+import merge.InstitutionMergeService;
+import merge.PersonMergeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repo.*;
+import repo.ContestRepository;
+import repo.InstitutionRepository;
+import repo.PersonRepository;
+import repo.ResultRepository;
 import utils.StringProcessor;
 
 import java.util.Comparator;
@@ -19,6 +24,10 @@ public class QueryService {
 	private ContestRepository contestRepository;
 	@Autowired
 	private InstitutionRepository institutionRepository;
+	@Autowired
+	private PersonMergeService personMergeService;
+	@Autowired
+	private InstitutionMergeService institutionMergeService;
 
 //	@Cacheable
 	public List<Person> getPeopleByName(String person) {
@@ -26,8 +35,9 @@ public class QueryService {
 		return personRepository.findAll().stream()
 				.parallel()
 				.filter(x -> StringProcessor.areSimilar(x.getName(), name) ||
-						StringProcessor.namesAreStrictlySimilar(x.getName(), name))
+						StringProcessor.namesAreSearchSimilar(x.getName(), name))
 				.sorted(Comparator.comparing(Person::getSchoolYear).reversed())
+				.limit(25)
 				.toList();
 	}
 
@@ -62,11 +72,11 @@ public class QueryService {
 	}
 
 	public void replaceName(int original, int replacement) {
-		personRepository.replace(personRepository.findById(original), personRepository.findById(replacement));
+		personMergeService.replace(personRepository.findById(original), personRepository.findById(replacement));
 	}
 
 	public void replaceInstitution(int original, int replacement) {
-		institutionRepository.replace(institutionRepository.findById(original), institutionRepository.findById(replacement));
+		institutionMergeService.replace(institutionRepository.findById(original), institutionRepository.findById(replacement));
 	}
 
 //	@Cacheable

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public abstract class MergeService<T extends Identifiable<ID>, ID extends Serializable> {
+public abstract class MergeService<T extends Identifiable<ID>, ID extends Serializable & Comparable<ID>> {
 	protected static final Logger logger = LogManager.getLogger(MergeService.class.getName());
 	protected final HashMap<T, T> cache = new HashMap<>();
 
@@ -73,7 +73,16 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 		suggestions.clear();
 	}
 
-	protected void replace(T object, T replacement) {
+	@SuppressWarnings("unchecked")
+	public void replace(T object, T replacement) {
+
+		if (object.getId().compareTo(replacement.getId()) < 0) {
+			logger.info("Replaced {} with {}. Following replace will be fake", object, replacement);
+			T copy = (T) replacement.copy();
+			repository.update(copy, object.getId());
+			replace(replacement, copy);
+			return;
+		}
 		tryMergeObjects(object, replacement);
 		logger.info("Replaced {} with {}", object, replacement);
 		cache.entrySet().stream().toList().stream()

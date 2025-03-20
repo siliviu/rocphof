@@ -2,7 +2,6 @@ package domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Null;
 
 import java.util.Objects;
 
@@ -139,4 +138,8 @@ public class Result extends Identifiable<Integer> {
 	}
 
 
+	@Override
+	public Identifiable<Integer> copy() {
+		return new Result(person, institution, contest, year, place);
+	}
 }

@@ -49,8 +49,8 @@ export const ContestPage = () => {
                                 </>
                         }
                         <td>{result.score}</td>
-                        <td>{result.prize}</td>
-                        {contest && contest.name == "ONI" && <td>{result.medal}</td>}
+                        {contest && (contest.name == "ONI" || contest.name == "LOT") && <td>result.prize</td>}
+                        {contest && (contest.name == "ONI" || contest.name != "LOT") && <td>{result.medal}</td>}
                     </tr>
                 ))
             })
@@ -70,7 +70,7 @@ export const ContestPage = () => {
                 <span>{contest && contest.name} {contest && contest.year}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
-            {contest && contest.name == "ONI" ?
+            {contest && (contest.name == "ONI" || contest.name == "LOT") && (contest.name == "ONI" ?
                 <>
                     <p className='subtitle selector'>
                         {prevGrade >= 5 ? <Link className='arrow left' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
@@ -92,7 +92,7 @@ export const ContestPage = () => {
                         <span>{grade == "1" ? "Junior" : "Senior"}</span>
                         {grade == "1" ? <Link className='arrow' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
                     </p>
-                </>}
+                </>)}
 
             <div>{participants} participants</div>
         </div>
@@ -124,8 +124,8 @@ export const ContestPage = () => {
                         <><th>Grade</th></>
                     }
                     <th>Score</th>
-                    <th>Prize</th>
-                    {contest && contest.name == "ONI" && <th>Medal</th>}
+                    {contest && (contest.name == "ONI" || contest.name == "LOT") && <th>Prize</th>}
+                    {contest && (contest.name == "ONI" || contest.name != "LOT") && <th>Medal</th>}
                 </tr>
                 {table}
             </tbody>

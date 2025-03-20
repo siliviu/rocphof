@@ -66,6 +66,49 @@ public class StringProcessor {
 		return Collections.indexOfSubList(namesA, namesB) != -1 || Collections.indexOfSubList(namesB, namesA) != -1;
 	}
 
+	private static boolean partialListMatch(List<String> namesA, List<String> namesB) {
+		int prefixCount = 0;
+
+		for (String nameA : namesA) {
+			boolean matchFound = false;
+			for (String nameB : namesB) {
+				if (nameA.equals(nameB)) {
+					matchFound = true;
+					break;
+				} else if (nameB.startsWith(nameA)) {
+					if (prefixCount == 0) {
+						prefixCount++;
+						matchFound = true;
+						break;
+					} else {
+						return false;
+					}
+				}
+			}
+			if (!matchFound) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean namesAreSearchSimilar(String a, String b) {
+		if (a.startsWith(b) || b.startsWith(a))
+			return true;
+		String normalisedA = normalise(a.replace("-", " "));
+		String normalisedB = normalise(b.replace("-", " "));
+		int editDistance = editDistance(normalisedA, normalisedB);
+		if (editDistance <= 1)
+			return true;
+		var namesA = new java.util.ArrayList<>(Arrays.stream(normalisedA.split(" ")).toList());
+		var namesB = new java.util.ArrayList<>(Arrays.stream(normalisedB.split(" ")).toList());
+		if (editDistance == 2)
+			return true;
+		namesA.sort(String::compareTo);
+		namesB.sort(String::compareTo);
+		return partialListMatch(namesA, namesB) || partialListMatch(namesB, namesA);
+	}
+
 	public static String uglifyString(String string) {
 		return string
 				.replace("\"", "")

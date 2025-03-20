@@ -19,7 +19,7 @@ export const MainPage = () => {
             })
     }
     useEffect(() => {
-        if (!input) {
+        if (!input || input.trim() == "") {
             setTable(undefined);
             return;
         }
@@ -34,13 +34,13 @@ export const MainPage = () => {
             <p><Link className='subtitle' to="/ranking">All-time Ranking</Link></p>
         </div>
         <div className='panel'>
+        <p className='subtitle'>Find People</p>
             <div className="search-bar">
                 <input
                     onInput={e => {
                         setInput((e.target as HTMLInputElement).value)
                     }}
                 ></input>
-                <button onClick={search}>Search</button>
             </div>
             <table>
                 <tbody>

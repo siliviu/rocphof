@@ -82,4 +82,8 @@ public class Institution extends Identifiable<Integer> {
 				name = name.substring(0, name.indexOf(city)).trim();
 	}
 
+	@Override
+	public Identifiable<Integer> copy() {
+		return new Institution(region, city, name);
+	}
 }

@@ -79,6 +79,11 @@ button {
   margin: 1em;
 }
 
+
+.search-bar input {
+  width: 25%;
+}
+
 .search-bar label {
   font-size: 15px;
   font-weight: bold;
