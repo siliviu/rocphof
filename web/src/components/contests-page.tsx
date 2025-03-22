@@ -33,7 +33,7 @@ export const ContestPages = () => {
                     {contestsLOT}
                 </ul>
                 <ul>
-                    <span className='title'>INTERNATIONAL</span>
+                    <span className='title'>GLOBAL</span>
                     {contestsInternational}
                 </ul>
             </div>

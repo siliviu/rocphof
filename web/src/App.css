@@ -82,6 +82,7 @@ button {
 
 .search-bar input {
   width: 25%;
+  min-width: 175px;
 }
 
 .search-bar label {

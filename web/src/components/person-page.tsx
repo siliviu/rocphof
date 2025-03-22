@@ -62,6 +62,7 @@ export const PersonPage = () => {
                                 result.medal == Medal.BRONZE ? 'bronze' : ' '
                         }>
                             <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
+                            <td>{result.contest.name}</td>
                             <td>{person && result.contest.year - person.schoolYear}</td>
                             <td>{result.score}</td>
                             <td>{result.place}</td>
@@ -118,6 +119,7 @@ export const PersonPage = () => {
                     <tbody>
                         <tr>
                             <th>Year</th>
+                            <th>Contest</th>
                             <th>Grade</th>
                             <th>Score</th>
                             <th>Place</th>
