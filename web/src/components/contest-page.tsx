@@ -66,19 +66,19 @@ export const ContestPage = () => {
     return <>
         <div className='panel'>
             <p className='title selector'>
-                {prevContest ? <Link className='arrow left' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
+                {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
                 <span>{contest && contest.name} {contest && contest.year}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
             {contest && (contest.name == "ONI" || contest.name == "LOT") && (contest.name == "ONI" ?
                 <>
                     <p className='subtitle selector'>
-                        {prevGrade >= 5 ? <Link className='arrow left' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{grade}</span>
                         {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
                     </p>
                     <p className='subsubtitle selector'>
-                        {prevContest && prevContestGrade >= 5 ? <Link className='arrow left' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        {prevContest && prevContestGrade >= 5 ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
                         <span>{generationStart + 5}-{generationStart + 12}</span>
                         {nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
 
@@ -88,13 +88,13 @@ export const ContestPage = () => {
                 :
                 <>
                     <p className='subtitle selector'>
-                        {grade == "2" ? <Link className='arrow left' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
+                        {grade == "2" ? <Link className='arrow' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
                         <span>{grade == "1" ? "Junior" : "Senior"}</span>
                         {grade == "1" ? <Link className='arrow' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
                     </p>
                 </>)}
 
-            <div>{participants} participants</div>
+            <div>{contest && (contest.name == "ONI" || contest.name == "LOT") && <>{participants} participants</>}</div>
         </div>
         <table>
             <colgroup>

@@ -26,11 +26,11 @@ public class AddConsole {
 	}
 
 	public void run() {
-		for (int year : List.of(2014)) {
-			Contest contest = new Contest(year, "ONI", null);
-//			Contest contest = new Contest(year, "LOT", null);
-			addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\" + year + ".xlsx", contest);
-//			addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\lot" + year + ".xlsx", contest);
+		for (int year : List.of(2011)) {
+//			Contest contest = new Contest(year, "ONI", null);
+			Contest contest = new Contest(year, "LOT", null);
+//			addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\" + year + ".xlsx", contest);
+			addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\lot" + year + ".xlsx", contest);
 			Scanner in = new Scanner(System.in);
 			{
 				List<Integer> replies = new ArrayList<>();

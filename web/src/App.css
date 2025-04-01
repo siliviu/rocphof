@@ -1,6 +1,8 @@
+@import './theme.css';
+
 body {
-  background-color: white;
-  color: black;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 #root {
@@ -32,53 +34,48 @@ body {
 
 .panel {
   padding: 8px 16px;
-  border: 1px solid #dddddd;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow-color);
   margin-bottom: 20px;
 }
 
 .top-panel {
-  padding: 0 0;
-  border: 1px solid #dddddd;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 15px;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--shadow-color);
   margin-bottom: 15px;
 }
 
+.top-panel p {
+  margin: 0;
+}
 
 a:link,
 a:visited {
-  color: #0F3678;
+  color: var(--link-color);
 }
 
 input {
   flex: 1;
   padding: 10px;
-  border: 1px solid #dddddd;
+  border: 1px solid var(--border-color);
   outline: none;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f1f1f1;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  background-color: var(--input-background-color);
   color: black;
   margin-right: 10px;
-}
-
-button {
-  padding: 10px 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f1f1f1;
-  border: 1px solid #dddddd;
-  cursor: pointer;
-  font-size: 16px;
-  color: #333;
 }
 
 .search-bar {
   margin: 1em;
 }
-
 
 .search-bar input {
   width: 25%;
@@ -89,14 +86,6 @@ button {
   font-size: 15px;
   font-weight: bold;
   margin-right: 1em;
-}
-
-button:hover {
-  background-color: #bbb;
-}
-
-button:focus {
-  outline: none;
 }
 
 .contest-list {
@@ -115,4 +104,13 @@ button:focus {
 
 .contest-list li {
   list-style-type: none;
+}
+
+.theme-icon {
+  position: absolute;
+  right: 15px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  vertical-align: middle;
 }

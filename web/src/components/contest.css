@@ -1,43 +1,43 @@
+@import '../theme.css';
+
 .selector {
-    width: 40%;
+    width: 50%;
     display: grid;
     justify-content: center;
-    padding: 0 30%;
-    grid-template-columns: 9% 80% 9%;
+    padding: 0 25%;
+    grid-template-columns: 20% 50% 20%;
     align-items: center;
+    grid-column-gap: 0.5rem;
 }
 
 .arrow {
-    position: relative;
-    display: inline-block;
-    padding: 0 0.25rem;
-    margin: 0 0.25rem;
+    justify-self: center;
+    display: flex;
     height: 80%;
-    font-size: 80%;
+    font-size: 75%;
     font-family: Arial, sans-serif;
-    font-weight: bold;
-    border: 1px solid #cccccc;
+    font-weight: bolder;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px #0000001a;
     min-width: 1rem;
-}
-
-.arrow.left {
-    right: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
 }
 
 .arrow:hover {
-    background-color: #e0e0e0;
+    background-color: var(--hover-background-color);
 }
 
 .arrow:active {
-    background-color: #d0d0d0;
+    background-color: var(--active-background-color);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .arrow:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #cccccc;
+    box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--border-color);
 }

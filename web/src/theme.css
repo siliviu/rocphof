@@ -1,0 +1,45 @@
+body {
+    --primary-color: #007BFF;
+    --primary-hover-color: #535bf2;
+    --primary-light-hover-color: #747bff;
+
+    --background-color: #ffffff;
+    --background-dark-color: #242424;
+    --input-background-color: #f1f1f1;
+
+    --text-color: #213547;
+    --text-light-color: rgba(255, 255, 255, 0.87);
+
+    --border-color: #dddddd;
+    --hover-background-color: #e0e0e0;
+    --active-background-color: #d0d0d0;
+
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --focus-ring-color: -webkit-focus-ring-color;
+
+    --gold-color: #FFEE55;
+    --silver-color: #CCCCCC;
+    --bronze-color: #B87838;
+
+    --link-color: #0F3678;
+    --link-hover-color: #747bff;
+}
+
+body.dark {
+    --background-color: #151718;
+    --input-background-color: #333333;
+
+    --text-color: rgba(255, 255, 255, 0.87);
+
+    --border-color: #555555;
+    --hover-background-color: #3a3a3a;
+    --active-background-color: #2a2a2a;
+
+    --gold-color: #a3961e;
+    --silver-color: #7c7c7c;
+    --bronze-color: #815426;
+
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --link-color: #99c8ff;
+    --primary-hover-color: #b6c8ff;
+}

@@ -1,21 +1,26 @@
+@import './theme.css';
+
 table {
     border-collapse: collapse;
     width: 100%;
     margin: 20px 0;
     font-size: 1em;
     font-family: Arial, sans-serif;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-color);
 }
 
 table th,
 table td {
-    border: 1px solid #dddddd;
+    border: 1px solid var(--border-color);
     text-align: center;
     padding: 0.5em;
 }
 
 table thead {
-    background-color: #007BFF;
-    color: #ffffff;
+    background-color: var(--primary-color);
+    color: var(--background-color);
 }
 
 table thead th {
@@ -29,31 +34,24 @@ table tbody tr:hover {
     cursor: pointer;
 }
 
-table {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
 .table-wrapper {
     overflow-x: auto;
 }
 
-
 tr {
-    background-color: #f1f1f1;
+    background-color: var(--input-background-color);
 }
 
 .gold {
-    background-color: #FFEE55;
+    background-color: var(--gold-color);
 }
 
 .silver {
-    background-color: #CCCCCC;
+    background-color: var(--silver-color);
 }
 
 .bronze {
-    background-color: #B87838;
+    background-color: var(--bronze-color);
 }
 
 .place,
