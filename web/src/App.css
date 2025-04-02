@@ -6,10 +6,9 @@ body {
 }
 
 #root {
-  width: 75%;
+  width: 80%;
   margin: 0 auto;
-  padding-top: 3vh;
-  padding-bottom: 2vh;
+  padding-top: 5vh;
   text-align: center;
   min-height: 95vh;
 }
@@ -45,7 +44,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem 15px;
+  padding: 1rem 0rem;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-color);
@@ -54,6 +53,11 @@ body {
 
 .top-panel p {
   margin: 0;
+}
+
+.top-panel img {
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 a:link,
@@ -69,17 +73,14 @@ input {
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-color);
   background-color: var(--input-background-color);
-  color: black;
+  color: var(--text-color);
   margin-right: 10px;
+  width: calc(max(10rem, 20%));
+  font-size: 1.25rem;
 }
 
 .search-bar {
   margin: 1em;
-}
-
-.search-bar input {
-  width: 25%;
-  min-width: 175px;
 }
 
 .search-bar label {
@@ -108,9 +109,39 @@ input {
 
 .theme-icon {
   position: absolute;
-  right: 15px;
-  width: 30px;
-  height: 30px;
+  right: 2.5%;
   cursor: pointer;
   vertical-align: middle;
+}
+
+.dropdown {
+  flex-direction: column;
+  display: flex;
+  list-style: none;
+  margin: 10px 0;
+  align-items: center;
+}
+
+.dropdown-header {
+  max-width: 8rem;
+  cursor: pointer;
+  position: relative;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span.arrow {
+  position: absolute;
+  right: 0%;
+  font-size: 0.75rem;
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+.dropdown-content li {
+  justify-self: center;
 }

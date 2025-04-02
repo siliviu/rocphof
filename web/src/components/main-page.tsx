@@ -29,12 +29,12 @@ export const MainPage = () => {
     return <>
         <div className='panel'>
             <p className='subtitle'>Results By</p>
-            <Link className='subtitle' to="/contests">Contest </Link>  <span className='title'>     |     </span>  
+            <Link className='subtitle' to="/contests">Contest </Link>  <span className='title'>     |     </span>
             <Link className='subtitle' to="/regions"> Region</Link>
             <p><Link className='subtitle' to="/ranking">All-time Ranking</Link></p>
         </div>
         <div className='panel'>
-        <p className='subtitle'>Find People</p>
+            <p className='subtitle'>Find People</p>
             <div className="search-bar">
                 <input
                     onInput={e => {
@@ -44,10 +44,12 @@ export const MainPage = () => {
             </div>
             <table>
                 <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <th>Generation</th>
-                    </tr>
+                    {table &&
+                        <tr>
+                            <th>Name</th>
+                            <th>Generation</th>
+                        </tr>
+                    }
                     {table}
                 </tbody>
             </table>

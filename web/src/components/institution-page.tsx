@@ -17,7 +17,7 @@ export const InstitutionPage = () => {
         getResultsForInstitution(Number(id))
             .then(results => {
                 setTable(results.map((result: Result) =>
-                    <tr className={result.medal == Medal.GOLD ? 'gold' :
+                    <tr key={result.id} className={result.medal == Medal.GOLD ? 'gold' :
                         result.medal == Medal.SILVER ? 'silver' :
                             result.medal == Medal.BRONZE ? 'bronze' : ' '
                     }>

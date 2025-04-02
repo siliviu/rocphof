@@ -1,5 +1,4 @@
-// const url = import.meta.env.DEV ? "http://localhost:8080/results" : "https://rocphof.kilonova.ro/results";
-const url = "https://rocphof.kilonova.ro/results";
+const url = import.meta.env.DEV ? "http://localhost:8080/results" : "https://rocphof.kilonova.ro/results";
 
 export function getPersonById(id: number) {
     return fetch(`${url}/people/${id}`)

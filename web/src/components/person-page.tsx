@@ -28,7 +28,7 @@ export const PersonPage = () => {
                 setTableONI(results
                     .filter((result: Result) => result.contest.name == "ONI")
                     .map((result: Result) =>
-                        <tr className={result.medal == Medal.GOLD ? 'gold' :
+                        <tr key={result.id} className={result.medal == Medal.GOLD ? 'gold' :
                             result.medal == Medal.SILVER ? 'silver' :
                                 result.medal == Medal.BRONZE ? 'bronze' : ' '
                         }>
@@ -45,7 +45,7 @@ export const PersonPage = () => {
                 setTableLOT(results
                     .filter((result: Result) => result.contest.name == "LOT")
                     .map((result: Result) =>
-                        <tr>
+                        <tr key={result.id}>
                             <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
                             <td>{result.year == 1 ? "JUNIOR" : "SENIOR"}</td>
                             <td>{person && result.contest.year - person.schoolYear}</td>
@@ -57,7 +57,7 @@ export const PersonPage = () => {
                 setTableInternational(results
                     .filter((result: Result) => result.contest.name != "ONI" && result.contest.name != "LOT")
                     .map((result: Result) =>
-                        <tr className={result.medal == Medal.GOLD ? 'gold' :
+                        <tr key={result.id} className={result.medal == Medal.GOLD ? 'gold' :
                             result.medal == Medal.SILVER ? 'silver' :
                                 result.medal == Medal.BRONZE ? 'bronze' : ' '
                         }>

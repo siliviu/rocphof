@@ -7,7 +7,11 @@
     padding: 0 25%;
     grid-template-columns: 20% 50% 20%;
     align-items: center;
-    grid-column-gap: 0.5rem;
+    grid-column-gap: 3rem;
+}
+
+.selector > span {
+    justify-self: center;
 }
 
 .arrow {

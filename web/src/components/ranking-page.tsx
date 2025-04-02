@@ -22,7 +22,7 @@ export const RankingPage = () => {
                         display = count;
                     }
                     last = cur;
-                    return <tr>
+                    return <tr key={result.person.id}>
                         <td>{display}</td>
                         <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
                         <td className='gold'>{result.gold}</td>
@@ -31,8 +31,7 @@ export const RankingPage = () => {
                         <td>{result.medals}</td>
                         <td>{result.participations}</td>
                     </tr>
-                }
-                ))
+                }))
             })
         if (searchParams.has("institution"))
             getInstitutionById(Number(searchParams.get("institution")))
