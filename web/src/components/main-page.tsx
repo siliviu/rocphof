@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getPeopleByName } from '../rest/rest';
 import { Person } from '../model/person';
+import { useTranslation } from 'react-i18next';
 
 export const MainPage = () => {
+    const { t } = useTranslation();
     const [input, setInput] = useState('');
     const [table, setTable] = useState();
     const search = () => {
@@ -25,16 +27,16 @@ export const MainPage = () => {
         }
         search();
     }, [input]);
-    document.title = "ROCPHOF";
+    document.title = t("ROCPHOF");
     return <>
         <div className='panel'>
-            <p className='subtitle'>Results By</p>
-            <Link className='subtitle' to="/contests">Contest </Link>  <span className='title'>     |     </span>
-            <Link className='subtitle' to="/regions"> Region</Link>
-            <p><Link className='subtitle' to="/ranking">All-time Ranking</Link></p>
+            <p className='subtitle'>{t("Results By")}</p>
+            <Link className='subtitle' to="/contests">{t("Contest")} </Link>  <span className='title'>     |     </span>
+            <Link className='subtitle' to="/regions"> {t("Region")}</Link>
+            <p><Link className='subtitle' to="/ranking">{t("All-time Ranking")}</Link></p>
         </div>
         <div className='panel'>
-            <p className='subtitle'>Find People</p>
+            <p className='subtitle'>{t("Find People")}</p>
             <div className="search-bar">
                 <input
                     onInput={e => {
@@ -46,8 +48,8 @@ export const MainPage = () => {
                 <tbody>
                     {table &&
                         <tr>
-                            <th>Name</th>
-                            <th>Generation</th>
+                            <th>{t("Name")}</th>
+                            <th>{t("Generation")}</th>
                         </tr>
                     }
                     {table}
@@ -55,9 +57,8 @@ export const MainPage = () => {
             </table>
         </div>
         <div className='panel'>
-            <p><strong>Archive for Romanian informatics competitions where you can see past results from ONI, LOT and International Competitions</strong></p>
-            <p>Made by Liviu Silion</p>
-            <p>Contact me on Discord @starlights_ for any mistakes</p>
+            <p><strong>{t("Archive Description")}</strong></p>
+            <p>{t("Contact Info")}</p>
         </div>
     </>
 }

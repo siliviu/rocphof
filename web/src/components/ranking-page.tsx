@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react'
 import { RankingNumber, RankingResult } from '../model/result';
 import { getInstitutionById, getRanking, } from '../rest/rest';
 import { Institution } from '../model/institution';
+import { useTranslation } from 'react-i18next';
 
 export const RankingPage = () => {
+    const { t } = useTranslation();
     const [searchParams, _] = useSearchParams();
     const [table, setTable] = useState();
     const [institution, setInstitution] = useState<Institution | null>();
+    
     useEffect(() => {
         getRanking(searchParams.get("region")!, searchParams.get("institution")!, Number(searchParams.get("year")!))
             .then(results => {
@@ -37,12 +40,16 @@ export const RankingPage = () => {
             getInstitutionById(Number(searchParams.get("institution")))
                 .then(institution => setInstitution(institution));
     }, []);
-    const title = (searchParams.has("region") ?
-        searchParams.get("region") :
-        searchParams.has("institution") && institution ? institution.name :
-            searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` :
-                "All-time") + " Ranking";
+
+    const title =
+        searchParams.size ? t("Title Ranking", {
+            title:
+                (searchParams.has("region") ? searchParams.get("region") :
+                    searchParams.has("institution") && institution ? institution.name :
+                        searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` : "")
+        }) : t("All-time Ranking");
     document.title = title;
+
     return <>
         <div className='panel'>
             <p className='title'> {title}</p>
@@ -50,13 +57,13 @@ export const RankingPage = () => {
         <table>
             <tbody>
                 <tr>
-                    <th>Position</th>
-                    <th>Name</th>
-                    <th className='gold'>Gold</th>
-                    <th className='silver'>Silver</th>
-                    <th className='bronze'>Bronze</th>
-                    <th>Medals</th>
-                    <th>Participations</th>
+                    <th>{t("Position")}</th>
+                    <th>{t("Name")}</th>
+                    <th className='gold'>{t("Gold")}</th>
+                    <th className='silver'>{t("Silver")}</th>
+                    <th className='bronze'>{t("Bronze")}</th>
+                    <th>{t("Medals")}</th>
+                    <th>{t("Participations")}</th>
                 </tr>
                 {table}
             </tbody>

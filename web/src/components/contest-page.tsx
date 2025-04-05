@@ -1,18 +1,25 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom';
+import { Result, getMedalClass } from '../model/result';
 import { useEffect, useState } from 'react'
-import { Medal, Result } from '../model/result';
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../rest/rest';
 import { Contest } from '../model/contest';
+import { useTranslation } from 'react-i18next';
 import './contest.css'
 
 export const ContestPage = () => {
     const { id, grade } = useParams();
+    const { t, i18n } = useTranslation();
     const [table, setTable] = useState();
     const [contest, setContest] = useState<Contest | null>();
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
     const [generationStart, setGenerationStart] = useState(0);
     const [participants, setParticipants] = useState(0);
+
+    const isONI = contest?.name === "ONI";
+    const isLOT = contest?.name === "LOT";
+    const isInternational = contest && !isONI && !isLOT;
+
     useEffect(() => {
         getContestById(Number(id))
             .then(setContest)
@@ -23,46 +30,43 @@ export const ContestPage = () => {
             .then(setNextContest)
             .catch(() => setNextContest(null))
     }, [id]);
+
     useEffect(() => {
         if (contest) {
             setGenerationStart(contest.year - Number(grade));
-            document.title = contest.name + " " + contest.year + " " + grade;
-        }
-        getResultsForContest(Number(id), Number(grade))
-            .then(results => {
-                setTable(results.map((result: Result) =>
-                    <tr key={result.id} className={result.medal == Medal.GOLD ? 'gold' :
-                        result.medal == Medal.SILVER ? 'silver' :
-                            result.medal == Medal.BRONZE ? 'bronze' : ' '
-                    }>
-                        <td>{result.place}</td>
-                        <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                        {
-                            contest && contest.name == "ONI" ?
+            document.title = `${contest.name} ${contest.year} ${grade}`;
+
+            getResultsForContest(Number(id), Number(grade))
+                .then(results => {
+                    setTable(results.map((result: Result) =>
+                        <tr key={result.id} className={getMedalClass(result.medal)}>
+                            <td>{result.place}</td>
+                            <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
+                            {isONI ? (
                                 <>
                                     <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
                                     <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
                                 </>
-                                :
-                                <>
-                                    <td>{contest && contest.year - result.person.schoolYear}</td>
-                                </>
-                        }
-                        <td>{result.score}</td>
-                        {contest && (contest.name == "ONI" || contest.name == "LOT") && <td>{result.prize}</td>}
-                        {contest && (contest.name == "ONI" || contest.name != "LOT") && <td>{result.medal}</td>}
-                    </tr>
-                ))
-            })
-        getParticipantsForContest(Number(id), Number(grade))
-            .then(nr => {
-                setParticipants(Number(nr))
-            });
-    }, [grade, contest])
+                            ) : (
+                                <td>{contest.year - result.person.schoolYear}</td>
+                            )}
+                            <td>{result.score}</td>
+                            {(isONI || isLOT) && <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>}
+                            {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
+                        </tr>
+                    ));
+                });
+
+            getParticipantsForContest(Number(id), Number(grade))
+                .then(nr => setParticipants(Number(nr)));
+        }
+    }, [grade, contest, i18n.language]);
+
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
     const nextContestGrade = nextContest ? nextContest.year - generationStart : 0;
+
     return <>
         <div className='panel'>
             <p className='title selector'>
@@ -70,7 +74,7 @@ export const ContestPage = () => {
                 <span>{contest && contest.name} {contest && contest.year}</span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
-            {contest && (contest.name == "ONI" || contest.name == "LOT") && (contest.name == "ONI" ?
+            {contest && (isONI || isLOT) && (isONI ? (
                 <>
                     <p className='subtitle selector'>
                         {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
@@ -81,51 +85,51 @@ export const ContestPage = () => {
                         {prevContest && prevContestGrade >= 5 ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
                         <span>{generationStart + 5}-{generationStart + 12}</span>
                         {nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
-
                     </p>
-                    <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>Generation Ranking</Link></p>
+                    <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
-                :
+            ) : (
                 <>
                     <p className='subtitle selector'>
                         {grade == "2" ? <Link className='arrow' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
-                        <span>{grade == "1" ? "Junior" : "Senior"}</span>
+                        <span>{grade == "1" ? t("Junior") : t("Senior")}</span>
                         {grade == "1" ? <Link className='arrow' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
                     </p>
-                </>)}
-
-            <div>{contest && (contest.name == "ONI" || contest.name == "LOT") && <>{participants} participants</>}</div>
+                </>
+            ))}
+            <div>{contest && (isONI || isLOT) && <>{t("Participants", { count: participants })}</>}</div>
         </div>
         <table>
             <colgroup>
                 <col className="place" />
                 <col className="name" />
-                {contest && contest.name == "ONI" ? <>
-                    <col className="region" />
-                    <col className="institution" />
-                </>
-                    :
-                    <col className="grade" />}
+                {contest && isONI ? (
+                    <>
+                        <col className="region" />
+                        <col className="institution" />
+                    </>
+                ) : (
+                    <col className="grade" />
+                )}
                 <col className="score" />
                 <col className="prize" />
-                {contest && contest.name == "ONI" ?
-                    <col className="medal" /> : <></>}
+                {contest && isONI && <col className="medal" />}
             </colgroup>
             <tbody>
                 <tr>
-                    <th>Place</th>
-                    <th>Name</th>
-                    {contest && contest.name == "ONI" ?
+                    <th>{t("Place")}</th>
+                    <th>{t("Name")}</th>
+                    {contest && isONI ? (
                         <>
-                            <th>Region</th>
-                            <th>Institution</th>
+                            <th>{t("Region")}</th>
+                            <th>{t("Institution")}</th>
                         </>
-                        :
-                        <><th>Grade</th></>
-                    }
-                    <th>Score</th>
-                    {contest && (contest.name == "ONI" || contest.name == "LOT") && <th>Prize</th>}
-                    {contest && (contest.name == "ONI" || contest.name != "LOT") && <th>Medal</th>}
+                    ) : (
+                        <th>{t("Grade")}</th>
+                    )}
+                    <th>{t("Score")}</th>
+                    {(isONI || isLOT) && <th>{t("Prize")}</th>}
+                    {(isONI || isInternational) && <th>{t("Medal")}</th>}
                 </tr>
                 {table}
             </tbody>

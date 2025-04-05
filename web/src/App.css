@@ -114,6 +114,24 @@ input {
   vertical-align: middle;
 }
 
+.theme-icon:hover {
+  transform: scale(1.1);
+}
+
+.language-icon {
+  position: absolute;
+  left: 2.5%;
+  cursor: pointer;
+  vertical-align: middle;
+  height: 2.5rem;
+  width: 2.5rem;
+  transition: transform 0.2s ease;
+}
+
+.language-icon:hover {
+  transform: scale(1.1);
+}
+
 .dropdown {
   flex-direction: column;
   display: flex;

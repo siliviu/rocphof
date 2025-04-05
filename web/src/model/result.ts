@@ -39,3 +39,16 @@ export interface RankingNumber {
     medals: number,
     participations: number
 }
+
+export const getMedalClass = (medal: Medal | null): string => {
+    switch (medal) {
+        case Medal.GOLD:
+            return 'gold';
+        case Medal.SILVER:
+            return 'silver';
+        case Medal.BRONZE:
+            return 'bronze';
+        default:
+            return '';
+    }
+};
