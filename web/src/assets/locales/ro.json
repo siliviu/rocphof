@@ -26,6 +26,7 @@
     "Junior": "Juniori",
     "Senior": "Seniori",
     "Participants": "{{count}} participanți",
+    "Participants_many": "{{count}} de participanți",
     "Position": "Loc",
     "Gold": "Aur",
     "Silver": "Argint",

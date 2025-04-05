@@ -26,6 +26,7 @@
     "Junior": "Junior",
     "Senior": "Senior",
     "Participants": "{{count}} participants",
+    "Participants_many": "{{count}} participants",
     "Position": "Position",
     "Gold": "Gold",
     "Silver": "Silver",

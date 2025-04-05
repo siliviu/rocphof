@@ -97,7 +97,7 @@ export const ContestPage = () => {
                     </p>
                 </>
             ))}
-            <div>{contest && (isONI || isLOT) && <>{t("Participants", { count: participants })}</>}</div>
+            <div>{contest && (isONI || isLOT) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
         </div>
         <table>
             <colgroup>
