@@ -1,63 +1,56 @@
 import { useEffect, useState } from 'react';
-import geoJson from '../assets/ro.json';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import mapping from '../assets/ro.json';
+import map from '../assets/ro.svg';
 
 export const RegionPages = () => {
+    const navigate = useNavigate();
     const { t, i18n } = useTranslation();
-    const [svgContent, setSvgContent] = useState<string | null>(null);
+    const [svgElement, setSvgElement] = useState<JSX.Element | null>(null);
+    const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
 
     useEffect(() => {
-        document.title = "ROCPHOF";
+        document.title = t("ROCPHOF");
 
-        fetch('/src/assets/ro.svg')
+        fetch(map)
             .then((response) => response.text())
-            .then((svg) => setSvgContent(svg));
+            .then((svg) => {
+                const svgDoc = new DOMParser().parseFromString(svg, 'image/svg+xml');
+                const paths = Array.from(svgDoc.querySelectorAll('path'));
+
+                setSvgElement((
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox={svgDoc.documentElement.getAttribute('viewBox') || '0 0 1000 1000'}
+                            className="romania-map"
+                        >
+                            {paths.map((path, index) => {
+                                const region = mapping.features.find(feature => feature.properties.id === path.id);
+
+                                return (
+                                    <path
+                                        key={index}
+                                        d={path.getAttribute('d') || ''}
+                                        fill="#ccc"
+                                        stroke="#000"
+                                        onMouseOver={() => region && setHoveredRegion(region.properties.name)}
+                                        onMouseOut={() => setHoveredRegion(null)}
+                                        onClick={() => region && navigate(`/region/${region.properties.name}`)}
+                                        style={{ cursor: 'pointer' }} />
+                                );
+                            })}
+                        </svg>
+                    ));
+            });
     }, [i18n.language]);
-
-    const attachEventHandlers = (svg: string): string => {
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svg, 'image/svg+xml');
-        const paths = svgDoc.querySelectorAll('path');
-
-        paths.forEach((path) => {
-            const regionId = path.id;
-            const region = geoJson.features.find(
-                (feature) => feature.properties.id === regionId
-            );
-            if (region) {
-                path.setAttribute(
-                    'onclick',
-                    `window.location.href='/region/${region.properties.name}'`
-                );
-                path.setAttribute('style', 'cursor: pointer;');
-
-                path.setAttribute(
-                    'onmouseover',
-                    `document.querySelector('.hover-label').textContent='${region.properties.name}'`
-                );
-                path.setAttribute(
-                    'onmouseout',
-                    `document.querySelector('.hover-label').textContent='${t("Region")}'`
-                );
-            }
-        });
-
-        return new XMLSerializer().serializeToString(svgDoc);
-    };
 
     return (
         <>
             <div className='panel'>
                 <div className='map-container'>
-                    <div className="hover-label title">{t("Region")}</div>
-                    {svgContent && (
-                        <div
-                            className="romania-map"
-                            dangerouslySetInnerHTML={{
-                                __html: attachEventHandlers(svgContent),
-                            }}
-                        />
-                    )}
+                    <div className="hover-label title">{hoveredRegion ?? t("Region")}</div>
+                    {svgElement}
                 </div>
             </div>
         </>
