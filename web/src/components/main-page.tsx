@@ -31,8 +31,11 @@ export const MainPage = () => {
     return <>
         <div className='panel'>
             <p className='subtitle'>{t("Results By")}</p>
-            <Link className='subtitle' to="/contests">{t("Contest")} </Link>  <span className='title'>     |     </span>
-            <Link className='subtitle' to="/regions"> {t("Region")}</Link>
+            <div className='selector-row'>
+                <Link className='subtitle' to="/contests">{t("Contest")} </Link>
+                <span className='title'>|</span>
+                <Link className='subtitle' to="/regions"> {t("Region")}</Link>
+            </div>
             <p><Link className='subtitle' to="/ranking">{t("All-time Ranking")}</Link></p>
         </div>
         <div className='panel'>

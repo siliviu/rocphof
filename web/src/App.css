@@ -13,9 +13,25 @@ body {
   min-height: 95vh;
 }
 
+.selector-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48% 4% 48%;
+  align-items: center;
+}
+
+.selector-row>a:first-child {
+  justify-self: right;
+}
+
+.selector-row>a:last-child {
+  justify-self: left;
+}
+
+
 .title {
   font-weight: bolder;
-  font-size: 2em;
+  font-size: 2.25em;
   margin: 0;
 }
 
@@ -115,7 +131,7 @@ input {
 }
 
 .theme-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .language-icon {
@@ -129,7 +145,7 @@ input {
 }
 
 .language-icon:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .dropdown {
