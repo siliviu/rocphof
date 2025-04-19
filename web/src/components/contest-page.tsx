@@ -5,6 +5,7 @@ import { getContestById, getNextContest, getParticipantsForContest, getPreviousC
 import { Contest } from '../model/contest';
 import { useTranslation } from 'react-i18next';
 import './contest.css'
+import { Loading } from './loading';
 
 export const ContestPage = () => {
     const { id, grade } = useParams();
@@ -15,6 +16,7 @@ export const ContestPage = () => {
     const [nextContest, setNextContest] = useState<Contest | null>(null);
     const [generationStart, setGenerationStart] = useState(0);
     const [participants, setParticipants] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     const isONI = contest?.name === "ONI";
     const isLOT = contest?.name === "LOT";
@@ -33,32 +35,34 @@ export const ContestPage = () => {
 
     useEffect(() => {
         if (contest) {
+            setLoading(true);
             setGenerationStart(contest.year - Number(grade));
-            document.title = `${contest.name} ${contest.year} ${grade}`;
+            document.title = `${contest.name} ${contest.year}` + (isONI ? ` ${grade}`: '');
 
-            getResultsForContest(Number(id), Number(grade))
-                .then(results => {
-                    setTable(results.map((result: Result) =>
-                        <tr key={result.id} className={getMedalClass(result.medal)}>
-                            <td>{result.place}</td>
-                            <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                            {isONI ? (
-                                <>
-                                    <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
-                                    <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
-                                </>
-                            ) : (
-                                <td>{contest.year - result.person.schoolYear}</td>
-                            )}
-                            <td>{result.score}</td>
-                            {(isONI || isLOT) && <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>}
-                            {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
-                        </tr>
-                    ));
-                });
-
-            getParticipantsForContest(Number(id), Number(grade))
-                .then(nr => setParticipants(Number(nr)));
+            Promise.all([
+                getResultsForContest(Number(id), Number(grade))
+                    .then(results => {
+                        setTable(results.map((result: Result) =>
+                            <tr key={result.id} className={getMedalClass(result.medal)}>
+                                <td>{result.place}</td>
+                                <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
+                                {isONI ? (
+                                    <>
+                                        <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                                    </>
+                                ) : (
+                                    <td>{contest.year - result.person.schoolYear}</td>
+                                )}
+                                <td>{result.score}</td>
+                                {(isONI || isLOT) && <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>}
+                                {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
+                            </tr>
+                        ));
+                    }),
+                getParticipantsForContest(Number(id), Number(grade))
+                    .then(nr => setParticipants(Number(nr)))
+            ]).finally(() => setLoading(false));
         }
     }, [grade, contest, i18n.language]);
 
@@ -99,40 +103,44 @@ export const ContestPage = () => {
             ))}
             <div>{contest && (isONI || isLOT) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
         </div>
-        <table>
-            <colgroup>
-                <col className="place" />
-                <col className="name" />
-                {contest && isONI ? (
-                    <>
-                        <col className="region" />
-                        <col className="institution" />
-                    </>
-                ) : (
-                    <col className="grade" />
-                )}
-                <col className="score" />
-                <col className="prize" />
-                {contest && isONI && <col className="medal" />}
-            </colgroup>
-            <tbody>
-                <tr>
-                    <th>{t("Place")}</th>
-                    <th>{t("Name")}</th>
+        {loading ? (
+            <Loading />
+        ) : (
+            <table>
+                <colgroup>
+                    <col className="place" />
+                    <col className="name" />
                     {contest && isONI ? (
                         <>
-                            <th>{t("Region")}</th>
-                            <th>{t("Institution")}</th>
+                            <col className="region" />
+                            <col className="institution" />
                         </>
                     ) : (
-                        <th>{t("Grade")}</th>
+                        <col className="grade" />
                     )}
-                    <th>{t("Score")}</th>
-                    {(isONI || isLOT) && <th>{t("Prize")}</th>}
-                    {(isONI || isInternational) && <th>{t("Medal")}</th>}
-                </tr>
-                {table}
-            </tbody>
-        </table >
-    </>
+                    <col className="score" />
+                    <col className="prize" />
+                    {contest && isONI && <col className="medal" />}
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>{t("Place")}</th>
+                        <th>{t("Name")}</th>
+                        {contest && isONI ? (
+                            <>
+                                <th>{t("Region")}</th>
+                                <th>{t("Institution")}</th>
+                            </>
+                        ) : (
+                            <th>{t("Grade")}</th>
+                        )}
+                        <th>{t("Score")}</th>
+                        {(isONI || isLOT) && <th>{t("Prize")}</th>}
+                        {(isONI || isInternational) && <th>{t("Medal")}</th>}
+                    </tr>
+                    {table}
+                </tbody>
+            </table>
+        )}
+    </>;
 }

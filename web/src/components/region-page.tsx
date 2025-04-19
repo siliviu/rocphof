@@ -3,11 +3,13 @@ import { useEffect, useState } from 'react';
 import { Result, getMedalClass } from '../model/result';
 import { getResultsForRegion } from '../rest/rest';
 import { useTranslation } from 'react-i18next';
+import { Loading } from './loading';
 
 export const RegionPage = () => {
     const { region } = useParams();
     const { t, i18n } = useTranslation();
     const [table, setTable] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getResultsForRegion(region!)
@@ -26,7 +28,7 @@ export const RegionPage = () => {
                     </tr>
                 ))
             })
-
+            .finally(() => setLoading(false));
     }, [i18n.language]);
 
     document.title = region ?? "";
@@ -36,21 +38,25 @@ export const RegionPage = () => {
             <p className='title'>{region}</p>
             <p className='subtitle'><Link to={`/ranking?region=${region}`}>{t("Region Ranking")}</Link></p>
         </div>
-        <table>
-            <tbody>
-                <tr>
-                    <th>{t("Year")}</th>
-                    <th>{t("Grade")}</th>
-                    <th>{t("Name")}</th>
-                    <th>{t("City")}</th>
-                    <th>{t("Institution")}</th>
-                    <th>{t("Score")}</th>
-                    <th>{t("Place")}</th>
-                    <th>{t("Prize")}</th>
-                    <th>{t("Medal")}</th>
-                </tr>
-                {table}
-            </tbody>
-        </table>
-    </>
+        {loading ? (
+            <Loading />
+        ) : (
+            <table>
+                <tbody>
+                    <tr>
+                        <th>{t("Year")}</th>
+                        <th>{t("Grade")}</th>
+                        <th>{t("Name")}</th>
+                        <th>{t("City")}</th>
+                        <th>{t("Institution")}</th>
+                        <th>{t("Score")}</th>
+                        <th>{t("Place")}</th>
+                        <th>{t("Prize")}</th>
+                        <th>{t("Medal")}</th>
+                    </tr>
+                    {table}
+                </tbody>
+            </table>
+        )}
+    </>;
 }

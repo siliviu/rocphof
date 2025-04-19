@@ -4,14 +4,17 @@ import { RankingNumber, RankingResult } from '../model/result';
 import { getInstitutionById, getRanking, } from '../rest/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
+import { Loading } from './loading';
 
 export const RankingPage = () => {
     const { t } = useTranslation();
     const [searchParams, _] = useSearchParams();
-    const [table, setTable] = useState();
+    const [table, setTable] = useState<JSX.Element[] | undefined>();
+    const [loading, setLoading] = useState(true);
     const [institution, setInstitution] = useState<Institution | null>();
     
     useEffect(() => {
+        setLoading(true);
         getRanking(searchParams.get("region")!, searchParams.get("institution")!, Number(searchParams.get("year")!))
             .then(results => {
                 let display = 0;
@@ -36,6 +39,8 @@ export const RankingPage = () => {
                     </tr>
                 }))
             })
+            .finally(() => setLoading(false));
+
         if (searchParams.has("institution"))
             getInstitutionById(Number(searchParams.get("institution")))
                 .then(institution => setInstitution(institution));
@@ -54,19 +59,23 @@ export const RankingPage = () => {
         <div className='panel'>
             <p className='title'> {title}</p>
         </div>
-        <table>
-            <tbody>
-                <tr>
-                    <th>{t("Position")}</th>
-                    <th>{t("Name")}</th>
-                    <th className='gold'>{t("Gold")}</th>
-                    <th className='silver'>{t("Silver")}</th>
-                    <th className='bronze'>{t("Bronze")}</th>
-                    <th>{t("Medals")}</th>
-                    <th>{t("Participations")}</th>
-                </tr>
-                {table}
-            </tbody>
-        </table>
-    </>
+        {loading ? (
+            <Loading />
+        ) : (
+            <table>
+                <tbody>
+                    <tr>
+                        <th>{t("Position")}</th>
+                        <th>{t("Name")}</th>
+                        <th className='gold'>{t("Gold")}</th>
+                        <th className='silver'>{t("Silver")}</th>
+                        <th className='bronze'>{t("Bronze")}</th>
+                        <th>{t("Medals")}</th>
+                        <th>{t("Participations")}</th>
+                    </tr>
+                    {table}
+                </tbody>
+            </table>
+        )}
+    </>;
 }

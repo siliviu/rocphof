@@ -4,6 +4,7 @@ import { Result, getMedalClass } from '../model/result';
 import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../rest/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
+import { Loading } from './loading';
 
 export const PersonPage = () => {
     const { id } = useParams();
@@ -12,6 +13,7 @@ export const PersonPage = () => {
     const [tableLOT, setTableLOT] = useState<any>();
     const [tableInternational, setTableInternational] = useState<any>();
     const [person, setPerson] = useState<Person | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getPersonById(Number(id))
@@ -22,6 +24,7 @@ export const PersonPage = () => {
     }, [id]);
 
     useEffect(() => {
+        setLoading(true);
         getResultsForPerson(Number(id))
             .then(async (results) => {
                 await Promise.all(results.map(async (result: Result) => {
@@ -69,7 +72,8 @@ export const PersonPage = () => {
                             <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
                         </tr>
                     ));
-            });
+            })
+            .finally(() => setLoading(false));
     }, [id, person, i18n.language]);
 
     return <>
@@ -78,53 +82,59 @@ export const PersonPage = () => {
         </div>
         <div className='panel'>
             <p className='title'>ONI</p>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Year")}</th>
-                        <th>{t("Grade")}</th>
-                        <th>{t("Region")}</th>
-                        <th>{t("Institution")}</th>
-                        <th>{t("Score")}</th>
-                        <th>{t("Place")}</th>
-                        <th>{t("Prize")}</th>
-                        <th>{t("Medal")}</th>
-                    </tr>
-                    {tableONI}
-                </tbody>
-            </table>
+            {loading ? <Loading /> : (
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>{t("Year")}</th>
+                            <th>{t("Grade")}</th>
+                            <th>{t("Region")}</th>
+                            <th>{t("Institution")}</th>
+                            <th>{t("Score")}</th>
+                            <th>{t("Place")}</th>
+                            <th>{t("Prize")}</th>
+                            <th>{t("Medal")}</th>
+                        </tr>
+                        {tableONI}
+                    </tbody>
+                </table>
+            )}
         </div>
         {tableLOT && tableLOT.length > 0 && <div className='panel'>
             <p className='title'>LOT</p>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Year")}</th>
-                        <th>{t("Level")}</th>
-                        <th>{t("Grade")}</th>
-                        <th>{t("Score")}</th>
-                        <th>{t("Place")}</th>
-                        <th>{t("Prize")}</th>
-                    </tr>
-                    {tableLOT}
-                </tbody>
-            </table>
+            {loading ? <Loading /> : (
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>{t("Year")}</th>
+                            <th>{t("Level")}</th>
+                            <th>{t("Grade")}</th>
+                            <th>{t("Score")}</th>
+                            <th>{t("Place")}</th>
+                            <th>{t("Prize")}</th>
+                        </tr>
+                        {tableLOT}
+                    </tbody>
+                </table>
+            )}
         </div>}
         {tableInternational && tableInternational.length > 0 && <div className='panel'>
             <p className='title'>INTERNATIONAL</p>
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Year")}</th>
-                        <th>{t("Contest")}</th>
-                        <th>{t("Grade")}</th>
-                        <th>{t("Score")}</th>
-                        <th>{t("Place")}</th>
-                        <th>{t("Medal")}</th>
-                    </tr>
-                    {tableInternational}
-                </tbody>
-            </table>
+            {loading ? <Loading /> : (
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>{t("Year")}</th>
+                            <th>{t("Contest")}</th>
+                            <th>{t("Grade")}</th>
+                            <th>{t("Score")}</th>
+                            <th>{t("Place")}</th>
+                            <th>{t("Medal")}</th>
+                        </tr>
+                        {tableInternational}
+                    </tbody>
+                </table>
+            )}
         </div>}
     </>;
 };

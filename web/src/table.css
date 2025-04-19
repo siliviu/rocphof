@@ -3,7 +3,8 @@
 table {
     border-collapse: collapse;
     width: 100%;
-    margin: 20px 0;
+    margin-top: 15px;
+    margin-bottom: 10px;
     font-size: 1em;
     font-family: Arial, sans-serif;
     border-radius: 8px;
