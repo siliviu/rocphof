@@ -42,5 +42,7 @@
     "Prize.FIRST": "I",
     "Prize.SECOND": "II",
     "Prize.THIRD": "III",
-    "Prize.MENTION": "Mențiune"
+    "Prize.MENTION": "Mențiune",
+    "Final": "Restrâns",
+    "Final.Yes": "Da"
 }

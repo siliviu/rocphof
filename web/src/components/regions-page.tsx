@@ -49,7 +49,7 @@ export const RegionPages = () => {
         <>
             <div className='panel'>
                 <div className='map-container'>
-                    <div className="hover-label title">{hoveredRegion ?? t("Region")}</div>
+                    <div className="hover-label subtitle">{hoveredRegion ?? t("Region")}</div>
                     {svgElement}
                 </div>
             </div>

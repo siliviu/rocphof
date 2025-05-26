@@ -55,7 +55,7 @@ export const ContestPage = () => {
                                     <td>{contest.year - result.person.schoolYear}</td>
                                 )}
                                 <td>{result.score}</td>
-                                {(isONI || isLOT) && <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>}
+                                {(isONI || isLOT) && <td>{result.prize ? t(isONI ? `Prize.${result.prize}` : 'Final.Yes') : ''}</td>}
                                 {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
                             </tr>
                         ));
@@ -135,7 +135,7 @@ export const ContestPage = () => {
                             <th>{t("Grade")}</th>
                         )}
                         <th>{t("Score")}</th>
-                        {(isONI || isLOT) && <th>{t("Prize")}</th>}
+                        {(isONI || isLOT) && <th>{t(isONI ? "Prize" : "Final")}</th>}
                         {(isONI || isInternational) && <th>{t("Medal")}</th>}
                     </tr>
                     {table}

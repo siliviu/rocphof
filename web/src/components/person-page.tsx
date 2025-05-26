@@ -56,7 +56,7 @@ export const PersonPage = () => {
                             <td>{person && result.contest.year - person.schoolYear}</td>
                             <td>{result.score}</td>
                             <td>{result.place}</td>
-                            <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
+                            <td>{result.prize ? t("Final.Yes") : ''}</td>
                         </tr>
                     ));
 
@@ -111,7 +111,7 @@ export const PersonPage = () => {
                             <th>{t("Grade")}</th>
                             <th>{t("Score")}</th>
                             <th>{t("Place")}</th>
-                            <th>{t("Prize")}</th>
+                            <th>{t("Final")}</th>
                         </tr>
                         {tableLOT}
                     </tbody>

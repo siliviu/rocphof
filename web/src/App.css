@@ -6,7 +6,7 @@ body {
 }
 
 #root {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
   padding-top: 5vh;
   text-align: center;
@@ -22,10 +22,12 @@ body {
 
 .selector-row>a:first-child {
   justify-self: right;
+  padding-right: 0.5em;
 }
 
 .selector-row>a:last-child {
   justify-self: left;
+  padding-left: 0.5em;
 }
 
 
@@ -48,7 +50,7 @@ body {
 }
 
 .panel {
-  padding: 8px 16px;
+  padding: 16px 16px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-color);
@@ -64,7 +66,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-color);
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .top-panel p {
@@ -196,7 +198,18 @@ span.arrow {
   animation: spin 1s linear infinite;
 }
 
+.romania-map {
+  min-height: 30em;
+  height: 100vh;
+  margin-bottom: -20vh;
+}
+
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
