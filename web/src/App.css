@@ -6,11 +6,11 @@ body {
 }
 
 #root {
-  width: 95%;
+  width: 90%;
   margin: 0 auto;
-  padding-top: 5vh;
+  padding-top: 7.5vh;
   text-align: center;
-  min-height: 95vh;
+  min-height: 92.5vh;
 }
 
 .selector-row {
@@ -50,7 +50,7 @@ body {
 }
 
 .panel {
-  padding: 16px 16px;
+  padding: 16px 20px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 8px var(--shadow-color);
