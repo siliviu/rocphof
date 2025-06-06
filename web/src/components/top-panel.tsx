@@ -12,14 +12,22 @@ export const TopPanel = () => {
   const { t, i18n } = useTranslation();
 
   const cachedDarkMode = localStorage.getItem("darkMode");
+  const cachedLanguage = localStorage.getItem("language");
   const prefersDarkMode = useMediaQuery({ query: "(prefers-color-scheme: dark)" });
   const [isDark, setIsDark] = useState(
     cachedDarkMode !== null ? cachedDarkMode === "true" : prefersDarkMode
   );
 
+  useEffect(() => {
+    if (cachedLanguage) {
+      i18n.changeLanguage(cachedLanguage);
+    }
+  }, []);
+
   const toggleLanguage = () => {
     const newLang = i18n.language !== "ro" ? "ro" : "en";
     i18n.changeLanguage(newLang);
+    localStorage.setItem("language", newLang);
   };
 
   const toggleDarkMode = () => {

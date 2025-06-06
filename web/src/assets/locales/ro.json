@@ -1,7 +1,9 @@
 {
     "Results By": "Rezultate după",
     "Contest": "Concurs",
+    "Contests": "Concursuri",
     "Region": "Județ",
+    "Regions": "Județe",
     "All-time Ranking": "Clasament general",
     "Find People": "Caută persoane",
     "Name": "Nume",
@@ -44,5 +46,15 @@
     "Prize.THIRD": "III",
     "Prize.MENTION": "Mențiune",
     "Final": "Restrâns",
-    "Final.Yes": "Da"
+    "Final.Yes": "Da",
+    "meta.main": "Rezultate arhivate pentru Olimpiada Națională de Informatică, Lotul Național și competiții internaționale",
+    "meta.contest": "Rezultate pentru concursul {{name}} din {{year}}",
+    "meta.contest_oni": "Rezultate pentru olimpiada națională de informatică din {{year}}, clasa {{grade}}",
+    "meta.contest_lot": "Rezultate pentru lotul național din {{year}}",
+    "meta.person": "Rezultate de la olimpiada de informatică pentru {{name}}",
+    "meta.institution": "Rezultate de la olimpiada națională de informatică pentru {{name}} din {{city}}, {{region}}",
+    "meta.region": "Rezultate de la olimpiada naționala de informatică pentru județul {{region}}",
+    "meta.ranking": "{{title}}",
+    "meta.contests": "Lista tuturor concursurilor de informatică",
+    "meta.regions": "Rezultate pe județe"
 }

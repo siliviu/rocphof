@@ -1,82 +1,87 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
 import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../rest/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
 import { Loading } from './loading';
+import { MetaTags } from './meta-tags';
 
 export const PersonPage = () => {
     const { id } = useParams();
-    const { t, i18n } = useTranslation();
-    const [tableONI, setTableONI] = useState();
-    const [tableLOT, setTableLOT] = useState<any>();
-    const [tableInternational, setTableInternational] = useState<any>();
+    const { t } = useTranslation();
+    const [results, setResults] = useState<Result[]>([]);
     const [person, setPerson] = useState<Person | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getPersonById(Number(id))
-            .then(person => {
-                setPerson(person);
-                document.title = person.name;
-            });
+        Promise.all([
+            getPersonById(Number(id)).then(setPerson),
+            getResultsForPerson(Number(id))
+                .then(async results => {
+                    const withParticipants = await Promise.all(
+                        results.map(async (result: Result) => ({
+                            ...result,
+                            total: await getParticipantsForContest(result.contest.id, result.year)
+                        }))
+                    );
+                    setResults(withParticipants);
+                })
+        ]).finally(() => setLoading(false));
     }, [id]);
 
-    useEffect(() => {
-        setLoading(true);
-        getResultsForPerson(Number(id))
-            .then(async (results) => {
-                await Promise.all(results.map(async (result: Result) => {
-                    result.total = await getParticipantsForContest(result.contest.id, result.year);
-                    return result;
-                }));
+    const tableONI = useMemo(() =>
+        results
+            .filter(result => result.contest.name === "ONI")
+            .map(result => (
+                <tr key={result.id} className={getMedalClass(result.medal)}>
+                    <td>{result.contest.year}</td>
+                    <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
+                    <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                    <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                    <td>{result.score}</td>
+                    <td>{result.place} / {result.total}</td>
+                    <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
+                    <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
+                </tr>
+            ))
+    , [results, t]);
 
-                setTableONI(results
-                    .filter((result: Result) => result.contest.name === "ONI")
-                    .map((result: Result) =>
-                        <tr key={result.id} className={getMedalClass(result.medal)}>
-                            <td>{result.contest.year}</td>
-                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
-                            <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
-                            <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
-                            <td>{result.score}</td>
-                            <td>{result.place} / {result.total}</td>
-                            <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
-                            <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
-                        </tr>
-                    ));
+    const tableLOT = useMemo(() =>
+        results
+            .filter(result => result.contest.name === "LOT")
+            .map(result => (
+                <tr key={result.id}>
+                    <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
+                    <td>{result.year === 1 ? t("Junior") : t("Senior")}</td>
+                    <td>{person && result.contest.year - person.schoolYear}</td>
+                    <td>{result.score}</td>
+                    <td>{result.place}</td>
+                    <td>{result.prize ? t("Final.Yes") : ''}</td>
+                </tr>
+            ))
+    , [results, t]);
 
-                setTableLOT(results
-                    .filter((result: Result) => result.contest.name === "LOT")
-                    .map((result: Result) =>
-                        <tr key={result.id}>
-                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
-                            <td>{result.year === 1 ? t("Junior") : t("Senior")}</td>
-                            <td>{person && result.contest.year - person.schoolYear}</td>
-                            <td>{result.score}</td>
-                            <td>{result.place}</td>
-                            <td>{result.prize ? t("Final.Yes") : ''}</td>
-                        </tr>
-                    ));
-
-                setTableInternational(results
-                    .filter((result: Result) => result.contest.name !== "ONI" && result.contest.name !== "LOT")
-                    .map((result: Result) =>
-                        <tr key={result.id} className={getMedalClass(result.medal)}>
-                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
-                            <td>{result.contest.name}</td>
-                            <td>{person && result.contest.year - person.schoolYear}</td>
-                            <td>{result.score}</td>
-                            <td>{result.place}</td>
-                            <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
-                        </tr>
-                    ));
-            })
-            .finally(() => setLoading(false));
-    }, [id, person, i18n.language]);
+    const tableInternational = useMemo(() =>
+        results
+            .filter(result => result.contest.name !== "ONI" && result.contest.name !== "LOT")
+            .map(result => (
+                <tr key={result.id} className={getMedalClass(result.medal)}>
+                    <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
+                    <td>{result.contest.name}</td>
+                    <td>{person && result.contest.year - person.schoolYear}</td>
+                    <td>{result.score}</td>
+                    <td>{result.place}</td>
+                    <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
+                </tr>
+            ))
+    , [results, t]);
 
     return <>
+        <MetaTags
+            title={person?.name}
+            description={t("meta.person", { name: person?.name })}
+        />
         <div className='panel'>
             <p className='title'>{person && person.name}</p>
         </div>

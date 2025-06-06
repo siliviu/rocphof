@@ -1,39 +1,46 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
 import { getResultsForRegion } from '../rest/rest';
 import { useTranslation } from 'react-i18next';
 import { Loading } from './loading';
+import { MetaTags } from './meta-tags';
 
 export const RegionPage = () => {
     const { region } = useParams();
-    const { t, i18n } = useTranslation();
-    const [table, setTable] = useState();
+    const { t } = useTranslation();
+    const [results, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getResultsForRegion(region!)
-            .then(results => {
-                setTable(results.map((result: Result) =>
-                    <tr key={result.id} className={getMedalClass(result.medal)}>
-                        <td>{result.contest.year}</td>
-                        <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
-                        <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                        <td>{result.institution!.city}</td>
-                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
-                        <td>{result.score}</td>
-                        <td>{result.place}</td>
-                        <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
-                        <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
-                    </tr>
-                ))
-            })
+            .then(setResults)
             .finally(() => setLoading(false));
-    }, [i18n.language]);
+    }, [region]);
 
-    document.title = region ?? "";
+    const table = useMemo(() => 
+        results.map((result: Result) =>
+            <tr key={result.id} className={getMedalClass(result.medal)}>
+                <td>{result.contest.year}</td>
+                <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
+                <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
+                <td>{result.institution!.city}</td>
+                <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                <td>{result.score}</td>
+                <td>{result.place}</td>
+                <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
+                <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
+            </tr>
+        )
+    , [results, t]);
+
+
     
     return <>
+        <MetaTags 
+            title={region ?? ""}
+            description={t("meta.region", {region: region ?? ""})}
+        />
         <div className='panel'>
             <p className='title'>{region}</p>
             <p className='subtitle'><Link to={`/ranking?region=${region}`}>{t("Region Ranking")}</Link></p>

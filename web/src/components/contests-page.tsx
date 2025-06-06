@@ -1,44 +1,54 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getAllContests } from '../rest/rest';
+import { useTranslation } from 'react-i18next';
 import { Contest } from '../model/contest';
+import { MetaTags } from './meta-tags';
 
 export const ContestPages = () => {
-    const [contestsONI, setContestsONI] = useState();
-    const [contestsLOT, setContestsLOT] = useState();
-    const [groupedContestsInternational, setGroupedContestsInternational] = useState<Record<string, Contest[]>>({});
-    document.title = "Contests";
+    const { t } = useTranslation();
+    const [contests, setContests] = useState<Contest[]>([]);
 
     useEffect(() => {
-        getAllContests().then(data => {
-            setContestsONI(data
-                .filter((contest: Contest) => contest.name === "ONI")
-                .map((contest: Contest) => (
-                    <li key={contest.id}>
-                        <Link to={`/contest/${contest.id}/5`}>{contest.name} {contest.year}</Link>
-                    </li>
-                )));
-            setContestsLOT(data
-                .filter((contest: Contest) => contest.name === "LOT")
-                .map((contest: Contest) => (
-                    <li key={contest.id}>
-                        <Link to={`/contest/${contest.id}/2`}>{contest.name} {contest.year}</Link>
-                    </li>
-                )));
-
-            const groupedInternational = data
-                .filter((contest: Contest) => contest.name !== "ONI" && contest.name !== "LOT")
-                .reduce((groups: any, contest: Contest) => {
-                    const baseName = contest.name.replace(/\d{4}/, "").trim();
-                    if (!groups[baseName]) groups[baseName] = [];
-                    groups[baseName].push(contest);
-                    return groups;
-                }, {});
-            setGroupedContestsInternational(groupedInternational);
-        });
+        getAllContests().then(setContests);
     }, []);
 
+    const contestsONI = useMemo(() => 
+        contests
+            .filter(contest => contest.name === "ONI")
+            .map(contest => (
+                <li key={contest.id}>
+                    <Link to={`/contest/${contest.id}/5`}>{contest.name} {contest.year}</Link>
+                </li>
+            ))
+    , [contests]);
+
+    const contestsLOT = useMemo(() => 
+        contests
+            .filter(contest => contest.name === "LOT")
+            .map(contest => (
+                <li key={contest.id}>
+                    <Link to={`/contest/${contest.id}/2`}>{contest.name} {contest.year}</Link>
+                </li>
+            ))
+    , [contests]);
+
+    const groupedContestsInternational = useMemo(() => 
+        contests
+            .filter(contest => contest.name !== "ONI" && contest.name !== "LOT")
+            .reduce((groups: Record<string, Contest[]>, contest) => {
+                const baseName = contest.name.replace(/\d{4}/, "").trim();
+                if (!groups[baseName]) groups[baseName] = [];
+                groups[baseName].push(contest);
+                return groups;
+            }, {})
+    , [contests]);
+
     return <>
+        <MetaTags
+            title={t("Contests")}
+            description={t("meta.contests")}
+        />
         <div className='panel'>
             <div className='contest-list'>
                 <ul>

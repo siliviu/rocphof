@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { getPeopleByName } from '../rest/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
+import { MetaTags } from './meta-tags';
 
 export const MainPage = () => {
     const { t } = useTranslation();
@@ -27,8 +28,11 @@ export const MainPage = () => {
         }
         search();
     }, [input]);
-    document.title = t("ROCPHOF");
     return <>
+        <MetaTags 
+            title={t("ROCPHOF")}
+            description={t("meta.main")}
+        />
         <div className='panel'>
             <p className='subtitle'>{t("Results By")}</p>
             <div className='selector-row'>

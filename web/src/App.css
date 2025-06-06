@@ -8,9 +8,9 @@ body {
 #root {
   width: 90%;
   margin: 0 auto;
-  padding-top: 7.5vh;
+  padding-top: 6.25vh;
   text-align: center;
-  min-height: 92.5vh;
+  min-height: 93.75vh;
 }
 
 .selector-row {

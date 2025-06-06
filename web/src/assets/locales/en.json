@@ -1,7 +1,9 @@
 {
     "Results By": "Results By",
     "Contest": "Contest",
+    "Contests": "Contests",
     "Region": "Region",
+    "Regions": "Regions",
     "All-time Ranking": "All-time Ranking",
     "Find People": "Find People",
     "Name": "Name",
@@ -44,5 +46,15 @@
     "Prize.THIRD": "Third",
     "Prize.MENTION": "Mention",
     "Final": "Final",
-    "Final.Yes": "Yes"
+    "Final.Yes": "Yes",
+    "meta.main": "Archived results for Romanian informatics competitions: National Olympiad, Team Selection Tests and International Competitions",
+    "meta.contest": "Results from {{name}} {{year}}{{grade}} competition",
+    "meta.contest_oni": "Results for national olympiad in informatics {{year}}, grade {{grade}}",
+    "meta.contest_lot": "Results for national team selection tests {{year}}",
+    "meta.person": "Competition results for {{name}}",
+    "meta.institution": "Competition results for the national olympiad from {{name}} in {{city}}, {{region}}",
+    "meta.region": "Competition results for the national olympiad from {{region}} region",
+    "meta.ranking": "{{title}}",
+    "meta.contests": "List of all informatics competitions",
+    "meta.regions": "Results by regions"
 }

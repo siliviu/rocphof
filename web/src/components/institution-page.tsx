@@ -1,16 +1,17 @@
 import { useParams, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
 import { getInstitutionById, getResultsForInstitution } from '../rest/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
 import { Loading } from './loading';
+import { MetaTags } from './meta-tags';
 
 export const InstitutionPage = () => {
     const { id } = useParams();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [institution, setInstitution] = useState<Institution | null>(null);
-    const [table, setTable] = useState();
+    const [results, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(true);
     
     useEffect(() => {
@@ -18,26 +19,35 @@ export const InstitutionPage = () => {
             getInstitutionById(Number(id))
                 .then(institution => {
                     setInstitution(institution);
-                    document.title = institution.name;
                 }),
             getResultsForInstitution(Number(id))
-                .then(results => {
-                    setTable(results.map((result: Result) =>
-                        <tr key={result.id} className={getMedalClass(result.medal)}>
-                            <td>{result.contest.year}</td>
-                            <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
-                            <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                            <td>{result.score}</td>
-                            <td>{result.place}</td>
-                            <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
-                            <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
-                        </tr>
-                    ))
-                })
+                .then(setResults)
         ]).finally(() => setLoading(false));
-    }, [i18n.language]);
+    }, [id]);
+
+    const table = useMemo(() => 
+        results.map(result =>
+            <tr key={result.id} className={getMedalClass(result.medal)}>
+                <td>{result.contest.year}</td>
+                <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
+                <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
+                <td>{result.score}</td>
+                <td>{result.place}</td>
+                <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
+                <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
+            </tr>
+        )
+    , [results, t]);
 
     return <>
+        <MetaTags
+            title={institution?.name}
+            description={t("meta.institution", { 
+                name: institution?.name,
+                city: institution?.city,
+                region: institution?.region
+            })}
+        />
         <div className='panel'>
             <p className='title'>{institution && institution.name}</p>
             <p className='subtitle'>{institution && institution.city},  {institution && institution.region}</p >

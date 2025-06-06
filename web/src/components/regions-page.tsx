@@ -3,16 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import mapping from '../assets/ro.json';
 import map from '../assets/ro.svg';
+import { MetaTags } from './meta-tags';
 
 export const RegionPages = () => {
     const navigate = useNavigate();
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const [svgElement, setSvgElement] = useState<JSX.Element | null>(null);
     const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
 
     useEffect(() => {
-        document.title = t("ROCPHOF");
-
         fetch(map)
             .then((response) => response.text())
             .then((svg) => {
@@ -43,10 +42,14 @@ export const RegionPages = () => {
                         </svg>
                     ));
             });
-    }, [i18n.language]);
+    }, [t]);
 
     return (
         <>
+            <MetaTags
+                title={t("Regions")}
+                description={t("meta.regions")}
+            />
             <div className='panel'>
                 <div className='map-container'>
                     <div className="hover-label subtitle">{hoveredRegion ?? t("Region")}</div>

@@ -1,70 +1,72 @@
 import { useParams, Link } from 'react-router-dom';
 import { Result, getMedalClass } from '../model/result';
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../rest/rest';
 import { Contest } from '../model/contest';
 import { useTranslation } from 'react-i18next';
 import './contest.css'
 import { Loading } from './loading';
+import { MetaTags } from './meta-tags';
 
 export const ContestPage = () => {
     const { id, grade } = useParams();
-    const { t, i18n } = useTranslation();
-    const [table, setTable] = useState();
+    const { t } = useTranslation();
+    const [results, setResults] = useState<Result[]>([]);
     const [contest, setContest] = useState<Contest | null>();
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
-    const [generationStart, setGenerationStart] = useState(0);
     const [participants, setParticipants] = useState(0);
     const [loading, setLoading] = useState(true);
 
     const isONI = contest?.name === "ONI";
     const isLOT = contest?.name === "LOT";
     const isInternational = contest && !isONI && !isLOT;
+    const generationStart = contest ? contest.year - Number(grade) : 0;
 
     useEffect(() => {
-        getContestById(Number(id))
-            .then(setContest)
-        getPreviousContest(Number(id))
-            .then(setPrevContest)
-            .catch(() => setPrevContest(null))
-        getNextContest(Number(id))
-            .then(setNextContest)
-            .catch(() => setNextContest(null))
+        Promise.all([
+            getContestById(Number(id)).then(setContest),
+            getPreviousContest(Number(id))
+                .then(setPrevContest)
+                .catch(() => setPrevContest(null)),
+            getNextContest(Number(id))
+                .then(setNextContest)
+                .catch(() => setNextContest(null))
+        ]);
     }, [id]);
 
     useEffect(() => {
         if (contest) {
             setLoading(true);
-            setGenerationStart(contest.year - Number(grade));
-            document.title = `${contest.name} ${contest.year}` + (isONI ? ` ${grade}`: '');
 
             Promise.all([
                 getResultsForContest(Number(id), Number(grade))
-                    .then(results => {
-                        setTable(results.map((result: Result) =>
-                            <tr key={result.id} className={getMedalClass(result.medal)}>
-                                <td>{result.place}</td>
-                                <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                                {isONI ? (
-                                    <>
-                                        <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
-                                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
-                                    </>
-                                ) : (
-                                    <td>{contest.year - result.person.schoolYear}</td>
-                                )}
-                                <td>{result.score}</td>
-                                {(isONI || isLOT) && <td>{result.prize ? t(isONI ? `Prize.${result.prize}` : 'Final.Yes') : ''}</td>}
-                                {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
-                            </tr>
-                        ));
-                    }),
+                    .then(setResults),
                 getParticipantsForContest(Number(id), Number(grade))
                     .then(nr => setParticipants(Number(nr)))
             ]).finally(() => setLoading(false));
         }
-    }, [grade, contest, i18n.language]);
+    }, [grade, contest]);
+
+    const table = useMemo(() =>
+        results.map(result =>
+            <tr key={result.id} className={getMedalClass(result.medal)}>
+                <td>{result.place}</td>
+                <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
+                {isONI ? (
+                    <>
+                        <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                    </>
+                ) : (
+                    <td>{contest!.year - result.person.schoolYear}</td>
+                )}
+                <td>{result.score}</td>
+                {(isONI || isLOT) && <td>{result.prize ? t(isONI ? `Prize.${result.prize}` : 'Final.Yes') : ''}</td>}
+                {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
+            </tr>
+        )
+        , [results, isONI, isLOT, isInternational, contest, t]);
 
     const prevGrade = Number(grade) - 1;
     const nextGrade = Number(grade) + 1;
@@ -72,6 +74,14 @@ export const ContestPage = () => {
     const nextContestGrade = nextContest ? nextContest.year - generationStart : 0;
 
     return <>
+        <MetaTags
+            title={contest ? `${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '') : ""}
+            description={t(isONI ? "meta.contest_oni" : isLOT ? "meta.contest_lot" : "meta.contest", {
+                name: contest?.name,
+                year: contest?.year,
+                grade: isONI ? grade : ''
+            })}
+        />
         <div className='panel'>
             <p className='title selector'>
                 {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
