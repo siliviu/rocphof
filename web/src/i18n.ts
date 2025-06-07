@@ -12,9 +12,16 @@ const resources = {
     },
 };
 
+const getBrowserLanguage = () => {
+    const full = navigator.language;
+    const base = full.split('-')[0];
+    console.log(base);
+    return base === 'ro' ? 'ro' : 'en';
+};
+
 i18n.use(initReactI18next).init({
     resources,
-    lng: localStorage.getItem("language") || 'en',
+    lng: localStorage.getItem("language") || getBrowserLanguage(),
     fallbackLng: 'en',
     interpolation: {
         escapeValue: false,

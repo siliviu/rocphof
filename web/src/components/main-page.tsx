@@ -38,7 +38,7 @@ export const MainPage = () => {
             <div className='selector-row'>
                 <Link className='subtitle' to="/contests">{t("Contest")} </Link>
                 <span className='title'>|</span>
-                <Link className='subtitle' to="/regions"> {t("Region")}</Link>
+                <Link className='subtitle' to="/regions">{t("Region")}</Link>
             </div>
             <p><Link className='subtitle' to="/ranking">{t("All-time Ranking")}</Link></p>
         </div>
