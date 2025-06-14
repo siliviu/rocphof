@@ -18,7 +18,7 @@ export const ContestPages = () => {
             .filter(contest => contest.name === "ONI")
             .map(contest => (
                 <li key={contest.id}>
-                    <Link to={`/contest/${contest.id}/5`}>{contest.name} {contest.year}</Link>
+                    <Link to={`/contest/${contest.id}/9`}>{contest.name} {contest.year}</Link>
                 </li>
             ))
     , [contests]);
