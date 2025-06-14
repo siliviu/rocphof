@@ -119,9 +119,9 @@ export const ContestPage = () => {
             ) : (
                 <>
                     <p className='subtitle selector'>
-                        {hasPrevGrade ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        {prevGrade >= 0 && hasPrevGrade ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{t(["Girl", "Junior", "Senior"][grade])}</span>
-                        {hasNextGrade ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>&gt;  </Link> : <div />}
+                        {nextGrade <= 2 && hasNextGrade ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>&gt;  </Link> : <div />}
                     </p>
                 </>
             ))}
