@@ -14,7 +14,7 @@ FROM openjdk:17
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=builder /home/gradle/project/rest/build/libs/*.jar app.jar
+COPY --from=builder /home/gradle/project/app/build/libs/*.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080
