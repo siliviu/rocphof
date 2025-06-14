@@ -1,25 +1,33 @@
 package console;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.ComponentScan;
 import query.QueryService;
 import utils.StringProcessor;
 
 import java.util.Scanner;
 
-@Controller
-public class QueryConsole {
-
+@SpringBootApplication
+@ComponentScan(basePackages = {"repo", "console", "importer", "query", "utils", "merge"})
+@EntityScan(basePackages = {"domain"})
+public class QueryConsole implements CommandLineRunner {
 	@Autowired
 	private final QueryService queryService;
 
 	public QueryConsole(QueryService queryService) {
 		this.queryService = queryService;
-//		new Thread(this::run).start();
 	}
 
-	public void run() {
+	public static void main(String[] args) {
+		SpringApplication.run(QueryConsole.class, args);
+	}
+
+	@Override
+	public void run(String... args) {
 		Scanner in = new Scanner(System.in);
 		System.out.println("SPY");
 		while (true) {

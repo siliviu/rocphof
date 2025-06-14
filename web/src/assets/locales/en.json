@@ -27,6 +27,7 @@
     "Level": "Level",
     "Junior": "Junior",
     "Senior": "Senior",
+    "Girl": "Girl",
     "Participants": "{{count}} participants",
     "Participants_many": "{{count}} participants",
     "Position": "Position",

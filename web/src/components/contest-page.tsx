@@ -9,7 +9,7 @@ import { Loading } from './loading';
 import { MetaTags } from './meta-tags';
 
 export const ContestPage = () => {
-    const { id, grade } = useParams();
+    const { id: idParam, grade: gradeParam } = useParams();
     const { t } = useTranslation();
     const [results, setResults] = useState<Result[]>([]);
     const [contest, setContest] = useState<Contest | null>();
@@ -18,18 +18,21 @@ export const ContestPage = () => {
     const [participants, setParticipants] = useState(0);
     const [loading, setLoading] = useState(true);
 
+    const id = Number(idParam);
+    const grade = Number(gradeParam);
+
     const isONI = contest?.name === "ONI";
     const isLOT = contest?.name === "LOT";
     const isInternational = contest && !isONI && !isLOT;
-    const generationStart = contest ? contest.year - Number(grade) : 0;
+    const generationStart = contest ? contest.year - grade : 0;
 
     useEffect(() => {
         Promise.all([
-            getContestById(Number(id)).then(setContest),
-            getPreviousContest(Number(id))
+            getContestById(id).then(setContest),
+            getPreviousContest(id)
                 .then(setPrevContest)
                 .catch(() => setPrevContest(null)),
-            getNextContest(Number(id))
+            getNextContest(id)
                 .then(setNextContest)
                 .catch(() => setNextContest(null))
         ]);
@@ -40,9 +43,9 @@ export const ContestPage = () => {
             setLoading(true);
 
             Promise.all([
-                getResultsForContest(Number(id), Number(grade))
+                getResultsForContest(id, grade)
                     .then(setResults),
-                getParticipantsForContest(Number(id), Number(grade))
+                getParticipantsForContest(id, grade)
                     .then(nr => setParticipants(Number(nr)))
             ]).finally(() => setLoading(false));
         }
@@ -68,8 +71,19 @@ export const ContestPage = () => {
         )
         , [results, isONI, isLOT, isInternational, contest, t]);
 
-    const prevGrade = Number(grade) - 1;
-    const nextGrade = Number(grade) + 1;
+    const prevGrade = grade - 1;
+    const nextGrade = grade + 1;
+    const [hasPrevGrade, setHasPrevGrade] = useState(false);
+    const [hasNextGrade, setHasNextGrade] = useState(false);
+
+    useEffect(() => {
+        getParticipantsForContest(id, prevGrade).then(number => setHasPrevGrade(number != 0));
+    }, [id, prevGrade]);
+
+    useEffect(() => {
+        getParticipantsForContest(id, nextGrade).then(number => setHasNextGrade(number != 0));
+    }, [id, nextGrade]);
+
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
     const nextContestGrade = nextContest ? nextContest.year - generationStart : 0;
 
@@ -105,9 +119,9 @@ export const ContestPage = () => {
             ) : (
                 <>
                     <p className='subtitle selector'>
-                        {grade == "2" ? <Link className='arrow' to={`/contest/${id}/1`}>&lt;  </Link> : <div />}
-                        <span>{grade == "1" ? t("Junior") : t("Senior")}</span>
-                        {grade == "1" ? <Link className='arrow' to={`/contest/${id}/2`}>&gt;  </Link> : <div />}
+                        {hasPrevGrade ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        <span>{t(["Girl", "Junior", "Senior"][grade])}</span>
+                        {hasNextGrade ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>&gt;  </Link> : <div />}
                     </p>
                 </>
             ))}

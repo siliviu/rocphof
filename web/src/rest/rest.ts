@@ -36,6 +36,7 @@ export function getResultsForContest(id: number, grade: number) {
 export function getParticipantsForContest(id: number, grade: number) {
     return fetch(`${url}/contests/${id}/participants/${grade}`)
         .then(response => response.text())
+        .then(result => Number(result))
 }
 
 export function getResultsForPerson(id: number) {

@@ -8,24 +8,25 @@ import { Loading } from './loading';
 import { MetaTags } from './meta-tags';
 
 export const InstitutionPage = () => {
-    const { id } = useParams();
+    const { id: idParam } = useParams();
     const { t } = useTranslation();
     const [institution, setInstitution] = useState<Institution | null>(null);
     const [results, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(true);
-    
+    const id = Number(idParam);
+
     useEffect(() => {
         Promise.all([
-            getInstitutionById(Number(id))
+            getInstitutionById(id)
                 .then(institution => {
                     setInstitution(institution);
                 }),
-            getResultsForInstitution(Number(id))
+            getResultsForInstitution(id)
                 .then(setResults)
         ]).finally(() => setLoading(false));
     }, [id]);
 
-    const table = useMemo(() => 
+    const table = useMemo(() =>
         results.map(result =>
             <tr key={result.id} className={getMedalClass(result.medal)}>
                 <td>{result.contest.year}</td>
@@ -37,12 +38,12 @@ export const InstitutionPage = () => {
                 <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
             </tr>
         )
-    , [results, t]);
+        , [results, t]);
 
     return <>
         <MetaTags
             title={institution?.name}
-            description={t("meta.institution", { 
+            description={t("meta.institution", {
                 name: institution?.name,
                 city: institution?.city,
                 region: institution?.region
