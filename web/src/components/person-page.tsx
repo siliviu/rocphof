@@ -53,7 +53,7 @@ export const PersonPage = () => {
             .map(result => (
                 <tr key={result.id}>
                     <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
-                    <td>{result.year === 1 ? t("Junior") : t("Senior")}</td>
+                    <td>{t(["Girl", "Junior", "Senior"][result.year])}</td>
                     <td>{person && result.contest.year - person.schoolYear}</td>
                     <td>{result.score}</td>
                     <td>{result.place}</td>

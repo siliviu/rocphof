@@ -2,6 +2,7 @@ package spring;
 
 import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 import query.QueryService;
 
@@ -47,44 +48,49 @@ public class ResultsController {
 		return queryService.getResultsByInstitution(id);
 	}
 
-
+	@Cacheable(value = "regionResults", key = "#name")
 	@GetMapping(value = "/regions/{name}/results")
 	public List<Result> getRegionResults(@PathVariable String name) {
 		return queryService.getResultsByRegion(name);
 	}
 
-
+	@Cacheable(value = "allContests")
 	@GetMapping(value = "/contests")
 	public List<Contest> getContests() {
 		return queryService.getContests();
 	}
 
+	@Cacheable(value = "contestById", key = "#id")
 	@GetMapping(value = "/contests/{id}")
 	public Contest getContestById(@PathVariable Integer id) {
 		return queryService.getContest(id);
 	}
 
+	@Cacheable(value = "previousContest", key = "#id")
 	@GetMapping(value = "/contests/{id}/previous")
 	public Contest getPreviousContest(@PathVariable Integer id) {
 		return queryService.getPreviousContest(id);
 	}
 
+	@Cacheable(value = "nextContest", key = "#id")
 	@GetMapping(value = "/contests/{id}/next")
 	public Contest getNextContest(@PathVariable Integer id) {
 		return queryService.getNextContest(id);
 	}
 
-
+	@Cacheable(value = "contestYearResults", key = "{#id, #year}")
 	@GetMapping(value = "/contests/{id}/results/{year}")
 	public List<Result> getContestYear(@PathVariable Integer id, @PathVariable Integer year) {
 		return queryService.getResultsByContest(id, year);
 	}
 
+	@Cacheable(value = "contestYearParticipants", key = "{#id, #year}")
 	@GetMapping(value = "/contests/{id}/participants/{year}")
 	public Long getContestYearParticipants(@PathVariable Integer id, @PathVariable Integer year) {
 		return queryService.getParticipantsByContest(id, year);
 	}
 
+	@Cacheable(value = "ranking", key = "{#region, #institution, #year}")
 	@GetMapping(value = "/ranking")
 	public List<RankingResult> getRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
 		return queryService.getRanking(region, institution,year);
