@@ -5,6 +5,17 @@ body {
   color: var(--text-color);
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    color: var(--text-color);
+    background-color: var(--background-color);
+  }
+
+  a:hover {
+    color: var(--link-hover-color);
+  }
+}
+
 #root {
   width: 90%;
   margin: 0 auto;
@@ -57,29 +68,10 @@ body {
   margin-bottom: 20px;
 }
 
-.top-panel {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 0;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  margin-bottom: 20px;
-}
+/* top-panel styles moved to top-panel.css */
 
-.top-panel p {
-  margin: 0;
-}
-
-.top-panel img {
-  height: 2.5rem;
-  width: 2.5rem;
-}
-
-a:link,
-a:visited {
+ a:link,
+ a:visited {
   color: var(--link-color);
 }
 
@@ -125,31 +117,6 @@ input {
   list-style-type: none;
 }
 
-.theme-icon {
-  position: absolute;
-  right: 2.5%;
-  cursor: pointer;
-  vertical-align: middle;
-}
-
-.theme-icon:hover {
-  transform: scale(1.15);
-}
-
-.language-icon {
-  position: absolute;
-  left: 2.5%;
-  cursor: pointer;
-  vertical-align: middle;
-  height: 2.5rem;
-  width: 2.5rem;
-  transition: transform 0.2s ease;
-}
-
-.language-icon:hover {
-  transform: scale(1.15);
-}
-
 .dropdown {
   flex-direction: column;
   display: flex;
@@ -182,34 +149,49 @@ span.arrow {
   justify-self: center;
 }
 
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-}
-
-.loading-spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid var(--border-color);
-  border-top: 5px solid var(--primary-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
 .romania-map {
   min-height: 30em;
   height: 100vh;
   margin-bottom: -20vh;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
+html {
+  scrollbar-gutter: stable both-edges;
+}
 
-  100% {
-    transform: rotate(360deg);
-  }
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--text-light-color);
+  background-color: var(--background-dark-color);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 400;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--primary-hover-color);
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
 }

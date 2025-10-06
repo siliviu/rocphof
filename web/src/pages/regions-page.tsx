@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import mapping from '../assets/ro.json';
 import map from '../assets/ro.svg';
-import { MetaTags } from './meta-tags';
+import { MetaTags } from '../common/components';
 
 export const RegionPages = () => {
     const navigate = useNavigate();

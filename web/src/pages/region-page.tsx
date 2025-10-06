@@ -1,10 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
-import { getResultsForRegion } from '../rest/rest';
+import { getResultsForRegion } from '../api/rest';
 import { useTranslation } from 'react-i18next';
-import { Loading } from './loading';
-import { MetaTags } from './meta-tags';
+import { Loading, MetaTags } from '../common/components';
 
 export const RegionPage = () => {
     const { region } = useParams();

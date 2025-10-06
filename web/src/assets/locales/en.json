@@ -57,5 +57,6 @@
     "meta.region": "Competition results for the national olympiad from {{region}} region",
     "meta.ranking": "{{title}}",
     "meta.contests": "List of all informatics competitions",
-    "meta.regions": "Results by regions"
+    "meta.regions": "Results by regions",
+    "tooltip.firstTeamOnly": "Results are only shown for the members of the first (official) team for the time being"
 }

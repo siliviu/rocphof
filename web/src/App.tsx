@@ -1,20 +1,20 @@
-import './App.css';
-import './table.css';
+import './common/styles/app.css';
+import './common/styles/table.css';
 import {
   BrowserRouter as Router,
   Route,
   Routes
 } from "react-router-dom";
 
-import { TopPanel } from './components/top-panel.tsx';
-import { ContestPage } from './components/contest-page.tsx';
-import { PersonPage } from './components/person-page.tsx';
-import { RegionPage } from './components/region-page.tsx';
-import { InstitutionPage } from './components/institution-page.tsx';
-import { MainPage } from './components/main-page.tsx';
-import { RankingPage } from './components/ranking-page.tsx';
-import { ContestPages } from './components/contests-page.tsx';
-import { RegionPages } from './components/regions-page.tsx';
+import { TopPanel } from './common/components/top-panel.tsx';
+import { ContestPage } from './pages/contest-page';
+import { PersonPage } from './pages/person-page';
+import { RegionPage } from './pages/region-page';
+import { InstitutionPage } from './pages/institution-page';
+import { MainPage } from './pages/main-page';
+import { RankingPage } from './pages/ranking-page';
+import { ContestPages } from './pages/contests-page';
+import { RegionPages } from './pages/regions-page';
 
 export default function App() {
   return (

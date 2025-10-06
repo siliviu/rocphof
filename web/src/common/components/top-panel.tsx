@@ -3,10 +3,11 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 
-import lightIcon from "../assets/light.png";
-import darkIcon from "../assets/dark.png";
-import gbFlag from "../assets/gb.png";
-import roFlag from "../assets/ro.png";
+import lightIcon from "../../assets/light.png";
+import darkIcon from "../../assets/dark.png";
+import gbFlag from "../../assets/gb.png";
+import roFlag from "../../assets/ro.png";
+import "../styles/top-panel.css";
 
 export const TopPanel = () => {
   const { t, i18n } = useTranslation();

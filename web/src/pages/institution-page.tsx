@@ -1,11 +1,10 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
-import { getInstitutionById, getResultsForInstitution } from '../rest/rest';
+import { getInstitutionById, getResultsForInstitution } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
-import { Loading } from './loading';
-import { MetaTags } from './meta-tags';
+import { Loading, MetaTags } from '../common/components';
 
 export const InstitutionPage = () => {
     const { id: idParam } = useParams();

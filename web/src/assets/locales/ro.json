@@ -57,5 +57,6 @@
     "meta.region": "Rezultate de la olimpiada naționala de informatică (ONI) pentru județul {{region}}",
     "meta.ranking": "{{title}}",
     "meta.contests": "Lista tuturor concursurilor de informatică, olimpiade naționale (ONI), loturi naționale și competiții internaționale",
-    "meta.regions": "Rezultate pe județe"
+    "meta.regions": "Rezultate pe județe",
+    "tooltip.firstTeamOnly": "Momentan sunt afișate doar rezultatele membrilor primei echipe (oficiale)"
 }

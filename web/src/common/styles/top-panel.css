@@ -1,0 +1,46 @@
+/* Styles for the top panel component */
+.top-panel {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px var(--shadow-color);
+  margin-bottom: 20px;
+}
+
+.top-panel p {
+  margin: 0;
+}
+
+.top-panel img {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.theme-icon {
+  position: absolute;
+  right: 2.5%;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.theme-icon:hover {
+  transform: scale(1.15);
+}
+
+.language-icon {
+  position: absolute;
+  left: 2.5%;
+  cursor: pointer;
+  vertical-align: middle;
+  height: 2.5rem;
+  width: 2.5rem;
+  transition: transform 0.2s ease;
+}
+
+.language-icon:hover {
+  transform: scale(1.15);
+}

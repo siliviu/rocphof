@@ -1,11 +1,10 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState, useMemo } from 'react'
 import { RankingNumber, RankingResult } from '../model/result';
-import { getInstitutionById, getRanking, } from '../rest/rest';
+import { getInstitutionById, getRanking, } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
-import { Loading } from './loading';
-import { MetaTags } from './meta-tags';
+import { Loading, MetaTags } from '../common/components';
 
 export const RankingPage = () => {
     const { t } = useTranslation();

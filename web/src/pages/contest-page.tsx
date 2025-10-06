@@ -1,12 +1,13 @@
 import { useParams, Link } from 'react-router-dom';
 import { Result, getMedalClass } from '../model/result';
 import { useEffect, useState, useMemo } from 'react'
-import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../rest/rest';
+import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../api/rest';
 import { Contest } from '../model/contest';
 import { useTranslation } from 'react-i18next';
-import './contest.css'
-import { Loading } from './loading';
-import { MetaTags } from './meta-tags';
+import '../common/styles/contest.css'
+import { Loading } from '../common/components/loading';
+import { MetaTags } from '../common/components/meta-tags';
+import { InfoTooltip } from '../common/components/info-tooltip';
 
 export const ContestPage = () => {
     const { id: idParam, grade: gradeParam } = useParams();
@@ -99,7 +100,12 @@ export const ContestPage = () => {
         <div className='panel'>
             <p className='title selector'>
                 {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
-                <span>{contest && contest.name} {contest && contest.year}</span>
+                <span>
+                    {contest && contest.name} {contest && contest.year}
+                    {contest && !isONI && !isLOT && contest.name !== "IOI" && contest.name !== "EGOI" && 
+                        <InfoTooltip translationKey="tooltip.firstTeamOnly" />
+                    }
+                </span>
                 {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
             </p>
             {contest && (isONI || isLOT) && (isONI ? (
@@ -125,7 +131,7 @@ export const ContestPage = () => {
                     </p>
                 </>
             ))}
-            <div>{contest && (isONI || isLOT) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
+            <div>{contest && (isONI || isLOT) && (isONI ? <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</> : <></>)}</div>
         </div>
         {loading ? (
             <Loading />

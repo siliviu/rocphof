@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
-import { getAllContests } from '../rest/rest';
+import { getAllContests } from '../api/rest';
 import { useTranslation } from 'react-i18next';
 import { Contest } from '../model/contest';
-import { MetaTags } from './meta-tags';
+import { MetaTags } from '../common/components';
 
 export const ContestPages = () => {
     const { t } = useTranslation();
@@ -76,7 +76,7 @@ const Dropdown = ({ baseName, contests }: { baseName: string, contests: Contest[
     return (
         <li className="dropdown">
             <div className="dropdown-header" onClick={() => setIsOpen(!isOpen)}>
-                {baseName} <span className="arrow">{isOpen ? "▲" : "▼"}</span>
+                {baseName} <span className="arrow">{isOpen ? "\u25b2" : "\u25bc"}</span>
             </div>
             {isOpen && (
                 <ul className="dropdown-content">

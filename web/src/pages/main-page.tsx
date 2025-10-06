@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getPeopleByName } from '../rest/rest';
+import { getPeopleByName } from '../api/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
-import { MetaTags } from './meta-tags';
+import { MetaTags } from '../common/components';
 
 export const MainPage = () => {
     const { t } = useTranslation();
     const [input, setInput] = useState('');
-    const [table, setTable] = useState();
+    const [table, setTable] = useState<any>();
     const search = () => {
         getPeopleByName(input)
             .then(results => {

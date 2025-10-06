@@ -1,11 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
-import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../rest/rest';
+import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../api/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
-import { Loading } from './loading';
-import { MetaTags } from './meta-tags';
+import { Loading } from '../common/components/loading';
+import { MetaTags } from '../common/components/meta-tags';
 
 export const PersonPage = () => {
     const { id } = useParams();
