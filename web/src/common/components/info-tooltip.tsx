@@ -1,5 +1,4 @@
-import {useRef, useState} from 'react';
-import type {FocusEvent} from 'react';
+import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import infoIcon from '../../assets/info.png';
 import '../styles/tooltip.css';
