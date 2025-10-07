@@ -1,4 +1,6 @@
-import { useTranslation } from 'react-i18next';
+import {useRef, useState} from 'react';
+import type {FocusEvent} from 'react';
+import {useTranslation} from 'react-i18next';
 import infoIcon from '../../assets/info.png';
 import '../styles/tooltip.css';
 
@@ -6,14 +8,31 @@ interface InfoTooltipProps {
     translationKey: string;
 }
 
-export const InfoTooltip = ({ translationKey }: InfoTooltipProps) => {
-    const { t } = useTranslation();
+export const InfoTooltip = ({translationKey}: InfoTooltipProps) => {
+    const {t} = useTranslation();
+    const [open, setOpen] = useState(false);
+
     return (
-        <img 
-            src={infoIcon}
-            className="tooltip invertable"
-            title={t(translationKey)}
-            alt="info"
-        />
+        <div
+            className={`tooltip-container ${open ? 'open' : ''}`}
+            onBlur={() => setOpen(false)}
+            onMouseEnter={() => setOpen(true)}
+            onMouseLeave={() => setOpen(false)}
+        >
+            <img
+                src={infoIcon}
+                className="tooltip-icon invertible"
+                aria-hidden="true"
+                alt={""}
+            />
+
+            <div
+                className={`tooltip-popup ${open ? 'open' : ''}`}
+                role="tooltip"
+                aria-hidden={!open}
+            >
+                {t(translationKey)}
+            </div>
+        </div>
     );
 };

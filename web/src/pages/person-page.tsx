@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
+import { CONTEST_ONI, CONTEST_LOT } from '../constants';
 import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../api/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +33,7 @@ export const PersonPage = () => {
 
     const tableONI = useMemo(() =>
         results
-            .filter(result => result.contest.name === "ONI")
+            .filter(result => result.contest.name === CONTEST_ONI)
             .map(result => (
                 <tr key={result.id} className={getMedalClass(result.medal)}>
                     <td>{result.contest.year}</td>
@@ -49,7 +50,7 @@ export const PersonPage = () => {
 
     const tableLOT = useMemo(() =>
         results
-            .filter(result => result.contest.name === "LOT")
+            .filter(result => result.contest.name === CONTEST_LOT)
             .map(result => (
                 <tr key={result.id}>
                     <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
@@ -64,7 +65,7 @@ export const PersonPage = () => {
 
     const tableInternational = useMemo(() =>
         results
-            .filter(result => result.contest.name !== "ONI" && result.contest.name !== "LOT")
+            .filter(result => result.contest.name !== CONTEST_ONI && result.contest.name !== CONTEST_LOT)
             .map(result => (
                 <tr key={result.id} className={getMedalClass(result.medal)}>
                     <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>

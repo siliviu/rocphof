@@ -1,16 +1,54 @@
 @import './theme.css';
 
-.tooltip {
+.tooltip-container {
     display: inline;
     position: absolute;
-    margin-left: 0.2rem;
+    margin-top:0.2em;
+    margin-left: 0.1em;
     width: 0.4em;
     height: 0.4em;
     cursor: help;
-    opacity: 0.9;
     vertical-align: middle;
 }
 
-.tooltip:hover {
+.tooltip-icon {
+    display: block;
+    height: 100%;
+    opacity: 0.85;
+    transition: opacity 120ms ease, transform 120ms ease;
+}
+.tooltip-container:hover .tooltip-icon {
     opacity: 1;
+    transform: translateY(-0.1rem);
+}
+
+.tooltip-popup {
+    position: absolute;
+    right: 5em;
+    top: 0;
+    width: 40em;
+    max-width: 55vw;
+    transform: translateY(-125%) translateX(50%);
+    background: var(--background-color);
+    color: var(--text-color);
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    box-shadow: 0 6px 18px var(--shadow-color);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease, transform 150ms ease;
+    z-index: 1200;
+}
+
+.tooltip-container:hover .tooltip-popup,
+.tooltip-container:focus-within .tooltip-popup,
+.tooltip-container.open .tooltip-popup {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dark .invertible {
+    filter: invert(1) hue-rotate(180deg);
 }

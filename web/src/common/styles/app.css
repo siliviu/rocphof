@@ -24,22 +24,6 @@ body {
   min-height: 93.75vh;
 }
 
-.selector-row {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 48% 4% 48%;
-  align-items: center;
-}
-
-.selector-row>a:first-child {
-  justify-self: right;
-  padding-right: 0.5em;
-}
-
-.selector-row>a:last-child {
-  justify-self: left;
-  padding-left: 0.5em;
-}
 
 
 .title {
@@ -68,8 +52,6 @@ body {
   margin-bottom: 20px;
 }
 
-/* top-panel styles moved to top-panel.css */
-
  a:link,
  a:visited {
   color: var(--link-color);
@@ -89,70 +71,22 @@ input {
   font-size: 1.25rem;
 }
 
-.search-bar {
-  margin: 1em;
-}
-
-.search-bar label {
-  font-size: 15px;
-  font-weight: bold;
-  margin-right: 1em;
-}
-
-.contest-list {
-  display: flex;
-}
-
-.contest-list * {
-  padding-left: 0;
-  width: 100%;
-}
-
-.contest-list a {
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.contest-list li {
-  list-style-type: none;
-}
-
-.dropdown {
-  flex-direction: column;
-  display: flex;
-  list-style: none;
-  margin: 10px 0;
-  align-items: center;
-}
-
-.dropdown-header {
-  max-width: 8rem;
-  cursor: pointer;
-  position: relative;
-  font-size: 1.5rem;
-  font-weight: bold;
-  padding: 0.25rem 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-span.arrow {
-  position: absolute;
-  right: 0;
-  font-size: 0.75rem;
-  margin-left: 5px;
-  vertical-align: middle;
-}
-
-.dropdown-content li {
-  justify-self: center;
-}
-
-.romania-map {
-  min-height: 30em;
-  height: 100vh;
-  margin-bottom: -20vh;
+.arrow {
+    justify-self: center;
+    display: flex;
+    height: 80%;
+    font-size: 75%;
+    font-family: Arial, sans-serif;
+    font-weight: bolder;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px #0000001a;
+    min-width: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
 }
 
 html {

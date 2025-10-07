@@ -4,6 +4,7 @@ import { getPeopleByName } from '../api/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
 import { MetaTags } from '../common/components';
+import './main-page.css';
 
 export const MainPage = () => {
     const { t } = useTranslation();

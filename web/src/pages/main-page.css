@@ -1,0 +1,28 @@
+@import '../common/styles/theme.css';
+
+.selector-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 48% 4% 48%;
+  align-items: center;
+}
+
+.selector-row>a:first-child {
+  justify-self: right;
+  padding-right: 0.5em;
+}
+
+.selector-row>a:last-child {
+  justify-self: left;
+  padding-left: 0.5em;
+}
+
+.search-bar {
+  margin: 1em;
+}
+
+.search-bar label {
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 1em;
+}

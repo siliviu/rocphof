@@ -2,10 +2,15 @@ package domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-
-import java.util.Objects;
+import lombok.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class Result extends Identifiable<Integer> {
 	@ManyToOne
 	@JoinColumn
@@ -30,116 +35,11 @@ public class Result extends Identifiable<Integer> {
 	@Enumerated(EnumType.STRING)
 	@Column
 	private Medal medal;
-
-	public Result() {
-	}
-
-	public Result(Person person, Institution institution, Contest contest, int year, int place) {
-		this.person = person;
-		this.institution = institution;
-		this.contest = contest;
-		this.year = year;
-		this.place = place;
-	}
-
-
-	public Person getPerson() {
-		return person;
-	}
-
-	public void setPerson(Person person) {
-		this.person = person;
-	}
-
-
-	public Institution getInstitution() {
-		return institution;
-	}
-
-	public void setInstitution(Institution institution) {
-		this.institution = institution;
-	}
-
-
-	public Contest getContest() {
-		return contest;
-	}
-
-	public void setContest(Contest contest) {
-		this.contest = contest;
-	}
-
-
-	public int getYear() {
-		return year;
-	}
-
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	public Float getScore() {
-		return score;
-	}
-
-	public void setScore(Float score) {
-		this.score = score;
-	}
-
-
-	public Prize getPrize() {
-		return prize;
-	}
-
-	public void setPrize(Prize prize) {
-		this.prize = prize;
-	}
-
-	public Medal getMedal() {
-		return medal;
-	}
-
-	public void setMedal(Medal medal) {
-		this.medal = medal;
-	}
-
-	public Integer getPlace() {
-		return place;
-	}
-
-	public void setPlace(Integer place) {
-		this.place = place;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Result result = (Result) o;
-		return year == result.year && score == result.score && Objects.equals(person, result.person) && Objects.equals(institution, result.institution) && Objects.equals(contest, result.contest) && prize == result.prize && medal == result.medal;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(person, institution, contest, year, score, prize, medal);
-	}
-
-	@Override
-	public String toString() {
-		return "Result{" +
-				"person=" + person +
-				", institution=" + institution +
-				", contest=" + contest +
-				", year=" + year +
-				", score=" + score +
-				", prize=" + prize +
-				", medal=" + medal +
-				'}';
-	}
-
+	@Column
+	private Boolean unofficial;
 
 	@Override
 	public Identifiable<Integer> copy() {
-		return new Result(person, institution, contest, year, place);
+		return new Result(person, institution, contest, year, score, place, prize, medal, unofficial);
 	}
 }

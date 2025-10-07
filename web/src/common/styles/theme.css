@@ -96,15 +96,3 @@ body.dark {
 .dark .invertable {
     filter: invert(1);
 }
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: var(--text-color);
-    background-color: var(--background-color);
-  }
-
-  a:hover {
-    color: var(--link-hover-color);
-  }
-}

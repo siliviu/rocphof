@@ -1,4 +1,4 @@
-@import './theme.css';
+@import '../common/styles/theme.css';
 
 .selector {
     width: 50%;
@@ -12,24 +12,6 @@
 
 .selector > span {
     justify-self: center;
-}
-
-.arrow {
-    justify-self: center;
-    display: flex;
-    height: 80%;
-    font-size: 75%;
-    font-family: Arial, sans-serif;
-    font-weight: bolder;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 2px 4px #0000001a;
-    min-width: 1rem;
-    align-items: center;
-    justify-content: center;
-    width: 1.75rem;
 }
 
 .arrow:hover {

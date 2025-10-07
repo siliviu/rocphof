@@ -26,6 +26,7 @@ export interface Result {
     prize: Prize | null,
     medal: Medal | null
     total: string | null;
+    unofficial: boolean | null;
 }
 
 export interface RankingResult extends RankingNumber {

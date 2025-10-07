@@ -49,7 +49,7 @@ public class AddConsole implements CommandLineRunner {
 	}
 
 	private void add(int year, String name, int mergeId) {
-		Contest contest = new Contest(year, name, null);
+		Contest contest = new Contest(year, name, null, null, null, 0);
 		addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\" + (name.equals("LOT") ? "lot" : "") + year + ".xlsx", contest);
 		Scanner in = new Scanner(System.in);
 		{

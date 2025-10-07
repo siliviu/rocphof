@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { getAllContests } from '../api/rest';
 import { useTranslation } from 'react-i18next';
+import { CONTEST_ONI, CONTEST_LOT } from '../constants';
 import { Contest } from '../model/contest';
 import { MetaTags } from '../common/components';
+import './contests-page.css';
 
 export const ContestPages = () => {
     const { t } = useTranslation();
@@ -15,7 +17,7 @@ export const ContestPages = () => {
 
     const contestsONI = useMemo(() => 
         contests
-            .filter(contest => contest.name === "ONI")
+            .filter(contest => contest.name === CONTEST_ONI)
             .map(contest => (
                 <li key={contest.id}>
                     <Link to={`/contest/${contest.id}/9`}>{contest.name} {contest.year}</Link>
@@ -25,7 +27,7 @@ export const ContestPages = () => {
 
     const contestsLOT = useMemo(() => 
         contests
-            .filter(contest => contest.name === "LOT")
+            .filter(contest => contest.name === CONTEST_LOT)
             .map(contest => (
                 <li key={contest.id}>
                     <Link to={`/contest/${contest.id}/2`}>{contest.name} {contest.year}</Link>
@@ -35,7 +37,7 @@ export const ContestPages = () => {
 
     const groupedContestsInternational = useMemo(() => 
         contests
-            .filter(contest => contest.name !== "ONI" && contest.name !== "LOT")
+            .filter(contest => contest.name !== CONTEST_ONI && contest.name !== CONTEST_LOT)
             .reduce((groups: Record<string, Contest[]>, contest) => {
                 const baseName = contest.name.replace(/\d{4}/, "").trim();
                 if (!groups[baseName]) groups[baseName] = [];

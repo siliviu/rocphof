@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from 'react'
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../api/rest';
 import { Contest } from '../model/contest';
 import { useTranslation } from 'react-i18next';
-import '../common/styles/contest.css'
+import { CONTEST_ONI, CONTEST_LOT, COUNTRY_ROMANIA } from '../constants';
+import './contest-page.css'
 import { Loading } from '../common/components/loading';
 import { MetaTags } from '../common/components/meta-tags';
 import { InfoTooltip } from '../common/components/info-tooltip';
@@ -22,8 +23,8 @@ export const ContestPage = () => {
     const id = Number(idParam);
     const grade = Number(gradeParam);
 
-    const isONI = contest?.name === "ONI";
-    const isLOT = contest?.name === "LOT";
+    const isONI = contest?.name === CONTEST_ONI;
+    const isLOT = contest?.name === CONTEST_LOT;
     const isInternational = contest && !isONI && !isLOT;
     const generationStart = contest ? contest.year - grade : 0;
 
@@ -47,7 +48,7 @@ export const ContestPage = () => {
                 getResultsForContest(id, grade)
                     .then(setResults),
                 getParticipantsForContest(id, grade)
-                    .then(nr => setParticipants(Number(nr)))
+                    .then(nr => setParticipants(contest.participants && isInternational ? contest.participants : Number(nr)))
             ]).finally(() => setLoading(false));
         }
     }, [grade, contest]);
@@ -102,7 +103,7 @@ export const ContestPage = () => {
                 {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
                 <span>
                     {contest && contest.name} {contest && contest.year}
-                    {contest && !isONI && !isLOT && contest.name !== "IOI" && contest.name !== "EGOI" && 
+                    {contest && isInternational && contest.country == COUNTRY_ROMANIA &&
                         <InfoTooltip translationKey="tooltip.firstTeamOnly" />
                     }
                 </span>
@@ -131,7 +132,7 @@ export const ContestPage = () => {
                     </p>
                 </>
             ))}
-            <div>{contest && (isONI || isLOT) && (isONI ? <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</> : <></>)}</div>
+            <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
         </div>
         {loading ? (
             <Loading />
