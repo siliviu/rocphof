@@ -27,3 +27,34 @@
     outline: none;
     box-shadow: 0 0 0 2px var(--background-color), 0 0 0 4px var(--border-color);
 }
+
+.info-links, .info-small-links {
+    display: flex;
+    gap: 2.5em;
+    justify-content: center;
+}
+
+.info-links a {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.info-header{
+    margin-top: 0.5em;
+}
+
+.info-header p {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+.info-content {
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    font-size: 0.85em;
+    text-align: justify;
+}
+
+.results-box {
+    margin-top: 0.5em;
+}

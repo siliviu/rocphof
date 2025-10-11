@@ -46,7 +46,7 @@ export const PersonPage = () => {
                     <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
                 </tr>
             ))
-    , [results, t]);
+        , [results, t]);
 
     const tableLOT = useMemo(() =>
         results
@@ -61,7 +61,7 @@ export const PersonPage = () => {
                     <td>{result.prize ? t("Final.Yes") : ''}</td>
                 </tr>
             ))
-    , [results, t]);
+        , [results, t]);
 
     const tableInternational = useMemo(() =>
         results
@@ -76,7 +76,7 @@ export const PersonPage = () => {
                     <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
                 </tr>
             ))
-    , [results, t]);
+        , [results, t]);
 
     return <>
         <MetaTags
@@ -84,7 +84,9 @@ export const PersonPage = () => {
             description={t("meta.person", { name: person?.name })}
         />
         <div className='panel'>
-            <p className='title'>{person && person.name}</p>
+            {person ?
+                <p className='title'>{person.name}</p>
+                : <Loading />}
         </div>
         <div className='panel'>
             <p className='title'>ONI</p>

@@ -27,9 +27,15 @@ public class Contest extends Identifiable<Integer> {
 	private String city;
 	@Column
 	private Integer participants;
+	@Column
+	private String site;
+	@Column
+	private String start;
+	@Column
+	private String end;
 
 	@Override
 	public Identifiable<Integer> copy() {
-		return new Contest(year, name, desc, country, city, participants);
+		return new Contest(year, name, desc, country, city, participants,site,start,end);
 	}
 }

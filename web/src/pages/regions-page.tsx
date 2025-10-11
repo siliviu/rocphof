@@ -18,11 +18,10 @@ export const RegionPages = () => {
             .then((svg) => {
                 const svgDoc = new DOMParser().parseFromString(svg, 'image/svg+xml');
                 const paths = Array.from(svgDoc.querySelectorAll('path'));
-
                 setSvgElement((
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            viewBox={svgDoc.documentElement.getAttribute('viewBox') || '0 0 1000 1000'}
+                            viewBox={svgDoc.documentElement.getAttribute('viewBox') || '0 0 1000 750'}
                             className="romania-map"
                         >
                             {paths.map((path, index) => {
@@ -43,7 +42,7 @@ export const RegionPages = () => {
                         </svg>
                     ));
             });
-    }, [t]);
+    }, []);
 
     return (
         <>

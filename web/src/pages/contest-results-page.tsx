@@ -10,7 +10,7 @@ import { Loading } from '../common/components/loading';
 import { MetaTags } from '../common/components/meta-tags';
 import { InfoTooltip } from '../common/components/info-tooltip';
 
-export const ContestPage = () => {
+export const ContestResultsPage = () => {
     const { id: idParam, grade: gradeParam } = useParams();
     const { t } = useTranslation();
     const [results, setResults] = useState<Result[]>([]);
@@ -99,18 +99,18 @@ export const ContestPage = () => {
             })}
         />
         <div className='panel'>
-            <p className='title selector'>
-                {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
-                <span>
-                    {contest && contest.name} {contest && contest.year}
-                    {contest && isInternational && contest.country == COUNTRY_ROMANIA &&
-                        <InfoTooltip translationKey="tooltip.firstTeamOnly" />
-                    }
-                </span>
-                {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
-            </p>
-            {contest && (isONI || isLOT) && (isONI ? (
-                <>
+            {contest ? <>
+                <p className='title selector'>
+                    {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
+                    <span>
+                        <Link className='link-bold' to={`/contest/${id}`}>{contest.name} {contest.year}</Link>
+                        {isInternational && contest.country == COUNTRY_ROMANIA &&
+                            <InfoTooltip translationKey="tooltip.firstTeamOnly" />
+                        }
+                    </span>
+                    {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
+                </p>
+                {(isONI || isLOT) && (isONI ? (<>
                     <p className='subtitle selector'>
                         {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{grade}</span>
@@ -123,45 +123,41 @@ export const ContestPage = () => {
                     </p>
                     <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
-            ) : (
-                <>
+                ) : (<>
                     <p className='subtitle selector'>
                         {prevGrade >= 0 && hasPrevGrade ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{t(["Girl", "Junior", "Senior"][grade])}</span>
                         {nextGrade <= 2 && hasNextGrade ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>&gt;  </Link> : <div />}
                     </p>
                 </>
-            ))}
-            <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
+                ))}
+                <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
+            </> : <Loading/>}
         </div>
-        {loading ? (
-            <Loading />
-        ) : (
+        {!loading && contest ? (
             <table>
                 <colgroup>
                     <col className="place" />
                     <col className="name" />
-                    {contest && isONI ? (
-                        <>
-                            <col className="region" />
-                            <col className="institution" />
-                        </>
+                    {isONI ? (<>
+                        <col className="region" />
+                        <col className="institution" />
+                    </>
                     ) : (
                         <col className="grade" />
                     )}
                     <col className="score" />
                     <col className="prize" />
-                    {contest && isONI && <col className="medal" />}
+                    {isONI && <col className="medal" />}
                 </colgroup>
                 <tbody>
                     <tr>
                         <th>{t("Place")}</th>
                         <th>{t("Name")}</th>
-                        {contest && isONI ? (
-                            <>
-                                <th>{t("Region")}</th>
-                                <th>{t("Institution")}</th>
-                            </>
+                        {isONI ? (<>
+                            <th>{t("Region")}</th>
+                            <th>{t("Institution")}</th>
+                        </>
                         ) : (
                             <th>{t("Grade")}</th>
                         )}
@@ -172,6 +168,6 @@ export const ContestPage = () => {
                     {table}
                 </tbody>
             </table>
-        )}
+        ) : <Loading />}
     </>;
 }

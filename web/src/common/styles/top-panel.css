@@ -16,13 +16,13 @@
 }
 
 .top-panel img {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2em;
+  width: 2em;
 }
 
 .theme-icon {
   position: absolute;
-  right: 2.5%;
+  right: 1.5em;
   cursor: pointer;
   vertical-align: middle;
 }
@@ -33,14 +33,18 @@
 
 .language-icon {
   position: absolute;
-  left: 2.5%;
+  left: 1.5em;
   cursor: pointer;
   vertical-align: middle;
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2em;
+  width: 2em;
   transition: transform 0.2s ease;
 }
 
 .language-icon:hover {
   transform: scale(1.15);
+}
+
+.top-panel .title {
+  padding: 0 2em;
 }

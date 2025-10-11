@@ -41,8 +41,18 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+
+springBoot {
+    mainClass = 'spring.BootMain'  // your actual entrypoint
+}
+
 bootJar {
-    mainClass = "spring.BootMain"
+    enabled = true
+    archiveFileName = "app.jar"
+}
+
+jar {
+    enabled = false
 }
 
 test {

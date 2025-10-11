@@ -3,7 +3,7 @@
 .selector-row {
   width: 100%;
   display: grid;
-  grid-template-columns: 48% 4% 48%;
+  grid-template-columns: 47% 6% 47%;
   align-items: center;
 }
 

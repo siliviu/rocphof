@@ -5,5 +5,8 @@ export interface Contest {
     desc: string | null,
     country: string | null,
     city: string | null,
-    participants: number | null
+    participants: number | null,
+    start: string | null,
+    end: string | null,
+    site: string | null
 }

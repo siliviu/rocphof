@@ -1,6 +1,6 @@
 # Use the official Gradle image to build the app
 
-FROM gradle:jdk17 AS builder
+FROM gradle:8.7-jdk17 AS builder
 WORKDIR /home/gradle/project
 
 # Copy the project files
@@ -14,7 +14,7 @@ FROM openjdk:17
 WORKDIR /app
 
 # Copy the JAR file from the build stage
-COPY --from=builder /home/gradle/project/app/build/libs/*.jar app.jar
+COPY --from=builder /home/gradle/project/app/build/libs/app.jar app.jar
 
 # Expose the port the app runs on
 EXPOSE 8080

@@ -1,7 +1,5 @@
 @import '../common/styles/theme.css';
 
 .romania-map {
-  min-height: 30em;
-  height: 100vh;
-  margin-bottom: -20vh;
+  max-height: 70vh;
 }

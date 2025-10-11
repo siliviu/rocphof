@@ -1,74 +1,72 @@
 @import './theme.css';
 
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    color: var(--text-color);
-    background-color: var(--background-color);
-  }
+    :root {
+        color: var(--text-color);
+        background-color: var(--background-color);
+    }
 
-  a:hover {
-    color: var(--link-hover-color);
-  }
+    a:hover {
+        color: var(--link-hover-color);
+    }
 }
 
 #root {
-  width: 90%;
-  margin: 0 auto;
-  padding-top: 6.25vh;
-  text-align: center;
-  min-height: 93.75vh;
+    width: 90vw;
+    padding: 6.25vh 5vw 0;
+    text-align: center;
+    min-height: 93.75vh;
 }
-
 
 
 .title {
-  font-weight: bolder;
-  font-size: 2.25em;
-  margin: 0;
+    font-weight: bolder;
+    font-size: 2.25em;
+    margin: 0;
 }
 
 .subtitle {
-  font-weight: bold;
-  font-size: 1.6em;
-  margin: 0;
+    font-weight: bold;
+    font-size: 1.6em;
+    margin: 0;
 }
 
 .subsubtitle {
-  font-weight: bold;
-  font-size: 1.25em;
-  margin: 0.25em 0;
+    font-weight: bold;
+    font-size: 1.25em;
+    margin: 0.25em 0;
 }
 
 .panel {
-  padding: 16px 20px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  margin-bottom: 20px;
+    padding: 16px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    margin-bottom: 20px;
 }
 
- a:link,
- a:visited {
-  color: var(--link-color);
+a:link,
+a:visited {
+    color: var(--link-color);
 }
 
 input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  outline: none;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  background-color: var(--input-background-color);
-  color: var(--text-color);
-  margin-right: 10px;
-  width: calc(max(10rem, 20%));
-  font-size: 1.25rem;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    outline: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+    margin-right: 10px;
+    width: calc(max(10rem, 20%));
+    font-size: 1.25rem;
 }
 
 .arrow {
@@ -90,42 +88,45 @@ input {
 }
 
 html {
-  scrollbar-gutter: stable both-edges;
+    scrollbar-gutter: stable both-edges;
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: var(--text-light-color);
-  background-color: var(--background-dark-color);
+    color-scheme: light dark;
+    color: var(--text-light-color);
+    background-color: var(--background-dark-color);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a :not(.link-bold) {
+    font-weight: 400;
 }
 
 a {
-  font-weight: 400;
-  text-decoration: inherit;
+    text-decoration: inherit;
 }
 
 a:hover {
-  color: var(--primary-hover-color);
+    color: var(--primary-hover-color);
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
 }
 
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+    font-size: 3.2em;
+    line-height: 1.1;
 }
