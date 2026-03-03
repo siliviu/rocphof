@@ -18,6 +18,7 @@ export const ContestResultsPage = () => {
     const [prevContest, setPrevContest] = useState<Contest | null>(null);
     const [nextContest, setNextContest] = useState<Contest | null>(null);
     const [participants, setParticipants] = useState(0);
+    const [generationStart, setGenerationStart] = useState<number>(0);
     const [loading, setLoading] = useState(true);
 
     const id = Number(idParam);
@@ -26,7 +27,6 @@ export const ContestResultsPage = () => {
     const isONI = contest?.name === CONTEST_ONI;
     const isLOT = contest?.name === CONTEST_LOT;
     const isInternational = contest && !isONI && !isLOT;
-    const generationStart = contest ? contest.year - grade : 0;
 
     useEffect(() => {
         Promise.all([
@@ -52,6 +52,12 @@ export const ContestResultsPage = () => {
             ]).finally(() => setLoading(false));
         }
     }, [grade, contest]);
+
+    useEffect(() => {
+        if (contest && contest.id === id) {
+            setGenerationStart(contest.year - grade);
+        }
+    }, [contest, grade, id]);
 
     const table = useMemo(() =>
         results.map(result =>
@@ -117,9 +123,9 @@ export const ContestResultsPage = () => {
                         {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
                     </p>
                     <p className='subsubtitle selector'>
-                        {prevContest && prevContestGrade >= 5 ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        {grade > 5 && prevContest && prevContestGrade >= 5 ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
                         <span>{generationStart + 5}-{generationStart + 12}</span>
-                        {nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
+                        {grade < 12 && nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
                     </p>
                     <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
