@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { Result, getMedalClass } from '../model/result';
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../api/rest';
 import { Contest } from '../model/contest';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import { CONTEST_ONI, CONTEST_LOT, COUNTRY_ROMANIA } from '../constants';
 import './contest-page.css'
 import { Loading } from '../common/components/loading';
 import { MetaTags } from '../common/components/meta-tags';
+import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { InfoTooltip } from '../common/components/info-tooltip';
 
 export const ContestResultsPage = () => {
@@ -20,6 +21,10 @@ export const ContestResultsPage = () => {
     const [participants, setParticipants] = useState(0);
     const [generationStart, setGenerationStart] = useState<number>(0);
     const [loading, setLoading] = useState(true);
+    const [tableLoading, setTableLoading] = useState(false);
+    const firstLoad = useRef(true);
+    const MIN_GENERATION_GRADE = 5;
+    const MAX_GENERATION_GRADE = 12;
 
     const id = Number(idParam);
     const grade = Number(gradeParam);
@@ -29,27 +34,35 @@ export const ContestResultsPage = () => {
     const isInternational = contest && !isONI && !isLOT;
 
     useEffect(() => {
-        Promise.all([
-            getContestById(id).then(setContest),
-            getPreviousContest(id)
-                .then(setPrevContest)
-                .catch(() => setPrevContest(null)),
-            getNextContest(id)
-                .then(setNextContest)
-                .catch(() => setNextContest(null))
-        ]);
+        const showLoading = firstLoad.current;
+        if (showLoading) setLoading(true);
+
+        getContestById(id)
+            .then(c => setContest(c))
+            .catch(() => setContest(undefined))
+            .finally(() => {
+                if (showLoading) setLoading(false);
+                firstLoad.current = false;
+            });
+
+        getPreviousContest(id)
+            .then(setPrevContest)
+            .catch(() => setPrevContest(null));
+        getNextContest(id)
+            .then(setNextContest)
+            .catch(() => setNextContest(null));
     }, [id]);
 
     useEffect(() => {
         if (contest) {
-            setLoading(true);
+            setTableLoading(true);
 
             Promise.all([
                 getResultsForContest(id, grade)
                     .then(setResults),
                 getParticipantsForContest(id, grade)
                     .then(nr => setParticipants(contest.participants && isInternational ? contest.participants : Number(nr)))
-            ]).finally(() => setLoading(false));
+            ]).finally(() => setTableLoading(false));
         }
     }, [grade, contest]);
 
@@ -110,10 +123,7 @@ export const ContestResultsPage = () => {
     }
 
     if (!contest) {
-        return <>
-            <MetaTags title={t('ContestNotFound') ?? 'Contest not found'} description={t('ContestNotFound') ?? 'Contest not found'} />
-            <div className='panel'><p className='title'>Contest not found</p></div>
-        </>;
+        return <NotFoundPanel messageKey={'ContestNotFound'} />;
     }
 
     return <>
@@ -137,16 +147,16 @@ export const ContestResultsPage = () => {
                     </span>
                     {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
                 </p>
-                {(isONI || isLOT) && (isONI ? (<>
+                    {(isONI || isLOT) && (isONI ? (<>
                     <p className='subtitle selector'>
-                        {prevGrade >= 5 ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        {prevGrade >= MIN_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{grade}</span>
-                        {nextGrade <= 12 ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
+                        {nextGrade <= MAX_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
                     </p>
                     <p className='subsubtitle selector'>
-                        {grade > 5 && prevContest && prevContestGrade >= 5 ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
-                        <span>{generationStart + 5}-{generationStart + 12}</span>
-                        {grade < 12 && nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
+                        {grade > MIN_GENERATION_GRADE && prevContest && prevContestGrade >= MIN_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        <span>{generationStart + MIN_GENERATION_GRADE}-{generationStart + MAX_GENERATION_GRADE}</span>
+                        {grade < MAX_GENERATION_GRADE && nextContest && nextContestGrade <= MAX_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
                     </p>
                     <p className='subsubtitle'><Link to={`/rankings/people?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
@@ -162,7 +172,7 @@ export const ContestResultsPage = () => {
             </>
         </div>
         {!loading && contest ? (
-            <table>
+            tableLoading ? <Loading /> : <table>
                 <colgroup>
                     <col className="place" />
                     <col className="name" />

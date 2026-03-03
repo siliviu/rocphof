@@ -77,4 +77,10 @@
   "info.EGOI": "Olimpiada Europeană de Informatică pentru Fete (EGOI) este o competiție internațională creată pentru a încuraja și promova participarea fetelor în programarea competitivă. Urmează formatul IOI, cu două zile de concurs de câte cinci ore și notare pe subtasks. EGOI reunește participante din întreaga Europă și din țări invitate, oferind un mediu prietenos, dar exigent, care reflectă rigoarea competițiilor de nivel IOI. România participă încă de la primele ediții, iar începând cu anul 2025, a fost introdus un LOT dedicat selecției și pregătirii echipei feminine pentru EGOI.",
   "info.JBOI": "Olimpiada Balcanică de Informatică pentru Juniori (JBOI) este o competiție regională destinată elevilor mai tineri din țările balcanice și din alte țări invitate. Ea urmează structura olimpiadei seniorilor (BOI), dar este rezervată concurenților juniori, de obicei sub 15,5 ani. Concursul are două runde de probleme algoritmice, notate pe subtasks conform modelului IOI. JBOI oferă tinerilor programatori o primă experiență internațională și servește ca etapă de formare pentru participarea ulterioară la EJOI, BOI sau IOI.",
   "info.EJOI": "Olimpiada Europeană de Informatică pentru Juniori (EJOI) este o competiție continentală destinată elevilor mai tineri, de regulă sub 15,5 ani, care demonstrează un potențial ridicat în programarea algoritmică. Urmează formatul IOI, cu două zile de concurs și sistem de notare pe subtasks, și are scopul de a oferi concurenților juniori o primă experiență la nivel internațional. EJOI face legătura între olimpiadele naționale pentru juniori și competițiile de seniori precum BOI sau IOI. România este una dintre țările cu cele mai bune rezultate la EJOI, încă de la primele ediții."
+
+  ,"PersonNotFound": "Persoană negăsită"
+  ,"InstitutionNotFound": "Instituție negăsită"
+  ,"RegionNotFound": "Județ negăsit"
+  ,"ContestNotFound": "Concurs negăsit"
+  ,"NoDataOrNotFound": "Nu există date pentru această entitate."
 }

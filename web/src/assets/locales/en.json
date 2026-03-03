@@ -77,4 +77,10 @@
   "info.EGOI": "The European Girls’ Olympiad in Informatics (EGOI) is an international competition created to encourage and promote the participation of girls in competitive programming. It follows the IOI contest format, with two five-hour rounds and IOI-style subtask scoring. EGOI gathers female contestants from across Europe and invited guest countries, providing a friendly yet challenging environment that mirrors the rigor of the IOI. Romania has participated since the early editions, and starting in 2025, a dedicated girls’ LOT has been established to select and train Romania’s EGOI representatives.",
   "info.JBOI": "The Junior Balkan Olympiad in Informatics (JBOI) is a regional competition for younger students from Balkan countries and invited guests. It mirrors the structure of the senior Balkan Olympiad (BOI) but is restricted to junior contestants, usually under 15.5 years old. The contest consists of two rounds of algorithmic problems scored by subtasks, following the IOI model. JBOI provides an opportunity for junior programmers to gain early international experience and serves as a key training and motivational step toward later participation in EJOI, BOI, or IOI.",
   "info.EJOI": "The European Junior Olympiad in Informatics (EJOI) is a continental competition designed for younger students, typically under 15.5 years old, who show strong potential in algorithmic programming. It follows the IOI-style two-day format with subtask scoring and aims to give talented junior contestants early experience in international-level contests. EJOI helps bridge the gap between national junior olympiads and senior competitions such as BOI or IOI. Romania has been one of the leading participants since the contest’s inception, frequently earning top results."
+
+  ,"PersonNotFound": "Person not found"
+  ,"InstitutionNotFound": "Institution not found"
+  ,"RegionNotFound": "Region not found"
+  ,"ContestNotFound": "Contest not found"
+  ,"NoDataOrNotFound": "No data found for this entity."
 }

@@ -86,7 +86,7 @@ export const PersonPage = () => {
         <div className='panel'>
             {loading ? <Loading /> : person ?
                 <p className='title'>{person.name}</p>
-                : <p className='title'>Person not found</p>}
+                    : <p className='title'>{t('PersonNotFound')}</p>}
         </div>
 
         {!loading && !person ? <div className='panel'><p>{t('NoDataOrNotFound') ?? 'No data found for this person.'}</p></div> : (

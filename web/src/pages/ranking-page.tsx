@@ -5,6 +5,7 @@ import { getInstitutionById, getPeopleRanking } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
 import { Loading, MetaTags } from '../common/components';
+import { NotFoundPanel } from '../common/components/NotFoundPanel';
 
 export const RankingPage = () => {
     const { t } = useTranslation();
@@ -76,9 +77,7 @@ export const RankingPage = () => {
         ) : (
             <> 
                 {searchParams.has("institution") && !institution ? (
-                    <div className='panel'>
-                        <p className='title'>Institution not found</p>
-                    </div>
+                    <NotFoundPanel messageKey={'InstitutionNotFound'} />
                 ) : (
                     <table>
                         <tbody>

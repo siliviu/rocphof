@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getContestById, getNextContest, getPreviousContest } from "../api/rest";
 import { Contest } from "../model/contest";
-import { Loading, MetaTags } from "../common/components";
+import { Loading, MetaTags } from '../common/components';
+import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -43,7 +44,7 @@ export const ContestInfoPage = () => {
             description={t('meta.contest_info', { name: contest?.name, year: contest?.year })}
         />
         <div className='panel'>
-            {loading ? <Loading /> : !contest ? <p className='title'>Contest not found</p> : <>
+            {loading ? <Loading /> : !contest ? <NotFoundPanel messageKey={'ContestNotFound'} /> : <>
                 <p className='title selector'>
                     {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}`}> &lt;</Link> : <div />}
                     <span>{contest.name} {contest.year}</span>
@@ -80,7 +81,7 @@ export const ContestInfoPage = () => {
             </>}
         </div>
         <div className="panel">
-            {loading ? <Loading /> : !contest ? <p className='title'>Contest not found</p> : <>
+            {loading ? <Loading /> : !contest ? <NotFoundPanel messageKey={'ContestNotFound'} /> : <>
                 <p className="title">{t('info.header', { name: contest.name })}</p>
                 <div className='info-content'>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{t(`info.${contest.name}`)}</ReactMarkdown>

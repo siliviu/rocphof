@@ -1,5 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
+import { EntityHeader } from '../common/components/EntityHeader';
+import { NotFoundPanel } from '../common/components/NotFoundPanel';
+import './ranking.css';
 import { Result, getMedalClass } from '../model/result';
 import { getResultsForRegion } from '../api/rest';
 import { useTranslation } from 'react-i18next';
@@ -46,27 +49,17 @@ export const RegionPage = () => {
     }
 
     if (!region || results.length === 0) {
-        return <>
-            <MetaTags 
-                title={t('RegionNotFound') ?? 'Region not found'}
-                description={t('RegionNotFound') ?? 'Region not found'}
-            />
-            <div className='panel'>
-                <p className='title'>{t('RegionNotFound') ?? 'Region not found'}</p>
-            </div>
-        </>;
+        return <NotFoundPanel messageKey={'RegionNotFound'} />;
     }
 
     return <>
-        <MetaTags 
+        <EntityHeader
             title={region}
-            description={t("meta.region", {region})}
+            subtitleHref={`/rankings/people?region=${region}`}
+            subtitleText={t("TopPeopleInRegion")}
+            subsubtitleHref={`/rankings/regions`}
+            subsubtitleText={t("AllRegionsRanking")}
         />
-        <div className='panel'>
-            <p className='title'>{region}</p>
-            <p className='subtitle'><Link to={`/rankings/people?region=${region}`}>{t("TopPeopleInRegion")}</Link></p>
-            <p className='subsubtitle'><Link to={`/rankings/regions`}>{t("AllRegionsRanking")}</Link></p>
-        </div>
         <table>
             <tbody>
                 <tr>

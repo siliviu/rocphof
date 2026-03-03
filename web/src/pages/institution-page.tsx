@@ -1,5 +1,8 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
+import { EntityHeader } from '../common/components/EntityHeader';
+import { NotFoundPanel } from '../common/components/NotFoundPanel';
+import './ranking.css';
 import { Result, getMedalClass } from '../model/result';
 import { getInstitutionById, getResultsForInstitution } from '../api/rest';
 import { Institution } from '../model/institution';
@@ -54,29 +57,17 @@ export const InstitutionPage = () => {
     }
 
     if (!institution) {
-        return <>
-            <MetaTags title={t('InstitutionNotFound') ?? 'Institution not found'} description={t('InstitutionNotFound') ?? 'Institution not found'} />
-            <div className='panel'>
-                <p className='title'>Institution not found</p>
-            </div>
-        </>;
+        return <NotFoundPanel messageKey={'InstitutionNotFound'} />;
     }
 
     return <>
-        <MetaTags
+        <EntityHeader
             title={institution.name}
-            description={t("meta.institution", {
-                name: institution.name,
-                city: institution.city,
-                region: institution.region
-            })}
+            subtitleHref={`/rankings/people?institution=${institution.id}`}
+            subtitleText={t("TopPeopleAtInstitution")}
+            subsubtitleHref={`/rankings/institutions`}
+            subsubtitleText={t("AllInstitutionsRanking")}
         />
-        <div className='panel'>
-            <p className='title'>{institution.name}</p>
-            <p className='subtitle'>{institution.city},  {institution.region}</p >
-            <p className='subtitle'><Link to={`/rankings/people?institution=${institution.id}`}>{t("TopPeopleAtInstitution")}</Link></p>
-            <p className='subsubtitle'><Link to={`/rankings/institutions`}>{t("AllInstitutionsRanking")}</Link></p>
-        </div>
         <table>
             <tbody>
                 <tr>
