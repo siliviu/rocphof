@@ -32,11 +32,21 @@
     display: flex;
     gap: 2.5em;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .info-links a {
     font-size: 1.5em;
     font-weight: bolder;
+}
+
+.info-small-links a,
+.info-links a {
+    max-width: 100%;
+    display: inline-block;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .info-header{
@@ -57,4 +67,7 @@
 
 .results-box {
     margin-top: 0.5em;
+    /* make long content wrap instead of stretching the container */
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
