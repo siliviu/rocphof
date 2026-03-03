@@ -59,14 +59,34 @@ export function getPeopleByName(search: string) {
         .then(response => response.json())
 }
 
-export function getRanking(name: string, institution: string, generation: number) {
+export function getPeopleRanking(region: string | null, institution: string | null, generation: number | null) {
     const obj: any = {};
-    if (name)
-        obj.region = name;
+    if (region)
+        obj.region = region;
     if (institution)
         obj.institution = institution;
     if (generation)
         obj.year = generation;
-    return fetch(`${url}/ranking?` + new URLSearchParams(obj))
+    return fetch(`${url}/rankings/people?` + new URLSearchParams(obj))
+        .then(response => response.json())
+}
+
+export function getInstitutionRankings(startYear: number | null, endYear: number | null) {
+    const obj: any = {};
+    if (startYear !== null && startYear !== undefined)
+        obj.startYear = String(startYear);
+    if (endYear !== null && endYear !== undefined)
+        obj.endYear = String(endYear);
+    return fetch(`${url}/rankings/institutions?` + new URLSearchParams(obj))
+        .then(response => response.json())
+}
+
+export function getRegionRankings(startYear: number | null, endYear: number | null) {
+    const obj: any = {};
+    if (startYear !== null && startYear !== undefined)
+        obj.startYear = String(startYear);
+    if (endYear !== null && endYear !== undefined)
+        obj.endYear = String(endYear);
+    return fetch(`${url}/rankings/regions?` + new URLSearchParams(obj))
         .then(response => response.json())
 }

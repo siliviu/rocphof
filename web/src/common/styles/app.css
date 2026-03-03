@@ -50,6 +50,8 @@ body {
     margin-bottom: 20px;
 }
 
+
+
 a:link,
 a:visited {
     color: var(--link-color);

@@ -90,9 +90,21 @@ public class ResultsController {
 		return queryService.getParticipantsByContest(id, year);
 	}
 
-	@Cacheable(value = "ranking", key = "{#region, #institution, #year}")
-	@GetMapping(value = "/ranking")
-	public List<RankingResult> getRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
+	@Cacheable(value = "rankingPeople", key = "{#region, #institution, #year}")
+	@GetMapping(value = "/rankings/people")
+	public List<RankingResult> getPeopleRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
 		return queryService.getRanking(region, institution,year);
+	}
+
+	@Cacheable(value = "rankingInstitutions", key = "{#startYear, #endYear}")
+	@GetMapping(value = "/rankings/institutions")
+	public List<domain.RankingInstitution> getInstitutionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear) {
+		return queryService.getInstitutionRanking(startYear, endYear);
+	}
+
+	@Cacheable(value = "rankingRegions", key = "{#startYear, #endYear}")
+	@GetMapping(value = "/rankings/regions")
+	public List<domain.RankingRegion> getRegionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear) {
+		return queryService.getRegionRanking(startYear, endYear);
 	}
 }

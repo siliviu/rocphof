@@ -13,6 +13,8 @@ import { RegionPage } from './pages/region-page';
 import { InstitutionPage } from './pages/institution-page';
 import { MainPage } from './pages/main-page';
 import { RankingPage } from './pages/ranking-page';
+import { InstitutionsRankingPage } from './pages/institutions-ranking-page';
+import { RegionsRankingPage } from './pages/regions-ranking-page';
 import { ContestPages } from './pages/contests-page';
 import { RegionPages } from './pages/regions-page';
 import { ContestInfoPage } from './pages/contest-info-page.tsx';
@@ -24,6 +26,9 @@ export default function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/ranking" element={<RankingPage />} />
+        <Route path="/rankings/people" element={<RankingPage />} />
+        <Route path="/rankings/institutions" element={<InstitutionsRankingPage />} />
+        <Route path="/rankings/regions" element={<RegionsRankingPage />} />
         <Route path="/person/:id" element={<PersonPage />} />
         <Route path="/contests" element={<ContestPages />} />
         <Route path="/contest/:id/:grade" element={<ContestResultsPage />} />

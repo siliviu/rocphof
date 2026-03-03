@@ -3,6 +3,8 @@ package repo;
 import domain.Contest;
 import domain.Person;
 import domain.RankingResult;
+import domain.RankingInstitution;
+import domain.RankingRegion;
 import domain.Result;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
@@ -145,6 +147,76 @@ public class ResultHibernateRepository implements ResultRepository {
 				query.setParameter(1, institution);
 			if (year != null)
 				query.setParameter(1, year);
+			return query.getResultList();
+		}
+	}
+
+	@Override
+	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			String where = " ";
+			if (startYear != null && endYear != null) {
+				where = "WHERE r.contest.year between ?1 and ?2 ";
+			} else if (startYear != null) {
+				where = "WHERE r.contest.year >= ?1 ";
+			} else if (endYear != null) {
+				where = "WHERE r.contest.year <= ?1 ";
+			}
+
+			var query = session.createQuery("SELECT r.institution as institution, " +
+					"       SUM(CASE WHEN r.medal = 'GOLD' THEN 1 ELSE 0 END)   as gold, " +
+					"       SUM(CASE WHEN r.medal = 'SILVER' THEN 1 ELSE 0 END) as silver, " +
+					"       SUM(CASE WHEN r.medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze, " +
+					"       SUM(CASE WHEN r.medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals, " +
+					"       COUNT(*) as participations " +
+					"FROM Result r " +
+					where +
+					"GROUP BY r.institution.id " +
+					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingInstitution.class);
+
+			if (startYear != null && endYear != null) {
+				query.setParameter(1, startYear);
+				query.setParameter(2, endYear);
+			} else if (startYear != null) {
+				query.setParameter(1, startYear);
+			} else if (endYear != null) {
+				query.setParameter(1, endYear);
+			}
+			return query.getResultList();
+		}
+	}
+
+	@Override
+	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			String where = " ";
+			if (startYear != null && endYear != null) {
+				where = "WHERE r.contest.year between ?1 and ?2 ";
+			} else if (startYear != null) {
+				where = "WHERE r.contest.year >= ?1 ";
+			} else if (endYear != null) {
+				where = "WHERE r.contest.year <= ?1 ";
+			}
+
+			var query = session.createQuery("SELECT r.institution.region as region, " +
+					"       SUM(CASE WHEN r.medal = 'GOLD' THEN 1 ELSE 0 END)   as gold, " +
+					"       SUM(CASE WHEN r.medal = 'SILVER' THEN 1 ELSE 0 END) as silver, " +
+					"       SUM(CASE WHEN r.medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze, " +
+					"       SUM(CASE WHEN r.medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals, " +
+					"       COUNT(*) as participations " +
+					"FROM Result r " +
+					where +
+					"GROUP BY r.institution.region " +
+					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingRegion.class);
+
+			if (startYear != null && endYear != null) {
+				query.setParameter(1, startYear);
+				query.setParameter(2, endYear);
+			} else if (startYear != null) {
+				query.setParameter(1, startYear);
+			} else if (endYear != null) {
+				query.setParameter(1, endYear);
+			}
 			return query.getResultList();
 		}
 	}

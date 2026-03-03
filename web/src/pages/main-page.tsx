@@ -41,7 +41,12 @@ export const MainPage = () => {
                 <span className='title'>|</span>
                 <Link className='subtitle' to="/regions">{t("Region")}</Link>
             </div>
-            <p><Link className='subtitle' to="/ranking">{t("All-time Ranking")}</Link></p>
+            <p><Link className='subtitle' to="/rankings/people">{t("All-time Ranking")}</Link></p>
+            <div className='selector-row'>
+                <p><Link className='subsubtitle' to="/rankings/institutions">{t("AllInstitutionsRanking")}</Link></p>
+                <span/>
+                <p><Link className='subsubtitle' to="/rankings/regions">{t("AllRegionsRanking")}</Link></p>
+            </div>
         </div>
         <div className='panel'>
             <p className='subtitle'>{t("Find People")}</p>

@@ -35,34 +35,53 @@ export const RegionPage = () => {
 
 
     
+    if (loading) {
+        return <>
+            <MetaTags 
+                title={region ?? ""}
+                description={t("meta.region", {region: region ?? ""})}
+            />
+            <Loading />
+        </>;
+    }
+
+    if (!region || results.length === 0) {
+        return <>
+            <MetaTags 
+                title={t('RegionNotFound') ?? 'Region not found'}
+                description={t('RegionNotFound') ?? 'Region not found'}
+            />
+            <div className='panel'>
+                <p className='title'>{t('RegionNotFound') ?? 'Region not found'}</p>
+            </div>
+        </>;
+    }
+
     return <>
         <MetaTags 
-            title={region ?? ""}
-            description={t("meta.region", {region: region ?? ""})}
+            title={region}
+            description={t("meta.region", {region})}
         />
         <div className='panel'>
             <p className='title'>{region}</p>
-            <p className='subtitle'><Link to={`/ranking?region=${region}`}>{t("Region Ranking")}</Link></p>
+            <p className='subtitle'><Link to={`/rankings/people?region=${region}`}>{t("TopPeopleInRegion")}</Link></p>
+            <p className='subsubtitle'><Link to={`/rankings/regions`}>{t("AllRegionsRanking")}</Link></p>
         </div>
-        {loading ? (
-            <Loading />
-        ) : (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Year")}</th>
-                        <th>{t("Grade")}</th>
-                        <th>{t("Name")}</th>
-                        <th>{t("City")}</th>
-                        <th>{t("Institution")}</th>
-                        <th>{t("Score")}</th>
-                        <th>{t("Place")}</th>
-                        <th>{t("Prize")}</th>
-                        <th>{t("Medal")}</th>
-                    </tr>
-                    {table}
-                </tbody>
-            </table>
-        )}
+        <table>
+            <tbody>
+                <tr>
+                    <th>{t("Year")}</th>
+                    <th>{t("Grade")}</th>
+                    <th>{t("Name")}</th>
+                    <th>{t("City")}</th>
+                    <th>{t("Institution")}</th>
+                    <th>{t("Score")}</th>
+                    <th>{t("Place")}</th>
+                    <th>{t("Prize")}</th>
+                    <th>{t("Medal")}</th>
+                </tr>
+                {table}
+            </tbody>
+        </table>
     </>;
 }

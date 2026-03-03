@@ -10,7 +10,7 @@ COPY . .
 RUN gradle build --no-daemon
 
 # Use a smaller base image to run the JAR file
-FROM openjdk:17
+FROM amazoncorretto:17
 WORKDIR /app
 
 # Copy the JAR file from the build stage

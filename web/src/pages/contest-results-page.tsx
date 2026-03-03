@@ -95,9 +95,30 @@ export const ContestResultsPage = () => {
     const prevContestGrade = prevContest ? prevContest.year - generationStart : 0;
     const nextContestGrade = nextContest ? nextContest.year - generationStart : 0;
 
+    if (loading) {
+        return <>
+            <MetaTags
+                title={contest ? `${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '') : ""}
+                description={t(isONI ? "meta.contest_oni" : isLOT ? "meta.contest_lot" : "meta.contest", {
+                    name: contest?.name,
+                    year: contest?.year,
+                    grade: isONI ? grade : ''
+                })}
+            />
+            <Loading />
+        </>;
+    }
+
+    if (!contest) {
+        return <>
+            <MetaTags title={t('ContestNotFound') ?? 'Contest not found'} description={t('ContestNotFound') ?? 'Contest not found'} />
+            <div className='panel'><p className='title'>Contest not found</p></div>
+        </>;
+    }
+
     return <>
         <MetaTags
-            title={contest ? `${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '') : ""}
+            title={`${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '')}
             description={t(isONI ? "meta.contest_oni" : isLOT ? "meta.contest_lot" : "meta.contest", {
                 name: contest?.name,
                 year: contest?.year,
@@ -105,7 +126,7 @@ export const ContestResultsPage = () => {
             })}
         />
         <div className='panel'>
-            {contest ? <>
+            <>
                 <p className='title selector'>
                     {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}/${grade}`}> &lt;</Link> : <div />}
                     <span>
@@ -127,7 +148,7 @@ export const ContestResultsPage = () => {
                         <span>{generationStart + 5}-{generationStart + 12}</span>
                         {grade < 12 && nextContest && nextContestGrade <= 12 ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
                     </p>
-                    <p className='subsubtitle'><Link to={`/ranking?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
+                    <p className='subsubtitle'><Link to={`/rankings/people?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
                 ) : (<>
                     <p className='subtitle selector'>
@@ -138,7 +159,7 @@ export const ContestResultsPage = () => {
                 </>
                 ))}
                 <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
-            </> : <Loading/>}
+            </>
         </div>
         {!loading && contest ? (
             <table>

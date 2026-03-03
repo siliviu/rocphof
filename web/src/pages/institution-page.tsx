@@ -39,37 +39,57 @@ export const InstitutionPage = () => {
         )
         , [results, t]);
 
+    if (loading) {
+        return <>
+            <MetaTags
+                title={institution?.name}
+                description={t("meta.institution", {
+                    name: institution?.name,
+                    city: institution?.city,
+                    region: institution?.region
+                })}
+            />
+            <Loading />
+        </>;
+    }
+
+    if (!institution) {
+        return <>
+            <MetaTags title={t('InstitutionNotFound') ?? 'Institution not found'} description={t('InstitutionNotFound') ?? 'Institution not found'} />
+            <div className='panel'>
+                <p className='title'>Institution not found</p>
+            </div>
+        </>;
+    }
+
     return <>
         <MetaTags
-            title={institution?.name}
+            title={institution.name}
             description={t("meta.institution", {
-                name: institution?.name,
-                city: institution?.city,
-                region: institution?.region
+                name: institution.name,
+                city: institution.city,
+                region: institution.region
             })}
         />
         <div className='panel'>
-            <p className='title'>{institution && institution.name}</p>
-            <p className='subtitle'>{institution && institution.city},  {institution && institution.region}</p >
-            <p className='subtitle'><Link to={institution ? `/ranking?institution=${institution.id}` : ''}>{t("Institution Ranking")}</Link></p>
+            <p className='title'>{institution.name}</p>
+            <p className='subtitle'>{institution.city},  {institution.region}</p >
+            <p className='subtitle'><Link to={`/rankings/people?institution=${institution.id}`}>{t("TopPeopleAtInstitution")}</Link></p>
+            <p className='subsubtitle'><Link to={`/rankings/institutions`}>{t("AllInstitutionsRanking")}</Link></p>
         </div>
-        {loading ? (
-            <Loading />
-        ) : (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Year")}</th>
-                        <th>{t("Grade")}</th>
-                        <th>{t("Name")}</th>
-                        <th>{t("Score")}</th>
-                        <th>{t("Place")}</th>
-                        <th>{t("Prize")}</th>
-                        <th>{t("Medal")}</th>
-                    </tr>
-                    {table}
-                </tbody>
-            </table>
-        )}
+        <table>
+            <tbody>
+                <tr>
+                    <th>{t("Year")}</th>
+                    <th>{t("Grade")}</th>
+                    <th>{t("Name")}</th>
+                    <th>{t("Score")}</th>
+                    <th>{t("Place")}</th>
+                    <th>{t("Prize")}</th>
+                    <th>{t("Medal")}</th>
+                </tr>
+                {table}
+            </tbody>
+        </table>
     </>;
 }

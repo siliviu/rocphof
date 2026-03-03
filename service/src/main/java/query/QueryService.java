@@ -96,6 +96,14 @@ public class QueryService {
 		return resultRepository.getRanking(region, institution,year);
 	}
 
+	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear) {
+		return resultRepository.getInstitutionRanking(startYear, endYear);
+	}
+
+	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear) {
+		return resultRepository.getRegionRanking(startYear, endYear);
+	}
+
 	public Long getParticipantsByContest(Integer id, Integer year) {
 		return resultRepository.getParticipants(id, year);
 	}

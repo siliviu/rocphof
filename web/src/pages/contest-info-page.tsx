@@ -43,7 +43,7 @@ export const ContestInfoPage = () => {
             description={t('meta.contest_info', { name: contest?.name, year: contest?.year })}
         />
         <div className='panel'>
-            {!loading && contest ? <>
+            {loading ? <Loading /> : !contest ? <p className='title'>Contest not found</p> : <>
                 <p className='title selector'>
                     {prevContest ? <Link className='arrow' to={`/contest/${prevContest.id}`}> &lt;</Link> : <div />}
                     <span>{contest.name} {contest.year}</span>
@@ -77,15 +77,15 @@ export const ContestInfoPage = () => {
                             </div>
                         </>
                 } </div>
-            </> : <Loading />}
+            </>}
         </div>
         <div className="panel">
-            {!loading && contest ? <>
+            {loading ? <Loading /> : !contest ? <p className='title'>Contest not found</p> : <>
                 <p className="title">{t('info.header', { name: contest.name })}</p>
                 <div className='info-content'>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{t(`info.${contest.name}`)}</ReactMarkdown>
                 </div>
-            </> : <Loading />}
+            </>}
         </div>
     </>
 }

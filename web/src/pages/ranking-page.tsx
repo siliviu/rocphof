@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState, useMemo } from 'react'
 import { RankingNumber, RankingResult } from '../model/result';
-import { getInstitutionById, getRanking, } from '../api/rest';
+import { getInstitutionById, getPeopleRanking } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
 import { Loading, MetaTags } from '../common/components';
@@ -16,10 +16,10 @@ export const RankingPage = () => {
     useEffect(() => {
         setLoading(true);
         Promise.all([
-            getRanking(
-                searchParams.get("region")!, 
-                searchParams.get("institution")!, 
-                Number(searchParams.get("year")!)
+            getPeopleRanking(
+                searchParams.get("region"),
+                searchParams.get("institution"),
+                searchParams.get("year") ? Number(searchParams.get("year")) : null
             ).then(setResults),
             searchParams.has("institution") 
                 ? getInstitutionById(Number(searchParams.get("institution")))
@@ -74,20 +74,28 @@ export const RankingPage = () => {
         {loading ? (
             <Loading />
         ) : (
-            <table>
-                <tbody>
-                    <tr>
-                        <th>{t("Position")}</th>
-                        <th>{t("Name")}</th>
-                        <th className='gold'>{t("Gold")}</th>
-                        <th className='silver'>{t("Silver")}</th>
-                        <th className='bronze'>{t("Bronze")}</th>
-                        <th>{t("Medals")}</th>
-                        <th>{t("Participations")}</th>
-                    </tr>
-                    {table}
-                </tbody>
-            </table>
+            <> 
+                {searchParams.has("institution") && !institution ? (
+                    <div className='panel'>
+                        <p className='title'>Institution not found</p>
+                    </div>
+                ) : (
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>{t("Position")}</th>
+                                <th>{t("Name")}</th>
+                                <th className='gold'>{t("Gold")}</th>
+                                <th className='silver'>{t("Silver")}</th>
+                                <th className='bronze'>{t("Bronze")}</th>
+                                <th>{t("Medals")}</th>
+                                <th>{t("Participations")}</th>
+                            </tr>
+                            {table}
+                        </tbody>
+                    </table>
+                )}
+            </>
         )}
     </>;
 }
