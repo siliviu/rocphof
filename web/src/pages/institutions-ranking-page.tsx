@@ -6,6 +6,7 @@ import { Loading, MetaTags } from '../common/components';
 import { getInstitutionRankings } from '../api/rest';
 import { useRangeSlider } from '../common/hooks/useRangeSlider';
 import { useSorting } from '../common/hooks/useSorting';
+import { RangeSelector } from '../common/components/RangeSelector';
 
 export const InstitutionsRankingPage = () => {
     const { t } = useTranslation();
@@ -25,7 +26,7 @@ export const InstitutionsRankingPage = () => {
 
     const { startYear, endYear, trackRef, onThumbPointerDown, min, max } = range;
 
-    const { sortedItems: sortedResults, setSortKey } = useSorting(results, 'gold', (item: any) => item.institution?.name ?? '');
+    const { sortedItems: sortedResults, setSortKey, positions } = useSorting(results, 'gold', (item: any) => item.institution?.name ?? '');
 
     useEffect(() => {
         // initial fetch
@@ -39,44 +40,31 @@ export const InstitutionsRankingPage = () => {
         <MetaTags title={t('AllInstitutionsRanking')} description={t('meta.ranking', { title: t('AllInstitutionsRanking') })} />
         <div className='panel'>
             <p className='title'>{t('AllInstitutionsRanking')}</p>
-            <div className='range-container'>
-                <div className='range-values'>{startYear} — {endYear}</div>
-                <div className='range-track' ref={el => trackRef.current = el}>
-                    <div className='range-background' />
-                    {(() => {
-                        const left = ((Math.min(startYear, endYear) - min) / (max - min)) * 100;
-                        const right = ((Math.max(startYear, endYear) - min) / (max - min)) * 100;
-                        const width = Math.max(0, right - left);
-                        return <div className='range-fill' style={{ left: `${left}%`, width: `${width}%` }} />;
-                    })()}
-                    {(() => {
-                        const left = ((startYear - min) / (max - min)) * 100;
-                        const right = ((endYear - min) / (max - min)) * 100;
-                        return (
-                            <>
-                                <div className='thumb' style={{ left: `${left}%` }} onPointerDown={e => onThumbPointerDown('start', e)} />
-                                <div className='thumb' style={{ left: `${right}%` }} onPointerDown={e => onThumbPointerDown('end', e)} />
-                            </>
-                        );
-                    })()}
-                </div>
-                <div />
-            </div>
+            <RangeSelector
+                startYear={startYear}
+                endYear={endYear}
+                min={min}
+                max={max}
+                trackRef={trackRef}
+                onThumbPointerDown={onThumbPointerDown}
+            />
         </div>
         {loading ? <Loading /> : (
             <table>
                 <tbody>
                     <tr>
+                        <th>{t('Position')}</th>
                         <th>{t('Institution')}</th>
                         <th>{t('Region')}</th>
-                        <th className='gold' style={{ cursor: 'pointer' }} onClick={() => setSortKey('gold')}>{t('Gold')}</th>
-                        <th className='silver' style={{ cursor: 'pointer' }} onClick={() => setSortKey('silver')}>{t('Silver')}</th>
-                        <th className='bronze' style={{ cursor: 'pointer' }} onClick={() => setSortKey('bronze')}>{t('Bronze')}</th>
-                        <th style={{ cursor: 'pointer' }} onClick={() => setSortKey('medals')}>{t('Medals')}</th>
-                        <th style={{ cursor: 'pointer' }} onClick={() => setSortKey('participations')}>{t('Participations')}</th>
+                        <th className='gold' onClick={() => setSortKey('gold')}>{t('Gold')}</th>
+                        <th className='silver' onClick={() => setSortKey('silver')}>{t('Silver')}</th>
+                        <th className='bronze' onClick={() => setSortKey('bronze')}>{t('Bronze')}</th>
+                        <th onClick={() => setSortKey('medals')}>{t('Medals')}</th>
+                        <th onClick={() => setSortKey('participations')}>{t('Participations')}</th>
                     </tr>
-                    {sortedResults.map((r: any) => (
+                    {sortedResults.map((r: any, index: number) => (
                         <tr key={r.institution.id}>
+                            <td>{positions[index]}</td>
                             <td><Link to={`/institution/${r.institution.id}`}>{r.institution.name}</Link></td>
                             <td><Link to={`/region/${r.institution.region}`}>{r.institution.region}</Link></td>
                             <td className='gold'>{r.gold}</td>

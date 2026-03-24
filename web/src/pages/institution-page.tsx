@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
-import { EntityHeader } from '../common/components/EntityHeader';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import './ranking.css';
 import { Result, getMedalClass } from '../model/result';
@@ -61,13 +60,12 @@ export const InstitutionPage = () => {
     }
 
     return <>
-        <EntityHeader
-            title={institution.name}
-            subtitleHref={`/rankings/people?institution=${institution.id}`}
-            subtitleText={t("TopPeopleAtInstitution")}
-            subsubtitleHref={`/rankings/institutions`}
-            subsubtitleText={t("AllInstitutionsRanking")}
-        />
+        <div className='panel'>
+            <p className='title'>{institution.name}</p>
+            <p className='subtitle'>{institution.city ? `${institution.city}, ` : ''}{institution.region}</p>
+            <p className='subtitle'><Link to={`/rankings/people?institution=${institution.id}`}>{t("TopPeopleAtInstitution")}</Link></p>
+            <p className='subsubtitle'><Link to={`/rankings/institutions`}>{t("AllInstitutionsRanking")}</Link></p>
+        </div>
         <table>
             <tbody>
                 <tr>

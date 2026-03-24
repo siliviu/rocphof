@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-export const useSorting = <T extends Record<string, any>>(items: T[], defaultKey = 'gold', nameGetter?: (item: T) => string) => {
+export const useSorting = <T extends Record<string, any>>(items: T[], defaultKey = 'gold', nameGetter?: (item: T) => string, olympic: string[] = ['gold', 'silver', 'bronze', 'participations']) => {
     const [sortKey, setSortKey] = useState<string>(defaultKey);
 
     const sortedItems = useMemo(() => {
@@ -10,7 +10,6 @@ export const useSorting = <T extends Record<string, any>>(items: T[], defaultKey
             const va = (a as any)[key] ?? 0;
             const vb = (b as any)[key] ?? 0;
             if (va !== vb) return vb - va; // primary desc
-            const olympic = ['gold', 'silver', 'bronze', 'participations'];
             for (const k of olympic) {
                 if (k === key) continue;
                 const ka = (a as any)[k] ?? 0;
@@ -22,7 +21,22 @@ export const useSorting = <T extends Record<string, any>>(items: T[], defaultKey
             return nameA.localeCompare(nameB);
         });
         return copy;
-    }, [items, sortKey, nameGetter]);
+    }, [items, sortKey, nameGetter, olympic]);
 
-    return { sortedItems, sortKey, setSortKey } as const;
+    const positions = useMemo(() => {
+        const pos: number[] = [];
+        let currentRank = 1;
+        let prevKey = '';
+        for (const item of sortedItems) {
+            const key = `${olympic.map(k => (item as any)[k] ?? 0).join('-')}`;
+            if (key !== prevKey) {
+                currentRank = pos.length + 1;
+                prevKey = key;
+            }
+            pos.push(currentRank);
+        }
+        return pos;
+    }, [sortedItems, nameGetter, olympic]);
+
+    return { sortedItems, setSortKey, positions } as const;
 };
