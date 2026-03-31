@@ -11,6 +11,8 @@ import utils.Tuple;
 import java.util.ArrayList;
 import java.util.List;
 
+import static domain.Constants.SCHOOL_YEAR_UNKNOWN;
+
 @Service
 public class PersonMergeService extends MergeService<Person, Integer> {
 
@@ -33,7 +35,7 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 	protected void addMoreSuggestions(Person person, List<Person> currentSuggestions) {
 		repository.findAll().stream()
 				.filter(x -> StringProcessor.namesAreStrictlySimilar(x.getName(), person.getName())
-						&& (Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1 || person.getSchoolYear() == 1337))
+						&& (Math.abs(x.getSchoolYear() - person.getSchoolYear()) <= 1 || person.getSchoolYear() == SCHOOL_YEAR_UNKNOWN))
 				.forEach(currentSuggestions::add);
 	}
 
@@ -41,10 +43,10 @@ public class PersonMergeService extends MergeService<Person, Integer> {
 	protected boolean tryAutoHandleSuggestion(Tuple<Person, List<Person>> suggestionList) {
 		for (var suggested : suggestionList.second()) {
 			Person original = suggestionList.first();
-			if (original.getSchoolYear() == suggested.getSchoolYear() || (original.getSchoolYear() == 1337 && suggestionList.second().size() == 1)) {
+			if (original.getSchoolYear() == suggested.getSchoolYear() || (original.getSchoolYear() == SCHOOL_YEAR_UNKNOWN && suggestionList.second().size() == 1)) {
 				Result originalResult = ((PersonRepository) repository).getMostRecentResult(original);
 				Result suggestedResult = ((PersonRepository) repository).getMostRecentResult(suggested);
-				if (original.getSchoolYear() == 1337) {
+				if (original.getSchoolYear() == SCHOOL_YEAR_UNKNOWN) {
 					replace(original, suggested);
 					return true;
 				}

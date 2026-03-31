@@ -12,6 +12,8 @@ import repo.utils.HibernateUtils;
 
 import java.util.List;
 
+import static domain.Constants.CONTEST_ONI;
+
 
 @Repository
 public class ResultHibernateRepository implements ResultRepository {
@@ -133,7 +135,7 @@ public class ResultHibernateRepository implements ResultRepository {
 					"       SUM(CASE WHEN medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals," +
 					"       COUNT(*) as participations " +
 					"FROM Result " +
-					"WHERE contest.name='ONI' " +
+					"WHERE contest.name='" + CONTEST_ONI + "' " +
 					(region != null || year != null || institution != null ? "AND " : " ") +
 					(region != null ? "institution.region =?1" : " ") +
 					(institution != null ? "institution.id =?1" : " ") +

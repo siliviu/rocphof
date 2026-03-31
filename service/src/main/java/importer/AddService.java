@@ -15,6 +15,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import static domain.Constants.CONTEST_ONI;
+
 @Service
 public class AddService {
 	@Autowired
@@ -31,10 +33,10 @@ public class AddService {
 	public void addDataFromFile(String file, Contest contest) {
 		this.contest = contest;
 		try {
-			data = contest.getName().equals("ONI") ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file);
+			data = contest.getName().equals(CONTEST_ONI) ? ParserService.parseONI(file, contest) : ParserService.parseLOT(file);
 
 			List<Institution> institutions = new ArrayList<>();
-			if (contest.getName().equals("ONI"))
+			if (contest.getName().equals(CONTEST_ONI))
 				institutions = data.stream()
 						.map(Result::getInstitution)
 						.sorted(Comparator.comparing(x -> x.getRegion().length()))
@@ -43,11 +45,11 @@ public class AddService {
 			List<Person> people = data.stream()
 					.map(Result::getPerson)
 					.toList();
-			if (contest.getName().equals("ONI"))
+			if (contest.getName().equals(CONTEST_ONI))
 				institutionMergeService.beginMerge(institutions);
 			personMergeService.beginMerge(people);
 			addProcessedData();
-			if (contest.getName().equals("ONI"))
+			if (contest.getName().equals(CONTEST_ONI))
 				institutionMergeService.autoHandleSuggestions();
 			personMergeService.autoHandleSuggestions();
 		} catch (Exception e) {
@@ -61,7 +63,7 @@ public class AddService {
 		HashMap<Person, Person> personMap = personMergeService.getMap();
 		for (Result result : data) {
 			result.setPerson(personMap.get(result.getPerson()));
-			result.setInstitution(contest.getName().equals("ONI") ?
+			result.setInstitution(contest.getName().equals(CONTEST_ONI) ?
 					institutionMap.get(result.getInstitution()) :
 					null);
 			result.setContest(contest);

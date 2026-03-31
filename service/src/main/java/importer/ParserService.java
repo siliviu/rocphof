@@ -12,6 +12,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static domain.Constants.INSTITUTION_UNKNOWN;
+import static domain.Constants.SCHOOL_YEAR_UNKNOWN;
+
 public class ParserService {
 	final static int
 			POS = 0,
@@ -42,7 +45,7 @@ public class ParserService {
 				if (row.getCell(INST_NAME) != null)
 					institution.setName(StringProcessor.normaliseInstitution(row.getCell(INST_NAME).getStringCellValue()));
 				else
-					institution.setName("Unknown");
+					institution.setName(INSTITUTION_UNKNOWN);
 				institution.tryFix();
 				Result result = new Result();
 				result.setYear(i);
@@ -83,7 +86,7 @@ public class ParserService {
 			for (Row row : sheet) {
 				Person person = new Person();
 				person.setName(StringProcessor.normaliseChild(row.getCell(PERS_NAME).getStringCellValue()));
-				person.setSchoolYear(1337);
+				person.setSchoolYear(SCHOOL_YEAR_UNKNOWN);
 				Institution institution = new Institution();
 				Result result = new Result();
 				result.setYear(i);
