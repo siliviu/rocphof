@@ -26,9 +26,9 @@ public class Institution extends Identifiable<Integer> {
 		if (name != null && name.trim().endsWith(region))
 			name = name.substring(0, name.indexOf(region)).trim();
 		if (city != null && !city.isEmpty())
-			if (name.trim().endsWith(city))
+            if (name != null && name.trim().endsWith(city))
 				name = name.substring(0, name.indexOf(city)).trim();
-	}
+    }
 
 	@Override
 	public Identifiable<Integer> copy() {

@@ -21,8 +21,8 @@ public class CacheConfig extends CachingConfigurerSupport {
 
 	Caffeine<Object, Object> caffeineCacheBuilder() {
 		return Caffeine.newBuilder()
-				.initialCapacity(100)
-				.maximumSize(2000)
+				.initialCapacity(200)
+				.maximumSize(3000)
 				.expireAfterWrite(120, TimeUnit.HOURS)
 				.recordStats();
 	}

@@ -34,56 +34,47 @@ public class AddConsole implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) {
+	public void run(String... args) throws Exception {
 		Scanner in = new Scanner(System.in);
 		System.out.println("ADD");
 		while (true) {
 			System.out.println("Enter contest year: ");
 			int year = in.nextInt();
+			in.nextLine();
 			System.out.println("Enter contest name (ONI, LOT): ");
 			String name = in.nextLine();
-			System.out.println("Enter mergeId (0 to disable merge): ");
+			System.out.println("Enter file path: ");
+			String path = in.nextLine();
+			System.out.println("Enter original contest to add qualified to (0 to disable merge): ");
 			int mergeId = in.nextInt();
-			add(year, name, mergeId);
+			add(year, name, path, mergeId);
 		}
 	}
 
-	private void add(int year, String name, int mergeId) {
+	private void add(int year, String name, String path, int mergeId) throws Exception {
 		Contest contest = new Contest(year, name, null, null, null, 0, null, null, null);
-		addService.addDataFromFile("C:\\Users\\Liviu\\Documents\\p\\rocphof\\results-data\\" + (name.equals("LOT") ? "lot" : "") + year + ".xlsx", contest);
+		addService.addDataFromFile(path, contest);
 		Scanner in = new Scanner(System.in);
-		{
-			List<Integer> replies = new ArrayList<>();
-			for (var suggestion : institutionMergeService.getSuggestions()) {
-				System.out.println("Suggestions for: " + suggestion.first());
-				int i = 1;
-				for (var object : suggestion.second())
-					System.out.println(i++ + ": " + object);
-				int reply = in.nextInt();
-				replies.add(reply);
-			}
-			try {
-				institutionMergeService.handleSuggestions(replies);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+		List<Integer> replies = new ArrayList<>();
+		for (var suggestion : institutionMergeService.getSuggestions()) {
+			System.out.println("Suggestions for: " + suggestion.first());
+			int i = 1;
+			for (var object : suggestion.second())
+				System.out.println(i++ + ": " + object);
+			int reply = in.nextInt();
+			replies.add(reply);
 		}
-		{
-			List<Integer> replies = new ArrayList<>();
-			for (var suggestion : personMergeService.getSuggestions()) {
-				System.out.println("Suggestions for: " + suggestion.first() + " | " + personMergeService.getRecentResult(suggestion.first()));
-				int i = 1;
-				for (var object : suggestion.second())
-					System.out.println(i++ + ": " + object + " | " + personMergeService.getRecentResult(object));
-				int reply = in.nextInt();
-				replies.add(reply);
-			}
-			try {
-				personMergeService.handleSuggestions(replies);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+		institutionMergeService.handleSuggestions(replies);
+		replies.clear();
+		for (var suggestion : personMergeService.getSuggestions()) {
+			System.out.println("Suggestions for: " + suggestion.first() + " | " + personMergeService.getRecentResult(suggestion.first()));
+			int i = 1;
+			for (var object : suggestion.second())
+				System.out.println(i++ + ": " + object + " | " + personMergeService.getRecentResult(object));
+			int reply = in.nextInt();
+			replies.add(reply);
 		}
+		personMergeService.handleSuggestions(replies);
 		if (mergeId != 0)
 			addService.mergeQualified(contest.getId(), mergeId);
 	}
