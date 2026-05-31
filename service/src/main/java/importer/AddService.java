@@ -73,5 +73,6 @@ public class AddService {
 
 	public void mergeQualified(Integer qualifiedId, Integer originalId) {
 		resultRepository.mergeQualified(qualifiedId, originalId);
+		contestRepository.delete(qualifiedId);
 	}
 }
