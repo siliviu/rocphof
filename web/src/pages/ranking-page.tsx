@@ -6,6 +6,10 @@ import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
 import { Loading, MetaTags } from '../common/components';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
+import { useGenerationBounds } from '../common/hooks/useContestYearBounds';
+import { MIN_GRADE, MAX_GRADE } from '../constants';
+import './contest-page.css';
+import './ranking-page.css';
 
 export const RankingPage = () => {
     const { t } = useTranslation();
@@ -13,14 +17,19 @@ export const RankingPage = () => {
     const [results, setResults] = useState<RankingResult[]>([]);
     const [loading, setLoading] = useState(true);
     const [institution, setInstitution] = useState<Institution | null>();
-    
+
+    const yearParam = searchParams.get("year");
+    const generation = yearParam ? Number(yearParam) : null;
+
+    const { minGeneration, maxGeneration, loading: boundsLoading } = useGenerationBounds(MIN_GRADE, MAX_GRADE);
+
     useEffect(() => {
         setLoading(true);
         Promise.all([
             getPeopleRanking(
                 searchParams.get("region"),
                 searchParams.get("institution"),
-                searchParams.get("year") ? Number(searchParams.get("year")) : null
+                generation
             ).then(setResults),
             searchParams.has("institution") 
                 ? getInstitutionById(Number(searchParams.get("institution")))
@@ -28,6 +37,14 @@ export const RankingPage = () => {
                 : Promise.resolve()
         ]).finally(() => setLoading(false));
     }, [searchParams]);
+
+    /* Other filters are preserved, so stepping years keeps any region or
+       institution already applied. */
+    const generationLink = (start: number) => {
+        const params = new URLSearchParams(searchParams);
+        params.set("year", String(start));
+        return `?${params}`;
+    };
 
     const table = useMemo(() => {
         let display = 0;
@@ -60,9 +77,9 @@ export const RankingPage = () => {
         searchParams.size ? t("Title Ranking", {
             title: (searchParams.has("region") ? searchParams.get("region") :
                 searchParams.has("institution") && institution ? institution.name :
-                searchParams.get("year") ? `${Number(searchParams.get("year")!) + 5} - ${Number(searchParams.get("year")!) + 12}` : "")
+                generation ? `${generation + MIN_GRADE} - ${generation + MAX_GRADE}` : "")
         }) : t("All-time Ranking")
-    , [searchParams, institution, t]);
+    , [searchParams, institution, generation, t]);
 
     return <>
         <MetaTags
@@ -70,7 +87,29 @@ export const RankingPage = () => {
             description={t("meta.ranking", { title: title })}
         />
         <div className='panel'>
-            <p className='title'> {title}</p>
+            {generation !== null ? (
+                <>
+                    <p className='title selector wide-selector'>
+                        {generation > minGeneration
+                            ? <Link className='arrow' to={generationLink(generation - 1)}>&lt; </Link>
+                            : <div />}
+                        <span>{title}</span>
+                        {generation < maxGeneration
+                            ? <Link className='arrow' to={generationLink(generation + 1)}> &gt;</Link>
+                            : <div />}
+                    </p>
+                    <p className='subsubtitle'>
+                        <Link to='/rankings/people'>{t("All-time Ranking")}</Link>
+                    </p>
+                </>
+            ) : (
+                <>
+                    <p className='title'> {title}</p>
+                    {!searchParams.size && !boundsLoading && <p className='subsubtitle'>
+                        <Link to={`/rankings/people?year=${maxGeneration}`}>{t("Generation Ranking")}</Link>
+                    </p>}
+                </>
+            )}
         </div>
         {loading ? (
             <Loading />

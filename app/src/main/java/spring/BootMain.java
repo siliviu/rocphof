@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"repo", "spring", "importer", "query", "utils", "merge"})
+@ComponentScan(basePackages = {"repo", "spring", "importer", "query", "utils", "merge", "admin"})
 @EntityScan(basePackages = {"domain"})
 @EnableCaching
 //@EnableJpaRepositories(basePackages={"repo"})

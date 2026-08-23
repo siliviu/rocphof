@@ -10,6 +10,8 @@ import java.util.List;
 public interface ResultRepository extends Repository<Result, Integer> {
 	List<Result> getResultsByContest(Integer contestId, int year);
 
+	List<Result> getResultsByContestName(String name);
+
 	List<Result> getResultsByPerson(Integer personId);
 
 	List<Result> getResultsByInstitution(Integer id);

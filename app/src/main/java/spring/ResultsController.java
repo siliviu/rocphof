@@ -84,6 +84,12 @@ public class ResultsController {
 		return queryService.getResultsByContest(id, year);
 	}
 
+	@Cacheable(value = "contestNameResults", key = "#name")
+	@GetMapping(value = "/contests/name/{name}/results")
+	public List<Result> getContestNameResults(@PathVariable String name) {
+		return queryService.getResultsByContestName(name);
+	}
+
 	@Cacheable(value = "contestYearParticipants", key = "{#id, #year}")
 	@GetMapping(value = "/contests/{id}/participants/{year}")
 	public Long getContestYearParticipants(@PathVariable Integer id, @PathVariable Integer year) {

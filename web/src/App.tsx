@@ -18,6 +18,12 @@ import { RegionsRankingPage } from './pages/regions-ranking-page';
 import { ContestPages } from './pages/contests-page';
 import { RegionPages } from './pages/regions-page';
 import { ContestInfoPage } from './pages/contest-info-page.tsx';
+import { ContestHistoryPage } from './pages/contest-history-page.tsx';
+import { lazy, Suspense } from 'react';
+
+const AdminPage = import.meta.env.DEV
+  ? lazy(() => import('./pages/admin-page.tsx').then(m => ({ default: m.AdminPage })))
+  : null;
 
 export default function App() {
   return (
@@ -31,11 +37,16 @@ export default function App() {
         <Route path="/rankings/regions" element={<RegionsRankingPage />} />
         <Route path="/person/:id" element={<PersonPage />} />
         <Route path="/contests" element={<ContestPages />} />
+        <Route path="/history" element={<ContestHistoryPage />} />
+        <Route path="/history/:name" element={<ContestHistoryPage />} />
         <Route path="/contest/:id/:grade" element={<ContestResultsPage />} />
         <Route path="/contest/:id" element={<ContestInfoPage />} />
         <Route path="/regions" element={<RegionPages />} />
         <Route path="/region/:region" element={<RegionPage />} />
         <Route path="/institution/:id" element={<InstitutionPage />} />
+        {AdminPage && <Route path="/admin" element={
+          <Suspense fallback={null}><AdminPage /></Suspense>
+        } />}
       </Routes>
     </Router>
   );

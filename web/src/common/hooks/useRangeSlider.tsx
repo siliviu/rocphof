@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 
 type Options = {
-    min?: number;
-    max?: number;
-    initialStart?: number;
-    initialEnd?: number;
+    min: number;
+    max: number;
+    initialStart: number;
+    initialEnd: number;
     onChange?: (start: number, end: number) => void;
 }
 
-export const useRangeSlider = ({ min = 2010, max = 2030, initialStart = 2010, initialEnd = 2030, onChange }: Options) => {
+export const useRangeSlider = ({ min, max, initialStart, initialEnd, onChange }: Options) => {
     const [startYear, setStartYear] = useState<number>(initialStart);
     const [endYear, setEndYear] = useState<number>(initialEnd);
     const trackRef = useRef<HTMLDivElement | null>(null);
     const dragging = useRef<'start'|'end'|null>(null);
+    /* When both thumbs overlap, the one that gets picked up is decided by the
+       drag direction instead of by DOM order, which would always win. */
+    const pendingDown = useRef<number | null>(null);
 
     const startRef = useRef<number>(startYear);
     const endRef = useRef<number>(endYear);
@@ -32,6 +35,11 @@ export const useRangeSlider = ({ min = 2010, max = 2030, initialStart = 2010, in
     };
 
     const onPointerMove = (e: PointerEvent) => {
+        if (pendingDown.current !== null) {
+            if (e.clientX === pendingDown.current) return;
+            dragging.current = e.clientX < pendingDown.current ? 'start' : 'end';
+            pendingDown.current = null;
+        }
         if (!dragging.current) return;
         const value = clientXToValue(e.clientX);
         if (dragging.current === 'start') setStartYear(Math.min(value, endRef.current));
@@ -40,6 +48,7 @@ export const useRangeSlider = ({ min = 2010, max = 2030, initialStart = 2010, in
 
     const onPointerUp = () => {
         dragging.current = null;
+        pendingDown.current = null;
         window.removeEventListener('pointermove', onPointerMove);
         window.removeEventListener('pointerup', onPointerUp);
         const s = Math.min(startRef.current, endRef.current);
@@ -49,12 +58,19 @@ export const useRangeSlider = ({ min = 2010, max = 2030, initialStart = 2010, in
 
     const onThumbPointerDown = (which: 'start'|'end', e: any) => {
         e.preventDefault();
-        dragging.current = which;
+        if (startRef.current === endRef.current) {
+            dragging.current = null;
+            pendingDown.current = e.clientX;
+        } else {
+            dragging.current = which;
+            pendingDown.current = null;
+        }
         window.addEventListener('pointermove', onPointerMove);
         window.addEventListener('pointerup', onPointerUp);
     };
 
-    // allow external reset if needed
+    /* Keeps the thumbs in step when the range changes externally, so browser
+       back and forward navigation moves them. */
     useEffect(() => {
         setStartYear(initialStart);
         setEndYear(initialEnd);

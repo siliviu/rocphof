@@ -44,6 +44,10 @@ public class QueryService {
 		return resultRepository.getResultsByContest(contestId, year);
 	}
 
+	public List<Result> getResultsByContestName(String name) {
+		return resultRepository.getResultsByContestName(name);
+	}
+
 	public List<Result> getResultsByPerson(Integer personId) {
 		return resultRepository.getResultsByPerson(personId);
 	}

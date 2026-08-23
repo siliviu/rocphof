@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "sitemap": "node scripts/generate-sitemap.mjs",
     "prod": "cp -r dist/* /var/www/html/rocphof",
     "lint": "eslint .",
     "preview": "vite preview"

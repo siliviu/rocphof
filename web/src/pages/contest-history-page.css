@@ -1,0 +1,29 @@
+@import '../common/styles/theme.css';
+
+.history-selector {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5em;
+}
+
+.history-selector a,
+.history-selector .history-selected {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.history-selected {
+    color: var(--primary-color);
+    cursor: default;
+}
+
+/* Spans the whole edition, so it must not pick up the first row's medal tint. */
+.history-year {
+    background-color: var(--input-background-color);
+}
+
+.history-year a {
+    font-size: 1.1em;
+}

@@ -55,7 +55,7 @@ export const TopPanel = () => {
         className="language-icon"
       />
       <p>
-        <Link className="title" to="/">
+        <Link className="brand" to="/">
           {t("ROCPHOF")}
         </Link>
       </p>

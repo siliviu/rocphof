@@ -1,4 +1,9 @@
 data.db
+# Stray local DB files: the path separators in hibernate.cfg.xml are read
+# literally on macOS, creating these at the repo root. The data lives in a
+# separate repo.
+*data.db
+*results-data*
 
 # Compiled class file
 *.class

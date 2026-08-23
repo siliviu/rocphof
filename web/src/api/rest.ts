@@ -33,6 +33,11 @@ export function getResultsForContest(id: number, grade: number) {
         .then(response => response.json())
 }
 
+export function getResultsForContestName(name: string) {
+    return fetch(`${url}/contests/name/${encodeURIComponent(name)}/results`)
+        .then(response => response.json())
+}
+
 export function getParticipantsForContest(id: number, grade: number) {
     return fetch(`${url}/contests/${id}/participants/${grade}`)
         .then(response => response.text())

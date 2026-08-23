@@ -3,7 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { getAllContests } from '../api/rest';
 import { useTranslation } from 'react-i18next';
 import { CONTEST_ONI, CONTEST_LOT } from '../constants';
-import { Contest } from '../model/contest';
+import { Contest, isInternational } from '../model/contest';
 import { MetaTags } from '../common/components';
 import './contests-page.css';
 
@@ -37,7 +37,7 @@ export const ContestPages = () => {
 
     const groupedContestsInternational = useMemo(() => 
         contests
-            .filter(contest => contest.name !== CONTEST_ONI && contest.name !== CONTEST_LOT)
+            .filter(isInternational)
             .reduce((groups: Record<string, Contest[]>, contest) => {
                 const baseName = contest.name.replace(/\d{4}/, "").trim();
                 if (!groups[baseName]) groups[baseName] = [];

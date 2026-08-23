@@ -6,7 +6,8 @@ import './ranking.css';
 import { Result, getMedalClass } from '../model/result';
 import { getResultsForRegion } from '../api/rest';
 import { useTranslation } from 'react-i18next';
-import { Loading, MetaTags } from '../common/components';
+import { Loading, MedalTally, MetaTags } from '../common/components';
+import { MedalChart, toMedalChartEntries } from '../common/components/medal-chart';
 
 export const RegionPage = () => {
     const { region } = useParams();
@@ -19,6 +20,8 @@ export const RegionPage = () => {
             .then(setResults)
             .finally(() => setLoading(false));
     }, [region]);
+
+    const chartEntries = useMemo(() => toMedalChartEntries(results), [results]);
 
     const table = useMemo(() => 
         results.map((result: Result) =>
@@ -60,6 +63,11 @@ export const RegionPage = () => {
             subsubtitleHref={`/rankings/regions`}
             subsubtitleText={t("AllRegionsRanking")}
         />
+        {chartEntries.length > 0 && <div className='panel'>
+            <p className='subtitle'>{t('MedalEvolution')}</p>
+            <MedalChart entries={chartEntries} />
+            <MedalTally entries={chartEntries} />
+        </div>}
         <table>
             <tbody>
                 <tr>

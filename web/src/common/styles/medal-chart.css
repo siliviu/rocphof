@@ -1,0 +1,132 @@
+@import './theme.css';
+
+.medal-chart {
+    overflow-x: auto;
+    margin-top: 0.75em;
+}
+
+.medal-chart-plot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5em;
+    height: 16em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.medal-chart-slot {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    flex: 1 1 0;
+    max-width: 4em;
+    min-width: 1.75em;
+}
+
+.medal-chart-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    cursor: help;
+}
+
+/* The bar spans the whole plot height, so rounding it would only show on the
+   tallest stack. The radius belongs to the topmost segment present. */
+.medal-chart-segment:first-child {
+    border-radius: 4px 4px 0 0;
+}
+
+.medal-chart-slot.hovered .medal-chart-bar {
+    filter: brightness(92%);
+}
+
+.medal-chart-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    /* The inherited 1.5 line-height would make the line box taller than a
+       short segment, so counts would bleed into their neighbours. */
+    line-height: 1;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.medal-chart-segment.gold {
+    background-color: var(--gold-color);
+}
+
+.medal-chart-segment.silver {
+    background-color: var(--silver-color);
+}
+
+.medal-chart-segment.bronze {
+    background-color: var(--bronze-color);
+}
+
+/* Hatched rather than a solid neutral, which would read as silver. */
+.medal-chart-segment.none,
+.medal-chart-key.none {
+    background-color: var(--input-background-color);
+    background-image: repeating-linear-gradient(
+        135deg,
+        var(--border-color) 0,
+        var(--border-color) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+}
+
+.medal-chart-year {
+    font-size: 0.8em;
+    padding-top: 0.3em;
+}
+
+/* Doubles as the legend, and shows the hovered year's counts in place. A
+   floating popup would be clipped by this container's horizontal scroll. */
+.medal-chart-readout {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0.75em;
+    font-size: 0.9em;
+    /* Reserves the line so swapping legend for counts does not shift layout. */
+    min-height: 1.5em;
+}
+
+.medal-chart-readout span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    white-space: nowrap;
+}
+
+.medal-chart-readout-year,
+.medal-chart-readout-total {
+    font-weight: bold;
+}
+
+.medal-chart-key {
+    width: 1em;
+    height: 1em;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.medal-chart-key.gold {
+    background-color: var(--gold-color);
+}
+
+.medal-chart-key.silver {
+    background-color: var(--silver-color);
+}
+
+.medal-chart-key.bronze {
+    background-color: var(--bronze-color);
+}

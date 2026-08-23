@@ -17,6 +17,11 @@
   padding-left: 0.5em;
 }
 
+/* Ranking links are wrapped in <p>, which carries default vertical margins. */
+.selector-row>p {
+  margin: 0.5em 0;
+}
+
 .search-bar {
   margin: 1em;
 }

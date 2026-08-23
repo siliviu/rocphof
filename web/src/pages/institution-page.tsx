@@ -2,11 +2,13 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import './ranking.css';
+import './institution-page.css';
 import { Result, getMedalClass } from '../model/result';
 import { getInstitutionById, getResultsForInstitution } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
-import { Loading, MetaTags } from '../common/components';
+import { Loading, MedalTally, MetaTags } from '../common/components';
+import { MedalChart, toMedalChartEntries } from '../common/components/medal-chart';
 
 export const InstitutionPage = () => {
     const { id: idParam } = useParams();
@@ -26,6 +28,8 @@ export const InstitutionPage = () => {
                 .then(setResults)
         ]).finally(() => setLoading(false));
     }, [id]);
+
+    const chartEntries = useMemo(() => toMedalChartEntries(results), [results]);
 
     const table = useMemo(() =>
         results.map(result =>
@@ -64,8 +68,18 @@ export const InstitutionPage = () => {
             <p className='title'>{institution.name}</p>
             <p className='subtitle'>{institution.city ? `${institution.city}, ` : ''}{institution.region}</p>
             <p className='subtitle'><Link to={`/rankings/people?institution=${institution.id}`}>{t("TopPeopleAtInstitution")}</Link></p>
-            <p className='subsubtitle'><Link to={`/rankings/institutions`}>{t("AllInstitutionsRanking")}</Link></p>
+            <div className='institution-links'>
+                <Link className='subsubtitle' to={`/region/${encodeURIComponent(institution.region)}`}>
+                    {t("RegionResults", { region: institution.region })}
+                </Link>
+                <Link className='subsubtitle' to={`/rankings/institutions`}>{t("AllInstitutionsRanking")}</Link>
+            </div>
         </div>
+        {chartEntries.length > 0 && <div className='panel'>
+            <p className='subtitle'>{t('MedalEvolution')}</p>
+            <MedalChart entries={chartEntries} />
+            <MedalTally entries={chartEntries} />
+        </div>}
         <table>
             <tbody>
                 <tr>

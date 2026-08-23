@@ -1,0 +1,65 @@
+@import '../styles/theme.css';
+
+.person-picker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.person-picker input {
+    padding: 0.3em 0.5em;
+    color: var(--text-color);
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.person-picker-selected {
+    font-weight: bold;
+}
+
+.person-picker-hint {
+    font-size: 0.85em;
+    opacity: 0.7;
+}
+
+.person-picker-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1200;
+    width: max-content;
+    min-width: 100%;
+    max-height: 14em;
+    overflow-y: auto;
+    margin: 0.25em 0 0;
+    padding: 0;
+    list-style: none;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 6px 18px var(--shadow-color);
+}
+
+.person-picker-results button {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5em;
+    width: 100%;
+    padding: 0.4em 0.6em;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    text-align: left;
+    cursor: pointer;
+}
+
+.person-picker-results button:hover {
+    background-color: var(--hover-background-color);
+}
+
+.person-picker-years {
+    opacity: 0.7;
+    font-size: 0.85em;
+}

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getContestById, getNextContest, getPreviousContest } from "../api/rest";
-import { Contest } from "../model/contest";
+import { Contest, isInternational as contestIsInternational } from "../model/contest";
 import { Loading, MetaTags } from '../common/components';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { CONTEST_LOT, CONTEST_ONI } from "../constants";
+import { CONTEST_LOT, CONTEST_ONI, GRADE_INTERNATIONAL } from "../constants";
 import './contest-page.css'
 
 export const ContestInfoPage = () => {
@@ -21,7 +21,7 @@ export const ContestInfoPage = () => {
     const id = Number(idParam);
     const isONI = contest?.name === CONTEST_ONI;
     const isLOT = contest?.name === CONTEST_LOT;
-    const isInternational = contest && !isONI && !isLOT;
+    const isInternational = contestIsInternational(contest);
     const grades =
         isONI ? [5, 6, 7, 8, 9, 10, 11, 12] :
             isLOT ? [1, 2] : [];
@@ -67,7 +67,7 @@ export const ContestInfoPage = () => {
                 </div>
                 <div className='results-box'> {
                     isInternational ?
-                        <Link className='subtitle' to={`/contest/${contest.id}/1`}>{t('info.results')}</Link> :
+                        <Link className='subtitle' to={`/contest/${contest.id}/${GRADE_INTERNATIONAL}`}>{t('info.results')}</Link> :
                         <>
                             <p className='subtitle'> {t('info.results_grade')}</p>
                             <div className="info-links">
@@ -86,6 +86,9 @@ export const ContestInfoPage = () => {
                 <div className='info-content'>
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>{t(`info.${contest.name}`)}</ReactMarkdown>
                 </div>
+                {isInternational && <p className='subtitle'>
+                    <Link to={`/history/${contest.name}`}>{t('ContestHistory', { name: contest.name })}</Link>
+                </p>}
             </>}
         </div>
     </>

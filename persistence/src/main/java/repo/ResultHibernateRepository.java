@@ -68,6 +68,15 @@ public class ResultHibernateRepository implements ResultRepository {
 	}
 
 	@Override
+	public List<Result> getResultsByContestName(String name) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			return session.createQuery("from Result r where r.contest.name=?1 order by r.contest.year desc, case when place is null then 1000 END, place", Result.class)
+					.setParameter(1, name)
+					.getResultList();
+		}
+	}
+
+	@Override
 	public List<Result> getResultsByPerson(Integer personId) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			return session.createQuery("from Result r where r.person.id=?1 order by r.contest.year desc", Result.class)

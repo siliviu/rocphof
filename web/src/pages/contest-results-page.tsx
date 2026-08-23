@@ -2,9 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { Result, getMedalClass } from '../model/result';
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../api/rest';
-import { Contest } from '../model/contest';
+import { Contest, isInternational as contestIsInternational } from '../model/contest';
 import { useTranslation } from 'react-i18next';
-import { CONTEST_ONI, CONTEST_LOT, COUNTRY_ROMANIA } from '../constants';
+import { CONTEST_ONI, CONTEST_LOT, COUNTRY_ROMANIA, MIN_GRADE, MAX_GRADE } from '../constants';
 import './contest-page.css'
 import { Loading } from '../common/components/loading';
 import { MetaTags } from '../common/components/meta-tags';
@@ -23,15 +23,13 @@ export const ContestResultsPage = () => {
     const [loading, setLoading] = useState(true);
     const [tableLoading, setTableLoading] = useState(false);
     const firstLoad = useRef(true);
-    const MIN_GENERATION_GRADE = 5;
-    const MAX_GENERATION_GRADE = 12;
 
     const id = Number(idParam);
     const grade = Number(gradeParam);
 
     const isONI = contest?.name === CONTEST_ONI;
     const isLOT = contest?.name === CONTEST_LOT;
-    const isInternational = contest && !isONI && !isLOT;
+    const isInternational = contestIsInternational(contest);
 
     useEffect(() => {
         const showLoading = firstLoad.current;
@@ -149,14 +147,14 @@ export const ContestResultsPage = () => {
                 </p>
                     {(isONI || isLOT) && (isONI ? (<>
                     <p className='subtitle selector'>
-                        {prevGrade >= MIN_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
+                        {prevGrade >= MIN_GRADE ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{grade}</span>
-                        {nextGrade <= MAX_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
+                        {nextGrade <= MAX_GRADE ? <Link className='arrow' to={`/contest/${id}/${nextGrade}`}>  &gt;</Link> : <div />}
                     </p>
                     <p className='subsubtitle selector'>
-                        {grade > MIN_GENERATION_GRADE && prevContest && prevContestGrade >= MIN_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
-                        <span>{generationStart + MIN_GENERATION_GRADE}-{generationStart + MAX_GENERATION_GRADE}</span>
-                        {grade < MAX_GENERATION_GRADE && nextContest && nextContestGrade <= MAX_GENERATION_GRADE ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
+                        {grade > MIN_GRADE && prevContest && prevContestGrade >= MIN_GRADE ? <Link className='arrow' to={`/contest/${prevContest.id}/${prevContestGrade}`}>&lt;&lt;  </Link> : <div />}
+                        <span>{generationStart + MIN_GRADE}-{generationStart + MAX_GRADE}</span>
+                        {grade < MAX_GRADE && nextContest && nextContestGrade <= MAX_GRADE ? <Link className='arrow' to={`/contest/${nextContest.id}/${nextContestGrade}`}>&gt;&gt;  </Link> : <div />}
                     </p>
                     <p className='subsubtitle'><Link to={`/rankings/people?year=${generationStart}`}>{t("Generation Ranking")}</Link></p>
                 </>
@@ -169,6 +167,9 @@ export const ContestResultsPage = () => {
                 </>
                 ))}
                 <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
+                {isInternational && <p className='subsubtitle'>
+                    <Link to={`/history/${contest.name}`}>{t('ContestHistory', { name: contest.name })}</Link>
+                </p>}
             </>
         </div>
         {!loading && contest ? (

@@ -6,6 +6,9 @@ import { Loading, MetaTags } from '../common/components';
 import { getInstitutionRankings } from '../api/rest';
 import { useRangeSlider } from '../common/hooks/useRangeSlider';
 import { useSorting } from '../common/hooks/useSorting';
+import { useYearRangeParams } from '../common/hooks/useYearRangeParams';
+import { useContestYearBounds } from '../common/hooks/useContestYearBounds';
+import { CONTEST_ONI } from '../constants';
 import { RangeSelector } from '../common/components/RangeSelector';
 
 export const InstitutionsRankingPage = () => {
@@ -13,28 +16,31 @@ export const InstitutionsRankingPage = () => {
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
+    /* Institutions are only recorded for ONI, so the range follows its editions. */
+    const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(CONTEST_ONI);
+
+    /* The URL is the source of truth for the range, so it stays shareable. */
+    const { startYear: paramStart, endYear: paramEnd, setRange, min, max } = useYearRangeParams(minYear, maxYear);
+
     const range = useRangeSlider({
-        min: 2010,
-        max: 2030,
-        initialStart: 2010,
-        initialEnd: 2030,
-        onChange: (s, e) => {
-            setLoading(true);
-            getInstitutionRankings(s, e).then(res => setResults(res)).finally(() => setLoading(false));
-        }
+        min,
+        max,
+        initialStart: paramStart,
+        initialEnd: paramEnd,
+        onChange: setRange
     });
 
-    const { startYear, endYear, trackRef, onThumbPointerDown, min, max } = range;
+    const { startYear, endYear, trackRef, onThumbPointerDown } = range;
 
     const { sortedItems: sortedResults, setSortKey, positions } = useSorting(results, 'gold', (item: any) => item.institution?.name ?? '');
 
     useEffect(() => {
-        // initial fetch
-        const sFinal = Math.min(startYear, endYear);
-        const eFinal = Math.max(startYear, endYear);
+        if (boundsLoading) return;
         setLoading(true);
-        getInstitutionRankings(sFinal, eFinal).then(res => setResults(res)).finally(() => setLoading(false));
-    }, []);
+        getInstitutionRankings(paramStart, paramEnd)
+            .then(res => setResults(res))
+            .finally(() => setLoading(false));
+    }, [paramStart, paramEnd, boundsLoading]);
 
     return <>
         <MetaTags title={t('AllInstitutionsRanking')} description={t('meta.ranking', { title: t('AllInstitutionsRanking') })} />
@@ -49,7 +55,7 @@ export const InstitutionsRankingPage = () => {
                 onThumbPointerDown={onThumbPointerDown}
             />
         </div>
-        {loading ? <Loading /> : (
+        {loading || boundsLoading ? <Loading /> : (
             <table>
                 <tbody>
                     <tr>

@@ -57,7 +57,8 @@ tr {
 
 .place,
 .grade,
-.score {
+.score,
+.year {
   width: 7.5%;
 }
 

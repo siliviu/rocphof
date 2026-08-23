@@ -1,0 +1,16 @@
+@import './theme.css';
+
+.medal-tally {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.25em;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.medal-tally span {
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+}
