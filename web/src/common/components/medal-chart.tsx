@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Medal, Result } from '../../model/result';
 import '../styles/medal-chart.css';
@@ -97,6 +97,7 @@ const labelSize = (share: number): number | null => {
 export const MedalChart = ({ entries }: MedalChartProps) => {
     const { t } = useTranslation();
     const [hoveredYear, setHoveredYear] = useState<number | null>(null);
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     /* Years without an edition still get a slot, so the gap stays visible. */
     const slots = useMemo(() => {
@@ -114,6 +115,13 @@ export const MedalChart = ({ entries }: MedalChartProps) => {
     /* Bars are scaled against the largest delegation, never a fixed team size. */
     const maxTotal = useMemo(() => Math.max(1, ...entries.map(totalOf)), [entries]);
 
+    /* The most recent years are the interesting ones, so an overflowing plot
+       starts scrolled to its end rather than at the oldest edition. */
+    useLayoutEffect(() => {
+        const scroll = scrollRef.current;
+        if (scroll) scroll.scrollLeft = scroll.scrollWidth;
+    }, [slots]);
+
     const hovered = hoveredYear === null
         ? null
         : slots.find(slot => slot.year === hoveredYear)?.entry ?? null;
@@ -122,8 +130,9 @@ export const MedalChart = ({ entries }: MedalChartProps) => {
 
     return (
         <div className='medal-chart'>
-            <div className='medal-chart-plot'>
-                {slots.map(({ year, entry }) => {
+            <div className='medal-chart-scroll' ref={scrollRef}>
+                <div className='medal-chart-plot'>
+                    {slots.map(({ year, entry }) => {
                     const shares = entry ? segmentShares(entry, maxTotal) : null;
                     return (
                         <div
@@ -153,7 +162,8 @@ export const MedalChart = ({ entries }: MedalChartProps) => {
                             <div className='medal-chart-year'>{year}</div>
                         </div>
                     );
-                })}
+                    })}
+                </div>
             </div>
             <div className='medal-chart-readout' aria-live='polite'>
                 {hovered ? (

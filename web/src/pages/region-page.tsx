@@ -60,8 +60,10 @@ export const RegionPage = () => {
             title={region}
             subtitleHref={`/rankings/people?region=${region}`}
             subtitleText={t("TopPeopleInRegion")}
-            subsubtitleHref={`/rankings/regions`}
-            subsubtitleText={t("AllRegionsRanking")}
+            secondaryLinks={[
+                { href: `/rankings/institutions?region=${encodeURIComponent(region)}`, text: t("TopInstitutionsInRegion") },
+                { href: `/rankings/regions`, text: t("AllRegionsRanking") },
+            ]}
         />
         {chartEntries.length > 0 && <div className='panel'>
             <p className='subtitle'>{t('MedalEvolution')}</p>

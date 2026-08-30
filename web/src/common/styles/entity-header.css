@@ -1,0 +1,26 @@
+@import '../styles/theme.css';
+
+.entity-links {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin-top: 0.25em;
+}
+
+.entity-links > a:first-child {
+    justify-self: right;
+    padding-right: 0.75em;
+}
+
+.entity-links > a:last-child {
+    justify-self: left;
+    padding-left: 0.75em;
+}
+
+/* A lone link has no counterpart to mirror, so it centres on its own. */
+.entity-links > a:only-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    padding: 0;
+}

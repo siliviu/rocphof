@@ -79,3 +79,30 @@
 .thumb:active {
     cursor: grabbing;
 }
+
+/* Sits under the year range in the same panel, so both filters read as one
+   group rather than the select floating on its own line. */
+.ranking-filter {
+    display: flex;
+    gap: 0.6em;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.75em;
+    flex-wrap: wrap;
+}
+
+.ranking-filter label {
+    font-weight: 600;
+}
+
+.ranking-filter select {
+    padding: 0.35em 0.5em;
+    font-size: 1em;
+    color: var(--text-color);
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 2px 6px var(--shadow-color);
+    cursor: pointer;
+    max-width: 60vw;
+}

@@ -1,14 +1,17 @@
 @import './theme.css';
 
 .medal-chart {
-    overflow-x: auto;
     margin-top: 0.75em;
+}
+
+.medal-chart-scroll {
+    overflow-x: auto;
 }
 
 .medal-chart-plot {
     display: flex;
     align-items: flex-end;
-    justify-content: center;
+    justify-content: safe center;
     gap: 0.5em;
     height: 16em;
     border-bottom: 1px solid var(--border-color);

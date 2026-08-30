@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import './ranking.css';
 import { useTranslation } from 'react-i18next';
 import { Loading, MetaTags } from '../common/components';
@@ -15,6 +15,7 @@ export const InstitutionsRankingPage = () => {
     const { t } = useTranslation();
     const [results, setResults] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
 
     /* Institutions are only recorded for ONI, so the range follows its editions. */
     const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(CONTEST_ONI);
@@ -32,7 +33,27 @@ export const InstitutionsRankingPage = () => {
 
     const { startYear, endYear, trackRef, onThumbPointerDown } = range;
 
-    const { sortedItems: sortedResults, setSortKey, positions } = useSorting(results, 'gold', (item: any) => item.institution?.name ?? '');
+    /* The fetched ranking already names every institution's region, so the
+       filter is applied client side and needs no extra request. */
+    const region = searchParams.get('region') ?? '';
+
+    const regions = useMemo(() => [...new Set(
+        results.map(result => result.institution?.region).filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b)), [results]);
+
+    const filteredResults = useMemo(() => region
+        ? results.filter(result => result.institution?.region === region)
+        : results, [results, region]);
+
+    /* Kept in the URL like the year range, so a filtered ranking is shareable. */
+    const setRegion = (next: string) => {
+        const params = new URLSearchParams(searchParams);
+        if (next) params.set('region', next);
+        else params.delete('region');
+        setSearchParams(params);
+    };
+
+    const { sortedItems: sortedResults, setSortKey, positions } = useSorting(filteredResults, 'gold', (item: any) => item.institution?.name ?? '');
 
     useEffect(() => {
         if (boundsLoading) return;
@@ -54,6 +75,19 @@ export const InstitutionsRankingPage = () => {
                 trackRef={trackRef}
                 onThumbPointerDown={onThumbPointerDown}
             />
+            <div className='ranking-filter'>
+                <label htmlFor='region-filter'>{t('Region')}</label>
+                <select
+                    id='region-filter'
+                    value={region}
+                    onChange={event => setRegion(event.target.value)}
+                >
+                    <option value=''>{t('AllRegions')}</option>
+                    {regions.map(name => (
+                        <option key={name} value={name}>{name}</option>
+                    ))}
+                </select>
+            </div>
         </div>
         {loading || boundsLoading ? <Loading /> : (
             <table>
@@ -61,7 +95,7 @@ export const InstitutionsRankingPage = () => {
                     <tr>
                         <th>{t('Position')}</th>
                         <th>{t('Institution')}</th>
-                        <th>{t('Region')}</th>
+                        <th>{region ? t('City') : t('Region')}</th>
                         <th className='gold' onClick={() => setSortKey('gold')}>{t('Gold')}</th>
                         <th className='silver' onClick={() => setSortKey('silver')}>{t('Silver')}</th>
                         <th className='bronze' onClick={() => setSortKey('bronze')}>{t('Bronze')}</th>
@@ -72,7 +106,9 @@ export const InstitutionsRankingPage = () => {
                         <tr key={r.institution.id}>
                             <td>{positions[index]}</td>
                             <td><Link to={`/institution/${r.institution.id}`}>{r.institution.name}</Link></td>
-                            <td><Link to={`/region/${r.institution.region}`}>{r.institution.region}</Link></td>
+                            {region
+                                ? <td>{r.institution.city}</td>
+                                : <td><Link to={`/region/${r.institution.region}`}>{r.institution.region}</Link></td>}
                             <td className='gold'>{r.gold}</td>
                             <td className='silver'>{r.silver}</td>
                             <td className='bronze'>{r.bronze}</td>
