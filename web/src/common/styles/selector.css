@@ -1,0 +1,22 @@
+@import 'theme.css';
+
+/* Shared by the contest selector on the history page and the scope selector on
+   the rankings, so the two stay visually identical. */
+.history-selector {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5em;
+}
+
+.history-selector a,
+.history-selector .history-selected {
+    font-size: 1.5em;
+    font-weight: bolder;
+}
+
+.history-selected {
+    color: var(--primary-color);
+    cursor: default;
+}

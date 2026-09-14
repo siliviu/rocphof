@@ -1,0 +1,45 @@
+@import 'theme.css';
+
+/* The table keeps the full-width layout every other ranking uses; the wrapper
+   is what scrolls if the contest columns overflow a narrow screen. */
+.column-ranking-scroll {
+    overflow-x: auto;
+}
+
+/* Scrolling makes the wrapper a new block formatting context, so the table's
+   own top margin no longer collapses into the panel's bottom margin and the two
+   would stack. Dropping it keeps the gap identical to the other rankings. */
+.column-ranking-scroll .column-ranking {
+    margin-top: 0;
+}
+
+/* Four narrow numeric columns per contest, so the headers must not force the
+   full width of a word like "Participations". */
+.column-ranking th.short {
+    font-size: 0.85em;
+    padding-left: 0.35em;
+    padding-right: 0.35em;
+    cursor: pointer;
+    /* Shares the leftover width evenly once the two text columns are placed. */
+    width: 2.5%;
+}
+
+/* The name is the only free-text column, so it absorbs the spare width rather
+   than leaving a gap at the end of the row. */
+.column-ranking th.name {
+    width: auto;
+    text-align: left;
+}
+
+.column-ranking td.name {
+    text-align: left;
+}
+
+.column-ranking th.position {
+    width: 4%;
+}
+
+/* Separates each contest's block from the next. */
+.column-ranking th[colspan] {
+    border-left: 2px solid var(--border-color);
+}

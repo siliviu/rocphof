@@ -1,14 +1,16 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useState, useMemo } from 'react'
-import { RankingResult } from '../model/result';
-import { getInstitutionById, getPeopleRanking } from '../api/rest';
+import { RankingByColumn, RankingResult } from '../model/result';
+import { getInstitutionById, getInternationalColumns, getInternationalRanking, getPeopleRanking } from '../api/rest';
 import { Institution } from '../model/institution';
 import { useTranslation } from 'react-i18next';
-import { Loading, MetaTags } from '../common/components';
+import { Loading, MetaTags, ScopeSelector } from '../common/components';
+import { ColumnLayout, ColumnRankingTable } from '../common/components/column-ranking-table';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { useGenerationBounds } from '../common/hooks/useContestYearBounds';
+import { useScopeParam } from '../common/hooks/useScopeParam';
 import { useSorting } from '../common/hooks/useSorting';
-import { MIN_GRADE, MAX_GRADE } from '../constants';
+import { MIN_GRADE, MAX_GRADE, SCOPE_INTERNATIONAL } from '../constants';
 import './contest-page.css';
 
 export const RankingPage = () => {
@@ -23,20 +25,53 @@ export const RankingPage = () => {
 
     const { minGeneration, maxGeneration, loading: boundsLoading } = useGenerationBounds(MIN_GRADE, MAX_GRADE);
 
+    const { scope, scopeLink, scopes } = useScopeParam();
+    const isInternational = scope === SCOPE_INTERNATIONAL;
+
+    /* The international scope is a per-contest breakdown, so it has its own
+       results shape and its own request. */
+    const [columnResults, setColumnResults] = useState<RankingByColumn[]>([]);
+    const [layout, setLayout] = useState<ColumnLayout>({ order: [], participationOnly: [] });
+
+    useEffect(() => {
+        if (!isInternational) return;
+        getInternationalColumns()
+            .then(setLayout)
+            .catch(() => setLayout({ order: [], participationOnly: [] }));
+    }, [isInternational]);
+
     useEffect(() => {
         setLoading(true);
+        if (isInternational) {
+            Promise.all([
+                getInternationalRanking(
+                    null,
+                    null,
+                    searchParams.get("region"),
+                    searchParams.get("institution"),
+                    generation
+                ).then(setColumnResults)
+                    .catch(() => setColumnResults([])),
+                searchParams.has("institution")
+                    ? getInstitutionById(Number(searchParams.get("institution")))
+                        .then(setInstitution)
+                    : Promise.resolve()
+            ]).finally(() => setLoading(false));
+            return;
+        }
         Promise.all([
             getPeopleRanking(
                 searchParams.get("region"),
                 searchParams.get("institution"),
-                generation
+                generation,
+                scope
             ).then(setResults),
             searchParams.has("institution") 
                 ? getInstitutionById(Number(searchParams.get("institution")))
                     .then(setInstitution)
                 : Promise.resolve()
         ]).finally(() => setLoading(false));
-    }, [searchParams]);
+    }, [searchParams, generation, scope, isInternational]);
 
     /* Other filters are preserved, so stepping years keeps any region or
        institution already applied. */
@@ -45,6 +80,14 @@ export const RankingPage = () => {
         params.set("year", String(start));
         return `?${params}`;
     };
+
+    /* Drops only the generation, so the scope and any place filter survive. */
+    const allTimeLink = (() => {
+        const params = new URLSearchParams(searchParams);
+        params.delete("year");
+        const query = params.toString();
+        return query ? `?${query}` : '/rankings/people';
+    })();
 
     const { sortedItems: sortedResults, setSortKey, positions } = useSorting(
         results, 'gold', (item: RankingResult) => item.person.name
@@ -65,13 +108,17 @@ export const RankingPage = () => {
     , [sortedResults, positions]);
 
 
+    /* Scope is not a filter on the ranking's subject, so it must not turn the
+       all-time title into a filtered one. */
+    const hasFilter = searchParams.has("region") || searchParams.has("institution") || generation !== null;
+
     const title = useMemo(() => 
-        searchParams.size ? t("Title Ranking", {
+        hasFilter ? t("Title Ranking", {
             title: (searchParams.has("region") ? searchParams.get("region") :
                 searchParams.has("institution") && institution ? institution.name :
                 generation ? `${generation + MIN_GRADE} - ${generation + MAX_GRADE}` : "")
         }) : t("All-time Ranking")
-    , [searchParams, institution, generation, t]);
+    , [hasFilter, searchParams, institution, generation, t]);
 
     return <>
         <MetaTags
@@ -91,41 +138,41 @@ export const RankingPage = () => {
                             : <div />}
                     </p>
                     <p className='subsubtitle'>
-                        <Link to='/rankings/people'>{t("All-time Ranking")}</Link>
+                        <Link to={allTimeLink}>{t("All-time Ranking")}</Link>
                     </p>
                 </>
             ) : (
                 <>
                     <p className='title'> {title}</p>
-                    {!searchParams.size && !boundsLoading && <p className='subsubtitle'>
+                    {!hasFilter && !boundsLoading && <p className='subsubtitle'>
                         <Link to={`/rankings/people?year=${maxGeneration}`}>{t("Generation Ranking")}</Link>
                     </p>}
                 </>
             )}
+            <ScopeSelector scope={scope} scopes={scopes} scopeLink={scopeLink} />
         </div>
         {loading ? (
             <Loading />
+        ) : searchParams.has("institution") && !institution ? (
+            <NotFoundPanel messageKey={'InstitutionNotFound'} />
+        ) : isInternational ? (
+            <ColumnRankingTable results={columnResults} layout={layout} />
         ) : (
-            <> 
-                {searchParams.has("institution") && !institution ? (
-                    <NotFoundPanel messageKey={'InstitutionNotFound'} />
-                ) : (
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>{t("Position")}</th>
-                                <th>{t("Name")}</th>
-                                <th className='gold' onClick={() => setSortKey('gold')}>{t("Gold")}</th>
-                                <th className='silver' onClick={() => setSortKey('silver')}>{t("Silver")}</th>
-                                <th className='bronze' onClick={() => setSortKey('bronze')}>{t("Bronze")}</th>
-                                <th onClick={() => setSortKey('medals')}>{t("Medals")}</th>
-                                <th onClick={() => setSortKey('participations')}>{t("Participations")}</th>
-                            </tr>
-                            {table}
-                        </tbody>
-                    </table>
-                )}
-            </>
+            <table>
+                <tbody>
+                    <tr>
+                        <th>{t("Position")}</th>
+                        <th>{t("Name")}</th>
+                        <th className='gold' onClick={() => setSortKey('gold')}>{t("Gold")}</th>
+                        <th className='silver' onClick={() => setSortKey('silver')}>{t("Silver")}</th>
+                        <th className='bronze' onClick={() => setSortKey('bronze')}>{t("Bronze")}</th>
+                        <th onClick={() => setSortKey('medals')}>{t("Medals")}</th>
+                        <th onClick={() => setSortKey('participations')}>{t("Participations")}</th>
+                    </tr>
+                    {table}
+                </tbody>
+            </table>
         )}
     </>;
 }
+

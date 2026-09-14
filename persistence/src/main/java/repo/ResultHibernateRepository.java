@@ -1,7 +1,11 @@
 package repo;
 
 import domain.Contest;
+import domain.ColumnTally;
+import domain.Constants;
+import domain.Medal;
 import domain.Person;
+import domain.RankingByColumn;
 import domain.RankingResult;
 import domain.RankingInstitution;
 import domain.RankingRegion;
@@ -10,9 +14,17 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import repo.utils.HibernateUtils;
 
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static domain.Constants.CONTEST_ONI;
+import static domain.Constants.MAX_GRADE;
+import static domain.Constants.MIN_GRADE;
+import static domain.Constants.SCOPE_DEFAULT;
+import static domain.Constants.SCOPE_INTERNATIONAL;
+import static domain.Constants.SUBJECT_DEFAULT;
 
 
 @Repository
@@ -120,7 +132,7 @@ public class ResultHibernateRepository implements ResultRepository {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
 			originalContest = session.createQuery("from Contest where id=?1", Contest.class).setParameter(1, originalId).uniqueResult();
 		}
-		for (int i = 5; i <= 12; ++i) {
+		for (int i = MIN_GRADE; i <= MAX_GRADE; ++i) {
 			for (Result qualifiedResult : getResultsByContest(qualifiedId, i)) {
 				Person person = qualifiedResult.getPerson();
 				Result originalResult = getResultByContestAndPerson(originalId, person.getId());
@@ -134,102 +146,274 @@ public class ResultHibernateRepository implements ResultRepository {
 		}
 	}
 
+	/**
+	 * Medal aggregate shared by every ranking, so the three rankings cannot drift
+	 * apart in how they count medals.
+	 */
+	private static String medalAggregate(String alias) {
+		return "       SUM(CASE WHEN " + alias + ".medal = 'GOLD' THEN 1 ELSE 0 END)   as gold, " +
+				"       SUM(CASE WHEN " + alias + ".medal = 'SILVER' THEN 1 ELSE 0 END) as silver, " +
+				"       SUM(CASE WHEN " + alias + ".medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze, " +
+				"       SUM(CASE WHEN " + alias + ".medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals, " +
+				"       COUNT(*) as participations ";
+	}
+
+	/**
+	 * Contests a ranking covers. ONI stands alone; INTERNATIONAL is everything
+	 * else, which is LOT plus the international contests.
+	 */
+	private static String scopePredicate(String alias, String scope) {
+		return SCOPE_INTERNATIONAL.equals(scope)
+				? alias + ".contest.name <> :contestName "
+				: alias + ".contest.name = :contestName ";
+	}
+
+	/**
+	 * Rankings are scoped to one subject. Editions imported before the subject
+	 * column existed have no value stored, so they count as the default subject
+	 * rather than being dropped.
+	 */
+	private static String subjectAndScope(String alias, String scope) {
+		return scopePredicate(alias, scope) +
+				"AND (" + alias + ".contest.subject = :subject " +
+				"     OR (" + alias + ".contest.subject IS NULL AND :subject = '" + SUBJECT_DEFAULT + "')) ";
+	}
+
+	private static String resolveSubject(String subject) {
+		return subject == null || subject.isBlank() ? SUBJECT_DEFAULT : subject;
+	}
+
+	private static String resolveScope(String scope) {
+		return SCOPE_INTERNATIONAL.equals(scope) ? SCOPE_INTERNATIONAL : SCOPE_DEFAULT;
+	}
+
 	@Override
-	public List<RankingResult> getRanking(String region, String institution, Integer year) {
+	public List<RankingResult> getRanking(String region, String institution, Integer year, String subject, String scope) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			var query = session.createQuery("SELECT person as person," +
-					"       SUM(CASE WHEN medal = 'GOLD' THEN 1 ELSE 0 END)   as gold," +
-					"       SUM(CASE WHEN medal = 'SILVER' THEN 1 ELSE 0 END) as silver," +
-					"       SUM(CASE WHEN medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze," +
-					"       SUM(CASE WHEN medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals," +
-					"       COUNT(*) as participations " +
-					"FROM Result " +
-					"WHERE contest.name='" + CONTEST_ONI + "' " +
-					(region != null || year != null || institution != null ? "AND " : " ") +
-					(region != null ? "institution.region =?1" : " ") +
-					(institution != null ? "institution.id =?1" : " ") +
-					(year != null ? "person.schoolYear =?1" : " ") +
-					" " +
-					"GROUP BY person.id " +
+			String resolvedScope = resolveScope(scope);
+			Integer institutionId = institution == null || institution.isBlank()
+					? null : Integer.valueOf(institution);
+			/* Only ONI records an institution on the result itself, so for the
+			   international scope the filters match on where the person competed at
+			   ONI in that same year, not on wherever they ended up. */
+			boolean byPlace = region != null || institutionId != null;
+			boolean attributed = SCOPE_INTERNATIONAL.equals(resolvedScope);
+
+			var query = session.createQuery("SELECT r.person as person, " +
+					medalAggregate("r") +
+					"FROM Result r " +
+					"WHERE " + subjectAndScope("r", resolvedScope) +
+					(year != null ? "AND r.person.schoolYear = :schoolYear " : "") +
+					(byPlace && !attributed
+							? (region != null ? "AND r.institution.region = :region " : "") +
+							  (institutionId != null ? "AND r.institution.id = :institutionId " : "")
+							: "") +
+					(byPlace && attributed
+							? "AND EXISTS (SELECT 1 FROM Result o " +
+							  "             WHERE o.person.id = r.person.id " +
+							  "               AND o.contest.name = :contestName " +
+							  "               AND o.contest.year = r.contest.year " +
+							  "               AND o.institution IS NOT NULL " +
+							  (region != null ? "AND o.institution.region = :region " : "") +
+							  (institutionId != null ? "AND o.institution.id = :institutionId " : "") +
+							  ") "
+							: "") +
+					"GROUP BY r.person.id " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc LIMIT 250", RankingResult.class);
+			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameter("subject", resolveSubject(subject));
 			if (region != null)
-				query.setParameter(1, region);
-			if (institution != null)
-				query.setParameter(1, institution);
+				query.setParameter("region", region);
+			if (institutionId != null)
+				query.setParameter("institutionId", institutionId);
 			if (year != null)
-				query.setParameter(1, year);
+				query.setParameter("schoolYear", year);
 			return query.getResultList();
 		}
 	}
 
-	@Override
-	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear) {
-		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			String where = " ";
-			if (startYear != null && endYear != null) {
-				where = "WHERE r.contest.year between ?1 and ?2 ";
-			} else if (startYear != null) {
-				where = "WHERE r.contest.year >= ?1 ";
-			} else if (endYear != null) {
-				where = "WHERE r.contest.year <= ?1 ";
-			}
+	/**
+	 * International results carry no institution, so each one is attributed to
+	 * where the person competed at ONI <em>in the same year</em>. A competitor who
+	 * changes school or county mid-career therefore credits each result to the
+	 * school they actually attended at the time, rather than crediting their whole
+	 * career to wherever they ended up.
+	 *
+	 * Results with no ONI appearance that year cannot be attributed and are left
+	 * out; in the current archive that is 38 of 927.
+	 */
+	private static String attributedFrom(String scope) {
+		if (!SCOPE_INTERNATIONAL.equals(scope))
+			return "FROM Result r WHERE " + subjectAndScope("r", scope) +
+					"AND r.institution IS NOT NULL ";
+		return "FROM Result r, Result a " +
+				"WHERE " + subjectAndScope("r", scope) +
+				"AND a.person.id = r.person.id " +
+				"AND a.institution IS NOT NULL " +
+				"AND a.contest.name = :contestName " +
+				"AND a.contest.year = r.contest.year ";
+	}
 
-			var query = session.createQuery("SELECT r.institution as institution, " +
-					"       SUM(CASE WHEN r.medal = 'GOLD' THEN 1 ELSE 0 END)   as gold, " +
-					"       SUM(CASE WHEN r.medal = 'SILVER' THEN 1 ELSE 0 END) as silver, " +
-					"       SUM(CASE WHEN r.medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze, " +
-					"       SUM(CASE WHEN r.medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals, " +
-					"       COUNT(*) as participations " +
-					"FROM Result r " +
-					where +
-					"GROUP BY r.institution.id " +
+	/** Alias holding the institution to group a ranking by, per scope. */
+	private static String attributionAlias(String scope) {
+		return SCOPE_INTERNATIONAL.equals(scope) ? "a" : "r";
+	}
+
+	@Override
+	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear, String subject, String scope) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			String resolvedScope = resolveScope(scope);
+			String alias = attributionAlias(resolvedScope);
+			/* Restricted to contests that record an institution, since counting every
+			   contest mixed in results whose institution is null and inflated the
+			   participation totals. */
+			var query = session.createQuery("SELECT " + alias + ".institution as institution, " +
+					medalAggregate("r") +
+					attributedFrom(resolvedScope) +
+					(startYear != null ? "AND r.contest.year >= :startYear " : "") +
+					(endYear != null ? "AND r.contest.year <= :endYear " : "") +
+					"GROUP BY " + alias + ".institution.id " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingInstitution.class);
-
-			if (startYear != null && endYear != null) {
-				query.setParameter(1, startYear);
-				query.setParameter(2, endYear);
-			} else if (startYear != null) {
-				query.setParameter(1, startYear);
-			} else if (endYear != null) {
-				query.setParameter(1, endYear);
-			}
+			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameter("subject", resolveSubject(subject));
+			if (startYear != null)
+				query.setParameter("startYear", startYear);
+			if (endYear != null)
+				query.setParameter("endYear", endYear);
 			return query.getResultList();
 		}
 	}
 
 	@Override
-	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear) {
+	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear, String subject, String scope) {
 		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
-			String where = " ";
-			if (startYear != null && endYear != null) {
-				where = "WHERE r.contest.year between ?1 and ?2 ";
-			} else if (startYear != null) {
-				where = "WHERE r.contest.year >= ?1 ";
-			} else if (endYear != null) {
-				where = "WHERE r.contest.year <= ?1 ";
-			}
-
-			var query = session.createQuery("SELECT r.institution.region as region, " +
-					"       SUM(CASE WHEN r.medal = 'GOLD' THEN 1 ELSE 0 END)   as gold, " +
-					"       SUM(CASE WHEN r.medal = 'SILVER' THEN 1 ELSE 0 END) as silver, " +
-					"       SUM(CASE WHEN r.medal = 'BRONZE' THEN 1 ELSE 0 END) as bronze, " +
-					"       SUM(CASE WHEN r.medal IN ('GOLD', 'SILVER', 'BRONZE') THEN 1 ELSE 0 END) as medals, " +
-					"       COUNT(*) as participations " +
-					"FROM Result r " +
-					where +
-					"GROUP BY r.institution.region " +
+			String resolvedScope = resolveScope(scope);
+			String alias = attributionAlias(resolvedScope);
+			/* Grouping straight on institution.region used to fold every result
+			   without an institution into a null region row. */
+			var query = session.createQuery("SELECT " + alias + ".institution.region as region, " +
+					medalAggregate("r") +
+					attributedFrom(resolvedScope) +
+					"AND " + alias + ".institution.region IS NOT NULL " +
+					(startYear != null ? "AND r.contest.year >= :startYear " : "") +
+					(endYear != null ? "AND r.contest.year <= :endYear " : "") +
+					"GROUP BY " + alias + ".institution.region " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingRegion.class);
-
-			if (startYear != null && endYear != null) {
-				query.setParameter(1, startYear);
-				query.setParameter(2, endYear);
-			} else if (startYear != null) {
-				query.setParameter(1, startYear);
-			} else if (endYear != null) {
-				query.setParameter(1, endYear);
-			}
+			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameter("subject", resolveSubject(subject));
+			if (startYear != null)
+				query.setParameter("startYear", startYear);
+			if (endYear != null)
+				query.setParameter("endYear", endYear);
 			return query.getResultList();
 		}
+	}
+
+	/**
+	 * International ranking broken down per contest column. Aggregated in Java
+	 * rather than SQL because the columns are a fixed display list that splits LOT
+	 * by level, which does not map onto a plain GROUP BY.
+	 *
+	 * International results carry no institution of their own, so the region and
+	 * institution filters match on where the person competed at ONI.
+	 */
+	@Override
+	public List<RankingByColumn> getInternationalRanking(Integer startYear, Integer endYear, String subject, String region, String institution, Integer year) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			Integer institutionId = institution == null || institution.isBlank()
+					? null : Integer.valueOf(institution);
+			boolean byPlace = region != null || institutionId != null;
+
+			var query = session.createQuery("FROM Result r " +
+					"WHERE " + subjectAndScope("r", SCOPE_INTERNATIONAL) +
+					(startYear != null ? "AND r.contest.year >= :startYear " : "") +
+					(endYear != null ? "AND r.contest.year <= :endYear " : "") +
+					(year != null ? "AND r.person.schoolYear = :schoolYear " : "") +
+					/* Attributed to where the person competed at ONI that same year,
+					   since the international results record no institution. */
+					(byPlace ? "AND EXISTS (SELECT 1 FROM Result o " +
+							"             WHERE o.person.id = r.person.id " +
+							"               AND o.contest.name = :contestName " +
+							"               AND o.contest.year = r.contest.year " +
+							"               AND o.institution IS NOT NULL " +
+							(region != null ? "AND o.institution.region = :region " : "") +
+							(institutionId != null ? "AND o.institution.id = :institutionId " : "") +
+							") " : "") +
+					"ORDER BY r.contest.year", Result.class);
+			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameter("subject", resolveSubject(subject));
+			if (startYear != null)
+				query.setParameter("startYear", startYear);
+			if (endYear != null)
+				query.setParameter("endYear", endYear);
+			if (year != null)
+				query.setParameter("schoolYear", year);
+			if (region != null)
+				query.setParameter("region", region);
+			if (institutionId != null)
+				query.setParameter("institutionId", institutionId);
+
+			Map<Integer, RankingByColumn> byPerson = new LinkedHashMap<>();
+			for (Result result : query.getResultList()) {
+				String key = Constants.columnKeyOf(result.getContest().getName(), result.getYear());
+				if (key == null)
+					continue;
+				byPerson.computeIfAbsent(result.getPerson().getId(), id -> new RankingByColumn(result.getPerson()))
+						.add(key, result.getMedal());
+			}
+
+			return byPerson.values().stream()
+					.sorted(rankingOrder())
+					.limit(250)
+					.toList();
+		}
+	}
+
+	/**
+	 * Ranked by the medal-awarding columns in display order: all of IOI's medals
+	 * outrank any of CEOI's, and so on down the list. The overall tally is only a
+	 * display total, so it does not drive the order.
+	 *
+	 * Falls through to each column's attendance, since most competitors hold no
+	 * medal at all and would otherwise be tied with each other en masse.
+	 */
+	private static Comparator<RankingByColumn> rankingOrder() {
+		Comparator<RankingByColumn> order = null;
+		for (String column : Constants.INTERNATIONAL_COLUMNS) {
+			if (!Constants.awardsMedals(column))
+				continue;
+			for (var medal : List.of(Medal.GOLD, Medal.SILVER, Medal.BRONZE)) {
+				Comparator<RankingByColumn> next = Comparator
+						.comparingLong((RankingByColumn entry) -> countIn(entry, column, medal))
+						.reversed();
+				order = order == null ? next : order.thenComparing(next);
+			}
+		}
+		/* Attendance only breaks ties once every medal count is level, and in the
+		   same column order, so the table's positions stay consistent with it. */
+		for (String column : Constants.INTERNATIONAL_COLUMNS) {
+			Comparator<RankingByColumn> next = Comparator
+					.comparingLong((RankingByColumn entry) -> participationsIn(entry, column))
+					.reversed();
+			order = order.thenComparing(next);
+		}
+		return order.thenComparing(entry -> entry.getPerson().getName());
+	}
+
+	private static long participationsIn(RankingByColumn entry, String column) {
+		ColumnTally tally = entry.getColumns().get(column);
+		return tally == null ? 0 : tally.getParticipations();
+	}
+
+	private static long countIn(RankingByColumn entry, String column, Medal medal) {
+		ColumnTally tally = entry.getColumns().get(column);
+		if (tally == null)
+			return 0;
+		return switch (medal) {
+			case GOLD -> tally.getGold();
+			case SILVER -> tally.getSilver();
+			case BRONZE -> tally.getBronze();
+		};
 	}
 
 	@SuppressWarnings("deprecation")

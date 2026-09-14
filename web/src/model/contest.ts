@@ -4,6 +4,7 @@ export interface Contest {
     id: number,
     year: number,
     name: string,
+    subject: string | null,
     desc: string | null,
     country: string | null,
     city: string | null,

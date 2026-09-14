@@ -19,6 +19,12 @@ public class Contest extends Identifiable<Integer> {
 	@Column
 	@NotNull
 	private String name;
+	/**
+	 * Null on editions archived before the column existed; readers treat that as
+	 * {@link Constants#SUBJECT_DEFAULT}.
+	 */
+	@Column
+	private String subject;
 	@Column
 	private String desc;
 	@Column
@@ -36,6 +42,14 @@ public class Contest extends Identifiable<Integer> {
 
 	@Override
 	public Identifiable<Integer> copy() {
-		return new Contest(year, name, desc, country, city, participants,site,start,end);
+		return new Contest(year, name, subject, desc, country, city, participants, site, start, end);
+	}
+
+	/**
+	 * Subject to treat this contest as, defaulting for the editions imported
+	 * before the column existed.
+	 */
+	public String effectiveSubject() {
+		return subject == null || subject.isBlank() ? Constants.SUBJECT_DEFAULT : subject;
 	}
 }

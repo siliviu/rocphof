@@ -2,13 +2,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import './ranking.css';
 import { useTranslation } from 'react-i18next';
-import { Loading, MetaTags } from '../common/components';
+import { Loading, MetaTags, ScopeSelector } from '../common/components';
 import { getInstitutionRankings } from '../api/rest';
 import { useRangeSlider } from '../common/hooks/useRangeSlider';
 import { useSorting } from '../common/hooks/useSorting';
 import { useYearRangeParams } from '../common/hooks/useYearRangeParams';
 import { useContestYearBounds } from '../common/hooks/useContestYearBounds';
-import { CONTEST_ONI } from '../constants';
+import { useScopeParam } from '../common/hooks/useScopeParam';
+import { SCOPE_ONI } from '../constants';
 import { RangeSelector } from '../common/components/RangeSelector';
 
 export const InstitutionsRankingPage = () => {
@@ -17,8 +18,12 @@ export const InstitutionsRankingPage = () => {
     const [loading, setLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
 
-    /* Institutions are only recorded for ONI, so the range follows its editions. */
-    const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(CONTEST_ONI);
+    const { scope, scopeLink, scopes } = useScopeParam();
+
+    /* The range follows the editions of whichever contests are being counted. */
+    const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(
+        scope === SCOPE_ONI ? SCOPE_ONI : undefined
+    );
 
     /* The URL is the source of truth for the range, so it stays shareable. */
     const { startYear: paramStart, endYear: paramEnd, setRange, min, max } = useYearRangeParams(minYear, maxYear);
@@ -58,10 +63,10 @@ export const InstitutionsRankingPage = () => {
     useEffect(() => {
         if (boundsLoading) return;
         setLoading(true);
-        getInstitutionRankings(paramStart, paramEnd)
+        getInstitutionRankings(paramStart, paramEnd, scope)
             .then(res => setResults(res))
             .finally(() => setLoading(false));
-    }, [paramStart, paramEnd, boundsLoading]);
+    }, [paramStart, paramEnd, scope, boundsLoading]);
 
     return <>
         <MetaTags title={t('AllInstitutionsRanking')} description={t('meta.ranking', { title: t('AllInstitutionsRanking') })} />
@@ -75,6 +80,7 @@ export const InstitutionsRankingPage = () => {
                 trackRef={trackRef}
                 onThumbPointerDown={onThumbPointerDown}
             />
+            <ScopeSelector scope={scope} scopes={scopes} scopeLink={scopeLink} />
             <div className='ranking-filter'>
                 <label htmlFor='region-filter'>{t('Region')}</label>
                 <select
@@ -121,3 +127,4 @@ export const InstitutionsRankingPage = () => {
         )}
     </>;
 }
+

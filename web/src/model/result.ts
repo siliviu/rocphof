@@ -33,6 +33,21 @@ export interface RankingResult extends RankingNumber {
     person: Person,
 }
 
+/* Participations counts every appearance, medal or not, so it is not the sum of
+   the three medal counts. */
+export interface ColumnTally {
+    gold: number,
+    silver: number,
+    bronze: number,
+    participations: number
+}
+
+/* Columns a person never took part in are absent from the map, not zeroed. */
+export interface RankingByColumn extends RankingNumber {
+    person: Person,
+    columns: Record<string, ColumnTally>
+}
+
 export interface RankingNumber {
     gold: number,
     silver: number,

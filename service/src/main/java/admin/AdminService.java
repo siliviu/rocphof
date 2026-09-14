@@ -43,6 +43,8 @@ public class AdminService {
 			existing.setYear(changes.getYear());
 		if (changes.getName() != null)
 			existing.setName(changes.getName());
+		if (changes.getSubject() != null)
+			existing.setSubject(changes.getSubject());
 		if (changes.getDesc() != null)
 			existing.setDesc(changes.getDesc());
 		if (changes.getCountry() != null)

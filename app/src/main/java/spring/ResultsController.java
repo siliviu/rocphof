@@ -96,21 +96,43 @@ public class ResultsController {
 		return queryService.getParticipantsByContest(id, year);
 	}
 
-	@Cacheable(value = "rankingPeople", key = "{#region, #institution, #year}")
+	@Cacheable(value = "rankingPeople", key = "{#region, #institution, #year, #subject, #scope}")
 	@GetMapping(value = "/rankings/people")
-	public List<RankingResult> getPeopleRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
-		return queryService.getRanking(region, institution,year);
+	public List<RankingResult> getPeopleRanking(@RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year, @RequestParam(required = false) String subject, @RequestParam(required = false) String scope) {
+		return queryService.getRanking(region, institution, year, subject, scope);
 	}
 
-	@Cacheable(value = "rankingInstitutions", key = "{#startYear, #endYear}")
+	@Cacheable(value = "rankingInstitutions", key = "{#startYear, #endYear, #subject, #scope}")
 	@GetMapping(value = "/rankings/institutions")
-	public List<domain.RankingInstitution> getInstitutionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear) {
-		return queryService.getInstitutionRanking(startYear, endYear);
+	public List<domain.RankingInstitution> getInstitutionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear, @RequestParam(required = false) String subject, @RequestParam(required = false) String scope) {
+		return queryService.getInstitutionRanking(startYear, endYear, subject, scope);
 	}
 
-	@Cacheable(value = "rankingRegions", key = "{#startYear, #endYear}")
+	@Cacheable(value = "rankingRegions", key = "{#startYear, #endYear, #subject, #scope}")
 	@GetMapping(value = "/rankings/regions")
-	public List<domain.RankingRegion> getRegionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear) {
-		return queryService.getRegionRanking(startYear, endYear);
+	public List<domain.RankingRegion> getRegionRankings(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear, @RequestParam(required = false) String subject, @RequestParam(required = false) String scope) {
+		return queryService.getRegionRanking(startYear, endYear, subject, scope);
 	}
+
+	@Cacheable(value = "rankingInternational", key = "{#startYear, #endYear, #subject, #region, #institution, #year}")
+	@GetMapping(value = "/rankings/international")
+	public List<RankingByColumn> getInternationalRanking(@RequestParam(required = false) Integer startYear, @RequestParam(required = false) Integer endYear, @RequestParam(required = false) String subject, @RequestParam(required = false) String region, @RequestParam(required = false) String institution, @RequestParam(required = false) Integer year) {
+		return queryService.getInternationalRanking(startYear, endYear, subject, region, institution, year);
+	}
+
+	/** Lets the table render its columns in the order the backend defines. */
+	@Cacheable(value = "internationalColumns")
+	@GetMapping(value = "/rankings/international/columns")
+	public InternationalColumns getInternationalColumns() {
+		return new InternationalColumns(
+				queryService.getInternationalColumns(),
+				queryService.getParticipationOnlyColumns()
+		);
+	}
+
+	/**
+	 * Column layout for the international ranking: the display order, plus which
+	 * of those columns award no medals.
+	 */
+	public record InternationalColumns(List<String> order, List<String> participationOnly) {}
 }

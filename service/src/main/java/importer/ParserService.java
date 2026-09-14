@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static domain.Constants.INSTITUTION_UNKNOWN;
+import static domain.Constants.LOT_LEVEL_JUNIOR;
+import static domain.Constants.LOT_LEVEL_SENIOR;
+import static domain.Constants.MAX_GRADE;
+import static domain.Constants.MIN_GRADE;
 import static domain.Constants.SCHOOL_YEAR_UNKNOWN;
 
 public class ParserService {
@@ -30,10 +34,10 @@ public class ParserService {
 		FileInputStream file = new FileInputStream(filePath);
 		Workbook workbook = new XSSFWorkbook(file);
 		List<Result> results = new ArrayList<>();
-		for (int i = 5; i <= 12; ++i) {
+		for (int i = MIN_GRADE; i <= MAX_GRADE; ++i) {
 			float curScore = 10000;
 			int curPos = 0, nextPos = 1;
-			Sheet sheet = workbook.getSheetAt(i - 5);
+			Sheet sheet = workbook.getSheetAt(i - MIN_GRADE);
 			for (Row row : sheet) {
 				Person person = new Person();
 				person.setName(StringProcessor.normaliseChild(row.getCell(PERS_NAME).getStringCellValue()));
@@ -79,10 +83,10 @@ public class ParserService {
 		FileInputStream file = new FileInputStream(filePath);
 		Workbook workbook = new XSSFWorkbook(file);
 		List<Result> results = new ArrayList<>();
-		for (int i = 1; i <= 2; ++i) {
+		for (int i = LOT_LEVEL_JUNIOR; i <= LOT_LEVEL_SENIOR; ++i) {
 			float curScore = 10000;
 			int curPos = 0, nextPos = 1;
-			Sheet sheet = workbook.getSheetAt(i - 1);
+			Sheet sheet = workbook.getSheetAt(i - LOT_LEVEL_JUNIOR);
 			for (Row row : sheet) {
 				Person person = new Person();
 				person.setName(StringProcessor.normaliseChild(row.getCell(PERS_NAME).getStringCellValue()));

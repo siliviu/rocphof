@@ -14,6 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import static domain.Constants.CONTEST_LOT;
+import static domain.Constants.CONTEST_ONI;
+import static domain.Constants.SUBJECT_DEFAULT;
+
 @SpringBootApplication
 @ComponentScan(basePackages = {"repo", "console", "importer", "query", "utils", "merge"})
 @EntityScan(basePackages = {"domain"})
@@ -41,18 +45,20 @@ public class AddConsole implements CommandLineRunner {
 			System.out.println("Enter contest year: ");
 			int year = in.nextInt();
 			in.nextLine();
-			System.out.println("Enter contest name (ONI, LOT): ");
+			System.out.println("Enter contest name (" + CONTEST_ONI + ", " + CONTEST_LOT + "): ");
 			String name = in.nextLine();
+			System.out.println("Enter subject (blank for " + SUBJECT_DEFAULT + "): ");
+			String subject = in.nextLine().trim();
 			System.out.println("Enter file path: ");
 			String path = in.nextLine();
 			System.out.println("Enter original contest to add qualified to (0 to disable merge): ");
 			int mergeId = in.nextInt();
-			add(year, name, path, mergeId);
+			add(year, name, subject.isEmpty() ? SUBJECT_DEFAULT : subject, path, mergeId);
 		}
 	}
 
-	private void add(int year, String name, String path, int mergeId) throws Exception {
-		Contest contest = new Contest(year, name, null, null, null, 0, null, null, null);
+	private void add(int year, String name, String subject, String path, int mergeId) throws Exception {
+		Contest contest = new Contest(year, name, subject, null, null, null, 0, null, null, null);
 		addService.addDataFromFile(path, contest);
 		Scanner in = new Scanner(System.in);
 		List<Integer> replies = new ArrayList<>();

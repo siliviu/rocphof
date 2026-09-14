@@ -6,6 +6,7 @@ import { Medal, Prize } from '../model/result';
 import { Person } from '../model/person';
 import { PersonPicker } from '../common/components/person-picker';
 import { Loading } from '../common/components';
+import { SUBJECT_DEFAULT } from '../constants';
 import './admin-page.css';
 
 /* Editable text fields, in the order they appear on the contest row. */
@@ -21,9 +22,12 @@ const emptyContest = (): Record<ContestField, string> => ({
     site: '', start: '', end: '',
 });
 
-/* Blank strings become null so a field left empty is not stored as "". */
+/* Blank strings become null so a field left empty is not stored as "".
+   Subject is not editable here; every contest is stored under the single
+   subject fixed in constants.ts. */
 const toContestInput = (values: Record<ContestField, string>): ContestInput => ({
     name: values.name.trim(),
+    subject: SUBJECT_DEFAULT,
     year: Number(values.year),
     desc: values.desc.trim() || null,
     country: values.country.trim() || null,

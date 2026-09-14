@@ -96,16 +96,30 @@ public class QueryService {
 		return contestRepository.findNext(contestRepository.findById(id));
 	}
 
-	public List<RankingResult> getRanking(String region, String institution, Integer year) {
-		return resultRepository.getRanking(region, institution,year);
+	public List<RankingResult> getRanking(String region, String institution, Integer year, String subject, String scope) {
+		return resultRepository.getRanking(region, institution, year, subject, scope);
 	}
 
-	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear) {
-		return resultRepository.getInstitutionRanking(startYear, endYear);
+	public List<RankingInstitution> getInstitutionRanking(Integer startYear, Integer endYear, String subject, String scope) {
+		return resultRepository.getInstitutionRanking(startYear, endYear, subject, scope);
 	}
 
-	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear) {
-		return resultRepository.getRegionRanking(startYear, endYear);
+	public List<RankingRegion> getRegionRanking(Integer startYear, Integer endYear, String subject, String scope) {
+		return resultRepository.getRegionRanking(startYear, endYear, subject, scope);
+	}
+
+	public List<RankingByColumn> getInternationalRanking(Integer startYear, Integer endYear, String subject, String region, String institution, Integer year) {
+		return resultRepository.getInternationalRanking(startYear, endYear, subject, region, institution, year);
+	}
+
+	/** Display order for the international ranking's columns. */
+	public List<String> getInternationalColumns() {
+		return Constants.INTERNATIONAL_COLUMNS;
+	}
+
+	/** Columns that award no medals, so only participations are shown for them. */
+	public List<String> getParticipationOnlyColumns() {
+		return Constants.PARTICIPATION_ONLY_COLUMNS;
 	}
 
 	public Long getParticipantsByContest(Integer id, Integer year) {
