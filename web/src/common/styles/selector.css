@@ -1,7 +1,7 @@
 @import 'theme.css';
 
-/* Shared by the contest selector on the history page and the scope selector on
-   the rankings, so the two stay visually identical. */
+/* The contest selector on the history page. (The rankings' scope selector
+   uses the boxed style in segmented.css.) */
 .history-selector {
     display: flex;
     gap: 1.5em;

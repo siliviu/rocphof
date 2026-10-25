@@ -1,0 +1,70 @@
+@import 'theme.css';
+
+/* A segmented control: options in one bordered box, the selected one shaded.
+   Used for the subject under the title in the top panel and for the scope on
+   the rankings. Options may be buttons or links. */
+.segmented {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.segmented-option {
+    padding: 0.4em 1.2em;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--link-color);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.segmented-option + .segmented-option {
+    border-left: 1px solid var(--border-color);
+}
+
+.segmented-option:hover {
+    background: var(--hover-background-color);
+}
+
+.segmented-option:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.segmented-selected,
+.segmented-selected:hover {
+    color: var(--primary-color);
+    background: var(--active-background-color);
+    cursor: default;
+}
+
+/* Phones: the options must fit in one row. */
+/* The scope box sits in a panel, below the title or range. Its options are
+   links and spans, which inherit the page's taller line height, so they are
+   set tighter than the subject buttons. */
+.segmented.scope {
+    margin: 0.6em auto 0;
+}
+
+.segmented.scope .segmented-option {
+    padding: 0.2em 1em;
+    line-height: 1.3;
+}
+
+/* The range track keeps empty space under its line for the thumbs. */
+.range-container + .segmented.scope {
+    margin-top: 0.15em;
+}
+
+@media (max-width: 600px) {
+    .segmented-option {
+        padding: 0.35em 0.7em;
+        font-size: 0.95em;
+    }
+}

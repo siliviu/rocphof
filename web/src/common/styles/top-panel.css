@@ -29,6 +29,16 @@
   width: 2em;
 }
 
+/* The flag and theme icons sit level with the title, at the same height on
+   every page, whether or not the subject selector is shown beneath it. Centring
+   them on the panel instead moved them down on pages that show it. The title
+   line is 2.25 x 1.1 = 2.475rem tall and the icons 2rem, so they start a
+   quarter rem below the panel's padding. */
+.theme-icon,
+.language-icon {
+  top: calc(1rem + 0.2375rem);
+}
+
 .theme-icon {
   position: absolute;
   right: 1.5em;
@@ -72,14 +82,8 @@
 .top-panel .brand:hover {
   color: var(--primary-hover-color);
 }
-/* Phones: the selector spans the panel, so the flag and theme icons move up
-   to sit beside the title instead of beside the selector. */
+/* Phones: less margin at the sides, so the selector fits between them. */
 @media (max-width: 600px) {
-  .theme-icon,
-  .language-icon {
-    top: 1.25rem;
-  }
-
   .language-icon {
     left: 0.75em;
   }

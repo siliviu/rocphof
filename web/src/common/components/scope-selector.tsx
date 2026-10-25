@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { RankingScope, SCOPE_ONI } from '../../constants';
 import { nationalContestsFor } from '../../model/contest';
 import { useSubject } from '../subject';
-import '../styles/selector.css';
+import '../styles/segmented.css';
 
 interface ScopeSelectorProps {
     scope: RankingScope;
@@ -11,8 +11,9 @@ interface ScopeSelectorProps {
     scopeLink: (scope: RankingScope) => string;
 }
 
-/* Same markup and styling as the contest selector on the history page: links
-   side by side, with the active one an inert span. */
+/* The ranking's contest scope, in the same box as the subject selector. Links
+   rather than buttons, since the scope is part of the URL; the active one is
+   an inert span. */
 export const ScopeSelector = ({ scope, scopes, scopeLink }: ScopeSelectorProps) => {
     const { t } = useTranslation();
     const { subject } = useSubject();
@@ -23,10 +24,10 @@ export const ScopeSelector = ({ scope, scopes, scopeLink }: ScopeSelectorProps) 
         : t(`Scope.${option}`);
 
     return (
-        <div className='history-selector'>
+        <div className='segmented scope'>
             {scopes.map(option => option === scope
-                ? <span key={option} className='history-selected'>{label(option)}</span>
-                : <Link key={option} to={scopeLink(option)}>{label(option)}</Link>
+                ? <span key={option} className='segmented-option segmented-selected' aria-current='true'>{label(option)}</span>
+                : <Link key={option} className='segmented-option' to={scopeLink(option)}>{label(option)}</Link>
             )}
         </div>
     );
