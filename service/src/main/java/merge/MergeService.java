@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class MergeService<T extends Identifiable<ID>, ID extends Serializable & Comparable<ID>> {
 	protected static final Logger logger = LogManager.getLogger(MergeService.class.getName());
@@ -85,12 +86,14 @@ public abstract class MergeService<T extends Identifiable<ID>, ID extends Serial
 		}
 		tryMergeObjects(object, replacement);
 		logger.info("Replaced {} with {}", object, replacement);
+		/* By id, not equals: two people can be equal as values (namesakes) and
+		   still be different rows, and only the one replaced may be redirected. */
 		cache.entrySet().stream().toList().stream()
-				.filter(x -> x.getKey().equals(object))
+				.filter(x -> x.getValue() != null && Objects.equals(x.getValue().getId(), object.getId()))
 				.forEach(x -> cache.put(x.getKey(), replacement));
 
-		suggestions.stream().
-				filter(v -> v.second().remove(object))
+		suggestions.stream()
+				.filter(v -> v.second().removeIf(x -> Objects.equals(x.getId(), object.getId())))
 				.forEach(v -> v.second().add(replacement));
 		repository.replace(object, replacement);
 		cache.put(object, replacement);

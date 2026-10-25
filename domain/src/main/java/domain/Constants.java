@@ -4,14 +4,23 @@ import java.util.List;
 
 public final class Constants {
 	public static final String CONTEST_ONI = "ONI";
+	public static final String CONTEST_ONM = "ONM";
 	public static final String CONTEST_LOT = "LOT";
+
+	/**
+	 * National olympiads: one sheet per grade, and the only contests whose results
+	 * record an institution. Each belongs to one subject, which the rankings use
+	 * to tell them apart.
+	 */
+	public static final List<String> NATIONAL_CONTESTS = List.of(CONTEST_ONI, CONTEST_ONM);
 
 	public static final String COUNTRY_ROMANIA = "Romania";
 
 	/**
-	 * Which contests a ranking covers. ONI is the national olympiad on its own;
-	 * INTERNATIONAL covers LOT together with every international contest, since
-	 * both are steps on the same path and neither records an institution.
+	 * Which contests a ranking covers. SCOPE_ONI is the national olympiad of the
+	 * requested subject (ONI or ONM); the value stays "ONI" because it is part of
+	 * the API. INTERNATIONAL covers LOT together with every international contest,
+	 * since both are steps on the same path and neither records an institution.
 	 */
 	public static final String SCOPE_ONI = "ONI";
 	public static final String SCOPE_INTERNATIONAL = "INTERNATIONAL";
@@ -22,7 +31,15 @@ public final class Constants {
 	 * have no value stored, so reads fall back to the default.
 	 */
 	public static final String SUBJECT_INFORMATICS = "Informatics";
+	public static final String SUBJECT_MATHS = "Maths";
 	public static final String SUBJECT_DEFAULT = SUBJECT_INFORMATICS;
+
+	/**
+	 * Not a stored subject: asks the rankings to count every subject together.
+	 * Results without an institution are then attributed to the national
+	 * olympiad of their own subject, so nothing is counted twice.
+	 */
+	public static final String SUBJECT_ALL = "All";
 
 	/** Grades taking part in the national olympiad, used as the ONI sheet range. */
 	public static final int MIN_GRADE = 5;

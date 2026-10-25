@@ -1,5 +1,5 @@
 import { baseUrl as url } from './constants';
-import { RankingScope, SCOPE_DEFAULT, SUBJECT_DEFAULT } from '../constants';
+import { RankingScope, SCOPE_DEFAULT, SUBJECT_SELECTED_DEFAULT, Subject } from '../constants';
 
 export function getPersonById(id: number) {
     return fetch(`${url}/people/${id}`)
@@ -65,10 +65,10 @@ export function getPeopleByName(search: string) {
         .then(response => response.json())
 }
 
-/* Rankings are scoped to a single subject, fixed in constants.ts rather than
-   chosen by the caller. The scope selects which contests are counted. */
-export function getPeopleRanking(region: string | null, institution: string | null, generation: number | null, scope: RankingScope = SCOPE_DEFAULT) {
-    const obj: any = { subject: SUBJECT_DEFAULT, scope };
+/* Rankings count the selected subject, or every subject with SUBJECT_ALL, which
+   the backend accepts as-is. The scope selects which contests are counted. */
+export function getPeopleRanking(region: string | null, institution: string | null, generation: number | null, scope: RankingScope = SCOPE_DEFAULT, subject: Subject = SUBJECT_SELECTED_DEFAULT) {
+    const obj: any = { subject, scope };
     if (region)
         obj.region = region;
     if (institution)
@@ -79,8 +79,8 @@ export function getPeopleRanking(region: string | null, institution: string | nu
         .then(response => response.json())
 }
 
-export function getInstitutionRankings(startYear: number | null, endYear: number | null, scope: RankingScope = SCOPE_DEFAULT) {
-    const obj: any = { subject: SUBJECT_DEFAULT, scope };
+export function getInstitutionRankings(startYear: number | null, endYear: number | null, scope: RankingScope = SCOPE_DEFAULT, subject: Subject = SUBJECT_SELECTED_DEFAULT) {
+    const obj: any = { subject, scope };
     if (startYear !== null && startYear !== undefined)
         obj.startYear = String(startYear);
     if (endYear !== null && endYear !== undefined)
@@ -89,8 +89,8 @@ export function getInstitutionRankings(startYear: number | null, endYear: number
         .then(response => response.json())
 }
 
-export function getRegionRankings(startYear: number | null, endYear: number | null, scope: RankingScope = SCOPE_DEFAULT) {
-    const obj: any = { subject: SUBJECT_DEFAULT, scope };
+export function getRegionRankings(startYear: number | null, endYear: number | null, scope: RankingScope = SCOPE_DEFAULT, subject: Subject = SUBJECT_SELECTED_DEFAULT) {
+    const obj: any = { subject, scope };
     if (startYear !== null && startYear !== undefined)
         obj.startYear = String(startYear);
     if (endYear !== null && endYear !== undefined)
@@ -102,8 +102,8 @@ export function getRegionRankings(startYear: number | null, endYear: number | nu
 /* Per-contest breakdown of the international ranking. The region and institution
    filters match on where the person competed at ONI, since international results
    record no institution of their own. */
-export function getInternationalRanking(startYear: number | null, endYear: number | null, region: string | null = null, institution: string | null = null, generation: number | null = null) {
-    const obj: any = { subject: SUBJECT_DEFAULT };
+export function getInternationalRanking(startYear: number | null, endYear: number | null, region: string | null = null, institution: string | null = null, generation: number | null = null, subject: Subject = SUBJECT_SELECTED_DEFAULT) {
+    const obj: any = { subject };
     if (startYear !== null && startYear !== undefined)
         obj.startYear = String(startYear);
     if (endYear !== null && endYear !== undefined)

@@ -5,3 +5,4 @@ export { TopPanel } from './top-panel';
 export { MedalChart } from './medal-chart';
 export { MedalTally } from './medal-tally';
 export { ScopeSelector } from './scope-selector';
+export { SubjectSelector } from './subject-selector';

@@ -7,6 +7,7 @@ import lightIcon from "../../assets/light.png";
 import darkIcon from "../../assets/dark.png";
 import gbFlag from "../../assets/gb.png";
 import roFlag from "../../assets/ro.png";
+import { SubjectSelector } from "./subject-selector";
 import "../styles/top-panel.css";
 
 export const TopPanel = () => {
@@ -54,11 +55,14 @@ export const TopPanel = () => {
         onClick={toggleLanguage}
         className="language-icon"
       />
-      <p>
-        <Link className="brand" to="/">
-          {t("ROCPHOF")}
-        </Link>
-      </p>
+      <div className="top-panel-center">
+        <p>
+          <Link className="brand" to="/">
+            {t("ROCPHOF")}
+          </Link>
+        </p>
+        <SubjectSelector />
+      </div>
       <img
         src={isDark ? darkIcon : lightIcon}
         alt={t("Toggle theme")}

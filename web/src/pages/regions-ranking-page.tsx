@@ -9,6 +9,7 @@ import { useSorting } from '../common/hooks/useSorting';
 import { useYearRangeParams } from '../common/hooks/useYearRangeParams';
 import { useContestYearBounds } from '../common/hooks/useContestYearBounds';
 import { useScopeParam } from '../common/hooks/useScopeParam';
+import { useSubject } from '../common/subject';
 import { SCOPE_ONI } from '../constants';
 import { RangeSelector } from '../common/components/RangeSelector';
 
@@ -18,11 +19,10 @@ export const RegionsRankingPage = () => {
     const [loading, setLoading] = useState(true);
 
     const { scope, scopeLink, scopes } = useScopeParam();
+    const { subject } = useSubject();
 
     /* The range follows the editions of whichever contests are being counted. */
-    const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(
-        scope === SCOPE_ONI ? SCOPE_ONI : undefined
-    );
+    const { minYear, maxYear, loading: boundsLoading } = useContestYearBounds(scope === SCOPE_ONI);
 
     /* The URL is the source of truth for the range, so it stays shareable. */
     const { startYear: paramStart, endYear: paramEnd, setRange, min, max } = useYearRangeParams(minYear, maxYear);
@@ -41,11 +41,15 @@ export const RegionsRankingPage = () => {
 
     useEffect(() => {
         if (boundsLoading) return;
+        /* Switching subject or scope can leave an older request in flight;
+           only the latest one may set the table. */
+        let active = true;
         setLoading(true);
-        getRegionRankings(paramStart, paramEnd, scope)
-            .then(res => setResults(res))
-            .finally(() => setLoading(false));
-    }, [paramStart, paramEnd, scope, boundsLoading]);
+        getRegionRankings(paramStart, paramEnd, scope, subject)
+            .then(res => { if (active) setResults(res); })
+            .finally(() => { if (active) setLoading(false); });
+        return () => { active = false; };
+    }, [paramStart, paramEnd, scope, subject, boundsLoading]);
 
     return <>
         <MetaTags title={t('AllRegionsRanking')} description={t('meta.ranking', { title: t('AllRegionsRanking') })} />

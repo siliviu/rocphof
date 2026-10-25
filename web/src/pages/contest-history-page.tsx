@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { getAllContests, getResultsForContestName } from '../api/rest';
-import { Contest, isInternational } from '../model/contest';
+import { Contest, isInternational, matchesSubject } from '../model/contest';
+import { useSubject } from '../common/subject';
 import { Result, getMedalClass } from '../model/result';
 import { CONTEST_DEFAULT_HISTORY, GRADE_INTERNATIONAL } from '../constants';
 import { InfoTooltip, Loading, MedalTally, MetaTags } from '../common/components';
@@ -18,10 +19,26 @@ export const ContestHistoryPage = () => {
     const { name: nameParam } = useParams();
     const { t } = useTranslation();
     const [results, setResults] = useState<Result[]>([]);
-    const [names, setNames] = useState<string[]>([]);
+    const [contests, setContests] = useState<Contest[] | null>(null);
     const [loading, setLoading] = useState(true);
+    const { subject } = useSubject();
 
-    const name = nameParam ?? CONTEST_DEFAULT_HISTORY;
+    useEffect(() => {
+        getAllContests()
+            .then(setContests)
+            .catch(() => setContests([]));
+    }, []);
+
+    /* International contests of the selected subject. With none (maths has no
+       international contests archived yet) the page says so rather than
+       falling back to an informatics contest. */
+    const names = useMemo(() => contests === null ? [] :
+        [...new Set(contests.filter(c => isInternational(c) && matchesSubject(c, subject)).map(contest => contest.name))].sort()
+        , [contests, subject]);
+
+    /* The default contest, or the first one of the subject if it has no such contest. */
+    const name = nameParam ?? (names.includes(CONTEST_DEFAULT_HISTORY) || !names.length ? CONTEST_DEFAULT_HISTORY : names[0]);
+    const nameShown = contests !== null && names.includes(name);
 
     useEffect(() => {
         setLoading(true);
@@ -30,14 +47,6 @@ export const ContestHistoryPage = () => {
             .catch(() => setResults([]))
             .finally(() => setLoading(false));
     }, [name]);
-
-    useEffect(() => {
-        getAllContests()
-            .then((contests: Contest[]) => setNames(
-                [...new Set(contests.filter(isInternational).map(contest => contest.name))].sort()
-            ))
-            .catch(() => setNames([]));
-    }, []);
 
     /* One call returns every edition; the nested contest on each result is
        enough to group them, newest first. */
@@ -62,14 +71,14 @@ export const ContestHistoryPage = () => {
         </div>
     );
 
-    if (loading) {
+    if (loading || contests === null) {
         return <>
             <MetaTags title={t('ContestHistory', { name })} description={t('meta.contest_history', { name })} />
             <Loading />
         </>;
     }
 
-    if (!editions.length) {
+    if (!editions.length || !nameShown) {
         return <NotFoundPanel messageKey={'ContestNotFound'} />;
     }
 

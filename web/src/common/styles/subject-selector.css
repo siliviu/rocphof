@@ -1,0 +1,51 @@
+@import 'theme.css';
+
+/* A segmented control under the title in the top panel; the selected subject
+   reads like the selected scope or contest in the other selectors. */
+.subject-selector {
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.subject-option {
+    padding: 0.4em 1.2em;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--link-color);
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.subject-option + .subject-option {
+    border-left: 1px solid var(--border-color);
+}
+
+.subject-option:hover {
+    background: var(--hover-background-color);
+}
+
+.subject-option:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: -2px;
+}
+
+.subject-selected,
+.subject-selected:hover {
+    color: var(--primary-color);
+    background: var(--active-background-color);
+    cursor: default;
+}
+
+/* Phones: the three options must fit beside nothing, under the title. */
+@media (max-width: 600px) {
+    .subject-option {
+        padding: 0.35em 0.7em;
+        font-size: 0.95em;
+    }
+}

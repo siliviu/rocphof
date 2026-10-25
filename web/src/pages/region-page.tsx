@@ -5,6 +5,8 @@ import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import './ranking.css';
 import { Result, getMedalClass } from '../model/result';
 import { getResultsForRegion } from '../api/rest';
+import { matchesSubject } from '../model/contest';
+import { useSubject } from '../common/subject';
 import { useTranslation } from 'react-i18next';
 import { Loading, MedalTally, MetaTags } from '../common/components';
 import { MedalChart, toMedalChartEntries } from '../common/components/medal-chart';
@@ -12,14 +14,20 @@ import { MedalChart, toMedalChartEntries } from '../common/components/medal-char
 export const RegionPage = () => {
     const { region } = useParams();
     const { t } = useTranslation();
-    const [results, setResults] = useState<Result[]>([]);
+    const [allResults, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(true);
+    const { subject } = useSubject();
 
     useEffect(() => {
         getResultsForRegion(region!)
             .then(setResults)
             .finally(() => setLoading(false));
     }, [region]);
+
+    /* Fetched once for every subject; switching subject only re-filters. */
+    const results = useMemo(() =>
+        allResults.filter(result => matchesSubject(result.contest, subject))
+        , [allResults, subject]);
 
     const chartEntries = useMemo(() => toMedalChartEntries(results), [results]);
 
@@ -51,7 +59,7 @@ export const RegionPage = () => {
         </>;
     }
 
-    if (!region || results.length === 0) {
+    if (!region || allResults.length === 0) {
         return <NotFoundPanel messageKey={'RegionNotFound'} />;
     }
 

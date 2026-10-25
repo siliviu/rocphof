@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.Normalizer;
 import java.util.*;
 
 import static java.util.Map.entry;
@@ -110,11 +111,12 @@ public class StringProcessor {
 	}
 
 	public static String uglifyString(String string) {
-		return string
-				.replace("\"", "")
+		String stripped = string
+				.replace("\"", " ")
 				.replace("-", " ")
-				.replace("\\.", "")
-				.trim();
+				.replace(".", " ");          // was replace("\\.", ""): a literal backslash-dot, so dots were never removed
+		stripped = Normalizer.normalize(stripped, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+		return StringUtils.normalizeSpace(stripped);
 	}
 
 	public static boolean institutionsAreStrictlySimilar(String a, String b) {
@@ -155,7 +157,34 @@ public class StringProcessor {
 		return new String(titleCased);
 	}
 
+	/**
+	 * Title case lowers Roman numerals ("I-VIII" became "I-Viii"); put them back.
+	 * Only whole words that are valid numerals up to XXXIX, and of two letters
+	 * or more, since a lone "I" or "V" is already upper case.
+	 */
+	static String romanNumeralsUpper(String s) {
+		java.util.regex.Matcher m = java.util.regex.Pattern
+				.compile("(?<![\\p{L}])(?i:x{0,3}(?:ix|iv|v?i{0,3}))(?![\\p{L}])").matcher(s);
+		StringBuilder out = new StringBuilder();
+		while (m.find())
+			m.appendReplacement(out, m.group().length() >= 2 ? m.group().toUpperCase() : m.group());
+		m.appendTail(out);
+		return out.toString();
+	}
+
 	public static String normaliseInstitution(String institutionName) {
+		/* Some lists type the low opening quote „ as two commas (,,Mihai Viteazul”),
+		   or put a stray comma before it (,„Frații Buzești"). Read as commas they
+		   would cut the name before its quoted part. A comma before a plain quote
+		   still ends the name, since there it separates a suffix
+		   (Racoviță,"Hai la Olimpiada"). Curly quotes are unified here too, so a
+		   quote glued to the previous word (Național„Silvania”) gets its space
+		   from the regex below. Two apostrophes (''Andrei Șaguna'') are one quote;
+		   read as two they left an empty "" as the whole name. */
+		institutionName = institutionName.replace("''", "\"")
+				.replaceAll(",+„", "„")
+				.replace(",,", "\"")
+				.replaceAll("[”“„]", "\"");
 		if (institutionName.contains("/") || institutionName.contains(",") || institutionName.contains(";")) {
 			if (institutionName.contains("/"))
 				institutionName = institutionName.substring(0, institutionName.indexOf('/'));
@@ -164,33 +193,64 @@ public class StringProcessor {
 			if (institutionName.contains(";"))
 				institutionName = institutionName.substring(0, institutionName.indexOf(';'));
 		}
+		/* Abbreviations, matched as whole words in any case: the sources write
+		   "GH. VRÂNCEANU" and "nr 56" as often as "Gh." and "Nr". "C. N" is
+		   "Colegiul National" only when the N stands alone; inside a name ("C.
+		   Negruzzi", "C. Negri") it once made "Colegiul Nationalegruzzi". */
 		institutionName = institutionName.replaceAll("(?<=[^ ])\"(?!(\\s|$))", " \"")
 				.replaceAll("\\.(?=[^ ])", ". ")
-				.replaceAll("Nr(?!\\.)", "Nr.")
-				.replace("C. N.", "Colegiul National")
-				.replace("C. N", "Colegiul National")
-				.replace("Cn", "Colegiul National")
-				.replace("L. T.", "Liceul Teoretic")
-				.replace("S. G.", "Scoala Gimnaziala")
-				.replace("Al.", "Alexandru")
-				.replace("Gh.", "Gheorghe")
-				.replace("Sf.", "Sfantul")
-				.replace("I. L.", "Ion Luca")
-				.replace("Gr.", "Grigore");
+				.replaceAll("(?i)\\bNr\\.?\\s*(?=\\d)", "Nr. ")
+				.replaceAll("(?i)\\bNr\\b(?!\\.)", "Nr.")
+				.replaceAll("(?i)\\bC\\. N\\b\\.?", "Colegiul National")
+				.replaceAll("(?i)\\bCn\\b", "Colegiul National")
+				.replaceAll("(?i)\\bL\\. T\\.", "Liceul Teoretic")
+				.replaceAll("(?i)\\bS\\. G\\.", "Scoala Gimnaziala")
+				.replaceAll("(?i)\\bAl\\.", "Alexandru")
+				.replaceAll("(?i)\\bGh\\.", "Gheorghe")
+				.replaceAll("(?i)\\bSf\\.", "Sfantul")
+				.replaceAll("(?i)\\bI\\. L\\.", "Ion Luca")
+				.replaceAll("(?i)\\bGr\\.", "Grigore");
 		institutionName = normaliseDash(institutionName.replace('\'', '"'));
+		institutionName = romanNumeralsUpper(institutionName);
+		/* "Scoala cu clasele I-VIII" and "Scoala generala" are the old names of
+		   today's Scoala Gimnaziala, and the archive stores them under that. */
+		institutionName = institutionName
+				.replaceFirst("^(Scoala|Sc\\.?) (Cu C[k]?lase(le)?|Cu Cls\\.?)( I ?-? ?VIII+)*(?= |$)", "Scoala Gimnaziala")
+				.replaceFirst("^(Scoala|Sc\\.?) (Generala|Gen\\.)(?= |$)", "Scoala Gimnaziala");
 		if (institutionName.contains("\"") && institutionName.substring(institutionName.indexOf("\"") + 1).contains("\""))
 			institutionName = institutionName.substring(0, institutionName.indexOf("\"", institutionName.indexOf("\"") + 1) + 1);
+		institutionName = institutionName.replaceAll("\\s+\"$", "\"");
+		/* Liceul Teoretic Internațional de Informatică (Bucharest, and its
+		   Constanța branch; the region tells them apart) is also listed without
+		   "Teoretic", or as ICHB, its English initials (ICHB Colentina too). The
+		   Cluj "Liceul Internațional de Informatică Spectrum" is another school. */
+		if (institutionName.equals("Liceul International De Informatica") || institutionName.matches("Ichb( .*)?"))
+			return "Liceul Teoretic International De Informatica";
 		return institutionName;
 	}
 
 
 	public static String normaliseChild(String childName) {
-		childName = childName
-				.replaceAll(" [a-zA-Z]\\.[a-zA-Z] ", "")
-				.replaceAll("[A-Z]\\.", "")
-				.replaceAll("[a-zA-Z][a-zA-Z]\\.", "")
-				.replaceAll(" [a-zA-Z][a-zA-Z] ", "");
-		return normaliseDash(childName);
+		String spaced = childName
+				.replaceAll("[‐‑–—]", "-")
+				.replace('\u0130', 'I')
+				.replaceAll("\\.(?=\\p{L})", ". ");
+		String[] words = StringUtils.normalizeSpace(spaced).split(" ");
+		List<String> kept = new ArrayList<>();
+		kept.add(words[0].replaceAll("\\.+$", ""));
+		for (int i = 1; i < words.length; ++i)
+			if (!isInitials(words[i], i == words.length - 1))
+				kept.add(words[i]);
+		return normaliseDash(String.join(" ", kept));
+	}
+
+	private static boolean isInitials(String word, boolean last) {
+		if (word.contains("."))
+			return word.matches("[\\p{L}.\\-]+")
+					&& Arrays.stream(word.split("[.\\-]+")).allMatch(part -> part.length() <= 2);
+		if (word.length() == 1)
+			return Character.isLetter(word.charAt(0));
+		return word.length() == 2 && !last && word.chars().allMatch(Character::isLetter);
 	}
 
 	public static String normaliseRegion(String region) {

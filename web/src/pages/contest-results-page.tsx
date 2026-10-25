@@ -2,9 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { Result, getMedalClass } from '../model/result';
 import { useEffect, useState, useMemo, useRef } from 'react'
 import { getContestById, getNextContest, getParticipantsForContest, getPreviousContest, getResultsForContest } from '../api/rest';
-import { Contest, isInternational as contestIsInternational } from '../model/contest';
+import { Contest, isInternational as contestIsInternational, isLOT as contestIsLOT, isNational } from '../model/contest';
 import { useTranslation } from 'react-i18next';
-import { CONTEST_ONI, CONTEST_LOT, COUNTRY_ROMANIA, MIN_GRADE, MAX_GRADE } from '../constants';
+import { COUNTRY_ROMANIA, MIN_GRADE, MAX_GRADE } from '../constants';
 import './contest-page.css'
 import { Loading } from '../common/components/loading';
 import { MetaTags } from '../common/components/meta-tags';
@@ -27,9 +27,10 @@ export const ContestResultsPage = () => {
     const id = Number(idParam);
     const grade = Number(gradeParam);
 
-    const isONI = contest?.name === CONTEST_ONI;
-    const isLOT = contest?.name === CONTEST_LOT;
+    const isNat = isNational(contest);
+    const isLOT = contestIsLOT(contest);
     const isInternational = contestIsInternational(contest);
+    const metaKey = isNat ? `meta.contest_${contest!.name.toLowerCase()}` : isLOT ? "meta.contest_lot" : "meta.contest";
 
     useEffect(() => {
         const showLoading = firstLoad.current;
@@ -75,7 +76,7 @@ export const ContestResultsPage = () => {
             <tr key={result.id} className={getMedalClass(result.medal)}>
                 <td>{result.place}</td>
                 <td><Link to={`/person/${result.person.id}`}>{result.person.name}</Link></td>
-                {isONI ? (
+                {isNat ? (
                     <>
                         <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
                         <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
@@ -84,11 +85,11 @@ export const ContestResultsPage = () => {
                     <td>{contest!.year - result.person.schoolYear}</td>
                 )}
                 <td>{result.score}</td>
-                {(isONI || isLOT) && <td>{result.prize ? t(isONI ? `Prize.${result.prize}` : 'Final.Yes') : ''}</td>}
-                {(isONI || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
+                {(isNat || isLOT) && <td>{result.prize ? t(isNat ? `Prize.${result.prize}` : 'Final.Yes') : ''}</td>}
+                {(isNat || isInternational) && <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>}
             </tr>
         )
-        , [results, isONI, isLOT, isInternational, contest, t]);
+        , [results, isNat, isLOT, isInternational, contest, t]);
 
     const prevGrade = grade - 1;
     const nextGrade = grade + 1;
@@ -109,11 +110,11 @@ export const ContestResultsPage = () => {
     if (loading) {
         return <>
             <MetaTags
-                title={contest ? `${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '') : ""}
-                description={t(isONI ? "meta.contest_oni" : isLOT ? "meta.contest_lot" : "meta.contest", {
+                title={contest ? `${contest.name} ${contest.year}` + (isNat ? ` ${grade}` : '') : ""}
+                description={t(metaKey, {
                     name: contest?.name,
                     year: contest?.year,
-                    grade: isONI ? grade : ''
+                    grade: isNat ? grade : ''
                 })}
             />
             <Loading />
@@ -126,11 +127,11 @@ export const ContestResultsPage = () => {
 
     return <>
         <MetaTags
-            title={`${contest.name} ${contest.year}` + (isONI ? ` ${grade}` : '')}
-            description={t(isONI ? "meta.contest_oni" : isLOT ? "meta.contest_lot" : "meta.contest", {
+            title={`${contest.name} ${contest.year}` + (isNat ? ` ${grade}` : '')}
+            description={t(metaKey, {
                 name: contest?.name,
                 year: contest?.year,
-                grade: isONI ? grade : ''
+                grade: isNat ? grade : ''
             })}
         />
         <div className='panel'>
@@ -145,7 +146,7 @@ export const ContestResultsPage = () => {
                     </span>
                     {nextContest ? <Link className='arrow' to={`/contest/${nextContest.id}/${grade}`}> &gt;</Link> : <div />}
                 </p>
-                    {(isONI || isLOT) && (isONI ? (<>
+                    {(isNat || isLOT) && (isNat ? (<>
                     <p className='subtitle selector'>
                         {prevGrade >= MIN_GRADE ? <Link className='arrow' to={`/contest/${id}/${prevGrade}`}>&lt;  </Link> : <div />}
                         <span>{grade}</span>
@@ -166,7 +167,7 @@ export const ContestResultsPage = () => {
                     </p>
                 </>
                 ))}
-                <div>{contest && (isONI || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
+                <div>{contest && (isNat || contest.participants) && <>{t(participants >= 20 ? "Participants_many" : "Participants", { count: participants })}</>}</div>
                 {isInternational && <p className='subsubtitle'>
                     <Link to={`/history/${contest.name}`}>{t('ContestHistory', { name: contest.name })}</Link>
                 </p>}
@@ -177,7 +178,7 @@ export const ContestResultsPage = () => {
                 <colgroup>
                     <col className="place" />
                     <col className="name" />
-                    {isONI ? (<>
+                    {isNat ? (<>
                         <col className="region" />
                         <col className="institution" />
                     </>
@@ -186,13 +187,13 @@ export const ContestResultsPage = () => {
                     )}
                     <col className="score" />
                     <col className="prize" />
-                    {isONI && <col className="medal" />}
+                    {isNat && <col className="medal" />}
                 </colgroup>
                 <tbody>
                     <tr>
                         <th>{t("Place")}</th>
                         <th>{t("Name")}</th>
-                        {isONI ? (<>
+                        {isNat ? (<>
                             <th>{t("Region")}</th>
                             <th>{t("Institution")}</th>
                         </>
@@ -200,8 +201,8 @@ export const ContestResultsPage = () => {
                             <th>{t("Grade")}</th>
                         )}
                         <th>{t("Score")}</th>
-                        {(isONI || isLOT) && <th>{t(isONI ? "Prize" : "Final")}</th>}
-                        {(isONI || isInternational) && <th>{t("Medal")}</th>}
+                        {(isNat || isLOT) && <th>{t(isNat ? "Prize" : "Final")}</th>}
+                        {(isNat || isInternational) && <th>{t("Medal")}</th>}
                     </tr>
                     {table}
                 </tbody>

@@ -6,7 +6,9 @@ import { Medal, Prize } from '../model/result';
 import { Person } from '../model/person';
 import { PersonPicker } from '../common/components/person-picker';
 import { Loading } from '../common/components';
-import { SUBJECT_DEFAULT } from '../constants';
+import { STORED_SUBJECTS, SUBJECT_ALL, SUBJECT_DEFAULT } from '../constants';
+import { subjectOf } from '../model/contest';
+import { useSubject } from '../common/subject';
 import './admin-page.css';
 
 /* Editable text fields, in the order they appear on the contest row. */
@@ -23,11 +25,10 @@ const emptyContest = (): Record<ContestField, string> => ({
 });
 
 /* Blank strings become null so a field left empty is not stored as "".
-   Subject is not editable here; every contest is stored under the single
-   subject fixed in constants.ts. */
-const toContestInput = (values: Record<ContestField, string>): ContestInput => ({
+   The subject is chosen from the stored ones, never SUBJECT_ALL. */
+const toContestInput = (values: Record<ContestField, string>, subject: string): ContestInput => ({
     name: values.name.trim(),
-    subject: SUBJECT_DEFAULT,
+    subject,
     year: Number(values.year),
     desc: values.desc.trim() || null,
     country: values.country.trim() || null,
@@ -47,6 +48,10 @@ export const AdminPage = () => {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [editValues, setEditValues] = useState<Record<ContestField, string>>(emptyContest());
     const [newContest, setNewContest] = useState<Record<ContestField, string>>(emptyContest());
+    /* New contests start on the subject selected site-wide, when it is a single one. */
+    const { subject: selected } = useSubject();
+    const [newSubject, setNewSubject] = useState<string>(selected === SUBJECT_ALL ? SUBJECT_DEFAULT : selected);
+    const [editSubject, setEditSubject] = useState<string>(SUBJECT_DEFAULT);
 
     const [resultContestId, setResultContestId] = useState<number | null>(null);
     const [person, setPerson] = useState<Person | null>(null);
@@ -76,6 +81,7 @@ export const AdminPage = () => {
 
     const startEdit = (contest: Contest) => {
         setEditingId(contest.id);
+        setEditSubject(subjectOf(contest));
         setEditValues({
             name: contest.name ?? '',
             year: String(contest.year ?? ''),
@@ -92,7 +98,7 @@ export const AdminPage = () => {
     const saveEdit = async () => {
         if (editingId === null) return;
         try {
-            await updateContest(editingId, toContestInput(editValues));
+            await updateContest(editingId, toContestInput(editValues, editSubject));
             report(`Updated contest ${editingId}`);
             setEditingId(null);
             await reload();
@@ -105,7 +111,7 @@ export const AdminPage = () => {
             return;
         }
         try {
-            const created = await addContest(toContestInput(newContest));
+            const created = await addContest(toContestInput(newContest, newSubject));
             report(`Added contest ${created.name} ${created.year}`);
             setNewContest(emptyContest());
             await reload();
@@ -160,6 +166,10 @@ export const AdminPage = () => {
                         />
                     </label>
                 ))}
+                <label>
+                    subject
+                    <SubjectSelect value={newSubject} onChange={setNewSubject} />
+                </label>
             </div>
             <button type='button' onClick={createContest}>Add contest</button>
         </div>
@@ -227,6 +237,7 @@ export const AdminPage = () => {
                 <tr>
                     <th>id</th>
                     {CONTEST_FIELDS.map(field => <th key={field}>{field}</th>)}
+                    <th>subject</th>
                     <th />
                 </tr>
                 {contests.map(contest => editingId === contest.id ? (
@@ -241,6 +252,7 @@ export const AdminPage = () => {
                                 />
                             </td>
                         ))}
+                        <td><SubjectSelect value={editSubject} onChange={setEditSubject} /></td>
                         <td className='admin-actions'>
                             <button type='button' onClick={saveEdit}>Save</button>
                             <button type='button' onClick={() => setEditingId(null)}>Cancel</button>
@@ -252,6 +264,7 @@ export const AdminPage = () => {
                         {CONTEST_FIELDS.map(field => (
                             <td key={field}>{contest[field] ?? ''}</td>
                         ))}
+                        <td>{subjectOf(contest)}</td>
                         <td className='admin-actions'>
                             <button type='button' onClick={() => startEdit(contest)}>Edit</button>
                         </td>
@@ -261,3 +274,9 @@ export const AdminPage = () => {
         </table>
     </>;
 };
+
+const SubjectSelect = ({ value, onChange }: { value: string, onChange: (subject: string) => void }) => (
+    <select value={value} onChange={e => onChange(e.target.value)}>
+        {STORED_SUBJECTS.map(subject => <option key={subject} value={subject}>{subject}</option>)}
+    </select>
+);

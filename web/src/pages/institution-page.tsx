@@ -6,6 +6,8 @@ import './institution-page.css';
 import { Result, getMedalClass } from '../model/result';
 import { getInstitutionById, getResultsForInstitution } from '../api/rest';
 import { Institution } from '../model/institution';
+import { matchesSubject } from '../model/contest';
+import { useSubject } from '../common/subject';
 import { useTranslation } from 'react-i18next';
 import { Loading, MedalTally, MetaTags } from '../common/components';
 import { MedalChart, toMedalChartEntries } from '../common/components/medal-chart';
@@ -14,9 +16,10 @@ export const InstitutionPage = () => {
     const { id: idParam } = useParams();
     const { t } = useTranslation();
     const [institution, setInstitution] = useState<Institution | null>(null);
-    const [results, setResults] = useState<Result[]>([]);
+    const [allResults, setResults] = useState<Result[]>([]);
     const [loading, setLoading] = useState(true);
     const id = Number(idParam);
+    const { subject } = useSubject();
 
     useEffect(() => {
         Promise.all([
@@ -28,6 +31,11 @@ export const InstitutionPage = () => {
                 .then(setResults)
         ]).finally(() => setLoading(false));
     }, [id]);
+
+    /* Fetched once for every subject; switching subject only re-filters. */
+    const results = useMemo(() =>
+        allResults.filter(result => matchesSubject(result.contest, subject))
+        , [allResults, subject]);
 
     const chartEntries = useMemo(() => toMedalChartEntries(results), [results]);
 

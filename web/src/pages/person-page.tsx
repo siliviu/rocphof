@@ -1,7 +1,9 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Result, getMedalClass } from '../model/result';
-import { CONTEST_ONI, CONTEST_LOT } from '../constants';
+import { SUBJECT_ALL } from '../constants';
+import { isInternational, isLOT, matchesSubject, nationalContestsFor } from '../model/contest';
+import { useSubject } from '../common/subject';
 import { getParticipantsForContest, getPersonById, getResultsForPerson } from '../api/rest';
 import { Person } from '../model/person';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +16,7 @@ export const PersonPage = () => {
     const [results, setResults] = useState<Result[]>([]);
     const [person, setPerson] = useState<Person | null>(null);
     const [loading, setLoading] = useState(true);
+    const { subject } = useSubject();
 
     useEffect(() => {
         Promise.all([
@@ -31,26 +34,35 @@ export const PersonPage = () => {
         ]).finally(() => setLoading(false));
     }, [id]);
 
-    const tableONI = useMemo(() =>
-        results
-            .filter(result => result.contest.name === CONTEST_ONI)
-            .map(result => (
-                <tr key={result.id} className={getMedalClass(result.medal)}>
-                    <td>{result.contest.year}</td>
-                    <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
-                    <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
-                    <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
-                    <td>{result.score}</td>
-                    <td>{result.place} / {result.total}</td>
-                    <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
-                    <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
-                </tr>
-            ))
-        , [results, t]);
+    const shownResults = useMemo(() =>
+        results.filter(result => matchesSubject(result.contest, subject))
+        , [results, subject]);
+
+    /* With a single subject its national olympiad always gets a panel, as ONI
+       did before; combined, only the olympiads the person took part in. */
+    const tablesNational = useMemo(() =>
+        nationalContestsFor(subject).map(name => ({
+            name,
+            rows: shownResults
+                .filter(result => result.contest.name === name)
+                .map(result => (
+                    <tr key={result.id} className={getMedalClass(result.medal)}>
+                        <td>{result.contest.year}</td>
+                        <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.year}</Link></td>
+                        <td><Link to={`/region/${result.institution!.region}`}>{result.institution!.region}</Link></td>
+                        <td><Link to={`/institution/${result.institution!.id}`}>{result.institution!.name}</Link></td>
+                        <td>{result.score}</td>
+                        <td>{result.place} / {result.total}</td>
+                        <td>{result.prize ? t(`Prize.${result.prize}`) : ''}</td>
+                        <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
+                    </tr>
+                ))
+        })).filter(({ rows }) => subject !== SUBJECT_ALL || rows.length > 0)
+        , [shownResults, subject, t]);
 
     const tableLOT = useMemo(() =>
-        results
-            .filter(result => result.contest.name === CONTEST_LOT)
+        shownResults
+            .filter(result => isLOT(result.contest))
             .map(result => (
                 <tr key={result.id}>
                     <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
@@ -61,11 +73,11 @@ export const PersonPage = () => {
                     <td>{result.prize ? t("Final.Yes") : ''}</td>
                 </tr>
             ))
-        , [results, t]);
+        , [shownResults, person, t]);
 
     const tableInternational = useMemo(() =>
-        results
-            .filter(result => result.contest.name !== CONTEST_ONI && result.contest.name !== CONTEST_LOT)
+        shownResults
+            .filter(result => isInternational(result.contest))
             .map(result => (
                 <tr key={result.id} className={getMedalClass(result.medal)}>
                     <td><Link to={`/contest/${result.contest.id}/${result.year}`}>{result.contest.year}</Link></td>
@@ -76,7 +88,7 @@ export const PersonPage = () => {
                     <td>{result.medal ? t(`Medal.${result.medal}`) : ''}</td>
                 </tr>
             ))
-        , [results, t]);
+        , [shownResults, person, t]);
 
     return <>
         <MetaTags
@@ -91,8 +103,8 @@ export const PersonPage = () => {
 
         {!loading && !person ? <div className='panel'><p>{t('NoDataOrNotFound') ?? 'No data found for this person.'}</p></div> : (
             <>
-                <div className='panel'>
-                    <p className='title'>ONI</p>
+                {tablesNational.map(({ name, rows }) => <div key={name} className='panel'>
+                    <p className='title'>{name}</p>
                     {loading ? <Loading /> : (
                         <table>
                             <tbody>
@@ -106,11 +118,11 @@ export const PersonPage = () => {
                                     <th>{t("Prize")}</th>
                                     <th>{t("Medal")}</th>
                                 </tr>
-                                {tableONI}
+                                {rows}
                             </tbody>
                         </table>
                     )}
-                </div>
+                </div>)}
                 {tableLOT && tableLOT.length > 0 && <div className='panel'>
                     <p className='title'>LOT</p>
                     {loading ? <Loading /> : (

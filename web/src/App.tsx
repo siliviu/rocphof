@@ -19,6 +19,7 @@ import { ContestPages } from './pages/contests-page';
 import { RegionPages } from './pages/regions-page';
 import { ContestInfoPage } from './pages/contest-info-page.tsx';
 import { ContestHistoryPage } from './pages/contest-history-page.tsx';
+import { SubjectProvider } from './common/subject-context.tsx';
 import { lazy, Suspense } from 'react';
 
 const AdminPage = import.meta.env.DEV
@@ -28,6 +29,7 @@ const AdminPage = import.meta.env.DEV
 export default function App() {
   return (
     <Router>
+      <SubjectProvider>
       <TopPanel />
       <Routes>
         <Route path="/" element={<MainPage />} />
@@ -48,6 +50,7 @@ export default function App() {
           <Suspense fallback={null}><AdminPage /></Suspense>
         } />}
       </Routes>
+      </SubjectProvider>
     </Router>
   );
 }

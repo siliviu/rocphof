@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getContestById, getNextContest, getPreviousContest } from "../api/rest";
-import { Contest, isInternational as contestIsInternational } from "../model/contest";
+import { Contest, isInternational as contestIsInternational, isLOT as contestIsLOT, isNational } from "../model/contest";
 import { Loading, MetaTags } from '../common/components';
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { useTranslation } from 'react-i18next';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { CONTEST_LOT, CONTEST_ONI, GRADE_INTERNATIONAL } from "../constants";
+import { GRADE_INTERNATIONAL } from "../constants";
 import './contest-page.css'
 
 export const ContestInfoPage = () => {
@@ -19,11 +19,11 @@ export const ContestInfoPage = () => {
     const [loading, setLoading] = useState(true);
 
     const id = Number(idParam);
-    const isONI = contest?.name === CONTEST_ONI;
-    const isLOT = contest?.name === CONTEST_LOT;
+    const isNat = isNational(contest);
+    const isLOT = contestIsLOT(contest);
     const isInternational = contestIsInternational(contest);
     const grades =
-        isONI ? [5, 6, 7, 8, 9, 10, 11, 12] :
+        isNat ? [5, 6, 7, 8, 9, 10, 11, 12] :
             isLOT ? [1, 2] : [];
 
     useEffect(() => {
@@ -73,7 +73,7 @@ export const ContestInfoPage = () => {
                             <div className="info-links">
                                 {grades.map(grade =>
                                     <Link key={grade} className='spaced link-bold' to={`/contest/${contest.id}/${grade}`}>
-                                        {isONI ? grade : t(["Girl", "Junior", "Senior"][grade])}
+                                        {isNat ? grade : t(["Girl", "Junior", "Senior"][grade])}
                                     </Link>)}
                             </div>
                         </>

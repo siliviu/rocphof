@@ -19,11 +19,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static domain.Constants.CONTEST_ONI;
+import static domain.Constants.NATIONAL_CONTESTS;
 import static domain.Constants.MAX_GRADE;
 import static domain.Constants.MIN_GRADE;
 import static domain.Constants.SCOPE_DEFAULT;
 import static domain.Constants.SCOPE_INTERNATIONAL;
+import static domain.Constants.SUBJECT_ALL;
 import static domain.Constants.SUBJECT_DEFAULT;
 
 
@@ -126,6 +127,15 @@ public class ResultHibernateRepository implements ResultRepository {
 	}
 
 
+	private boolean hasResult(Integer contestId, Integer personId) {
+		try (Session session = HibernateUtils.getSessionFactory().openSession()) {
+			return session.createQuery("select count(*) from Result where contest.id=?1 and person.id=?2", Long.class)
+					.setParameter(1, contestId)
+					.setParameter(2, personId)
+					.uniqueResult() > 0;
+		}
+	}
+
 	@Override
 	public void mergeQualified(Integer qualifiedId, Integer originalId) {
 		Contest originalContest;
@@ -135,8 +145,9 @@ public class ResultHibernateRepository implements ResultRepository {
 		for (int i = MIN_GRADE; i <= MAX_GRADE; ++i) {
 			for (Result qualifiedResult : getResultsByContest(qualifiedId, i)) {
 				Person person = qualifiedResult.getPerson();
-				Result originalResult = getResultByContestAndPerson(originalId, person.getId());
-				if (originalResult == null) {
+				/* Exists rather than a unique lookup: a person listed twice in the
+				   results would otherwise abort the merge halfway through. */
+				if (!hasResult(originalId, person.getId())) {
 					qualifiedResult.setPlace(null);
 					qualifiedResult.setContest(originalContest);
 					update(qualifiedResult, qualifiedResult.getId());
@@ -159,24 +170,46 @@ public class ResultHibernateRepository implements ResultRepository {
 	}
 
 	/**
-	 * Contests a ranking covers. ONI stands alone; INTERNATIONAL is everything
-	 * else, which is LOT plus the international contests.
+	 * Contests a ranking covers. The ONI scope is the national olympiads (ONI,
+	 * ONM); INTERNATIONAL is everything else, which is LOT plus the international
+	 * contests. The subject predicate then keeps only one subject's olympiad.
 	 */
 	private static String scopePredicate(String alias, String scope) {
 		return SCOPE_INTERNATIONAL.equals(scope)
-				? alias + ".contest.name <> :contestName "
-				: alias + ".contest.name = :contestName ";
+				? alias + ".contest.name NOT IN (:nationalNames) "
+				: alias + ".contest.name IN (:nationalNames) ";
 	}
 
 	/**
-	 * Rankings are scoped to one subject. Editions imported before the subject
-	 * column existed have no value stored, so they count as the default subject
-	 * rather than being dropped.
+	 * Rankings are scoped to one subject, or to every subject with SUBJECT_ALL.
+	 * Editions imported before the subject column existed have no value stored,
+	 * so they count as the default subject rather than being dropped.
 	 */
+	private static String subjectPredicate(String alias) {
+		/* SUBJECT_ALL matches every contest; any other value one subject. */
+		return "(:subject = '" + SUBJECT_ALL + "' " +
+				"     OR " + subjectOf(alias) + " = :subject) ";
+	}
+
+	/** A contest's subject, with editions stored before the column existed read as the default. */
+	private static String subjectOf(String alias) {
+		return "COALESCE(" + alias + ".contest.subject, '" + SUBJECT_DEFAULT + "')";
+	}
+
 	private static String subjectAndScope(String alias, String scope) {
-		return scopePredicate(alias, scope) +
-				"AND (" + alias + ".contest.subject = :subject " +
-				"     OR (" + alias + ".contest.subject IS NULL AND :subject = '" + SUBJECT_DEFAULT + "')) ";
+		return scopePredicate(alias, scope) + "AND " + subjectPredicate(alias);
+	}
+
+	/**
+	 * The national olympiad that attributes result {@code of} (which records no
+	 * institution): the one of the same subject. With a single subject this is
+	 * that subject's olympiad; with every subject counted, it keeps a person who
+	 * sat both ONI and ONM in one year from having an IOI result counted twice,
+	 * once per olympiad.
+	 */
+	private static String nationalOfSubject(String alias, String of) {
+		return alias + ".contest.name IN (:nationalNames) AND " +
+				subjectOf(alias) + " = " + subjectOf(of) + " ";
 	}
 
 	private static String resolveSubject(String subject) {
@@ -211,7 +244,7 @@ public class ResultHibernateRepository implements ResultRepository {
 					(byPlace && attributed
 							? "AND EXISTS (SELECT 1 FROM Result o " +
 							  "             WHERE o.person.id = r.person.id " +
-							  "               AND o.contest.name = :contestName " +
+							  "               AND " + nationalOfSubject("o", "r") +
 							  "               AND o.contest.year = r.contest.year " +
 							  "               AND o.institution IS NOT NULL " +
 							  (region != null ? "AND o.institution.region = :region " : "") +
@@ -220,7 +253,7 @@ public class ResultHibernateRepository implements ResultRepository {
 							: "") +
 					"GROUP BY r.person.id " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc LIMIT 250", RankingResult.class);
-			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameterList("nationalNames", NATIONAL_CONTESTS);
 			query.setParameter("subject", resolveSubject(subject));
 			if (region != null)
 				query.setParameter("region", region);
@@ -250,7 +283,7 @@ public class ResultHibernateRepository implements ResultRepository {
 				"WHERE " + subjectAndScope("r", scope) +
 				"AND a.person.id = r.person.id " +
 				"AND a.institution IS NOT NULL " +
-				"AND a.contest.name = :contestName " +
+				"AND " + nationalOfSubject("a", "r") +
 				"AND a.contest.year = r.contest.year ";
 	}
 
@@ -274,7 +307,7 @@ public class ResultHibernateRepository implements ResultRepository {
 					(endYear != null ? "AND r.contest.year <= :endYear " : "") +
 					"GROUP BY " + alias + ".institution.id " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingInstitution.class);
-			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameterList("nationalNames", NATIONAL_CONTESTS);
 			query.setParameter("subject", resolveSubject(subject));
 			if (startYear != null)
 				query.setParameter("startYear", startYear);
@@ -299,7 +332,7 @@ public class ResultHibernateRepository implements ResultRepository {
 					(endYear != null ? "AND r.contest.year <= :endYear " : "") +
 					"GROUP BY " + alias + ".institution.region " +
 					"ORDER BY gold desc, silver desc, bronze desc, participations desc", RankingRegion.class);
-			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameterList("nationalNames", NATIONAL_CONTESTS);
 			query.setParameter("subject", resolveSubject(subject));
 			if (startYear != null)
 				query.setParameter("startYear", startYear);
@@ -333,14 +366,14 @@ public class ResultHibernateRepository implements ResultRepository {
 					   since the international results record no institution. */
 					(byPlace ? "AND EXISTS (SELECT 1 FROM Result o " +
 							"             WHERE o.person.id = r.person.id " +
-							"               AND o.contest.name = :contestName " +
+							"               AND " + nationalOfSubject("o", "r") +
 							"               AND o.contest.year = r.contest.year " +
 							"               AND o.institution IS NOT NULL " +
 							(region != null ? "AND o.institution.region = :region " : "") +
 							(institutionId != null ? "AND o.institution.id = :institutionId " : "") +
 							") " : "") +
 					"ORDER BY r.contest.year", Result.class);
-			query.setParameter("contestName", CONTEST_ONI);
+			query.setParameterList("nationalNames", NATIONAL_CONTESTS);
 			query.setParameter("subject", resolveSubject(subject));
 			if (startYear != null)
 				query.setParameter("startYear", startYear);

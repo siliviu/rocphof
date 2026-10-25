@@ -9,6 +9,7 @@ import { ColumnLayout, ColumnRankingTable } from '../common/components/column-ra
 import { NotFoundPanel } from '../common/components/NotFoundPanel';
 import { useGenerationBounds } from '../common/hooks/useContestYearBounds';
 import { useScopeParam } from '../common/hooks/useScopeParam';
+import { useSubject } from '../common/subject';
 import { useSorting } from '../common/hooks/useSorting';
 import { MIN_GRADE, MAX_GRADE, SCOPE_INTERNATIONAL } from '../constants';
 import './contest-page.css';
@@ -26,6 +27,7 @@ export const RankingPage = () => {
     const { minGeneration, maxGeneration, loading: boundsLoading } = useGenerationBounds(MIN_GRADE, MAX_GRADE);
 
     const { scope, scopeLink, scopes } = useScopeParam();
+    const { subject } = useSubject();
     const isInternational = scope === SCOPE_INTERNATIONAL;
 
     /* The international scope is a per-contest breakdown, so it has its own
@@ -41,6 +43,10 @@ export const RankingPage = () => {
     }, [isInternational]);
 
     useEffect(() => {
+        /* Switching subject or scope can leave an older request in flight;
+           only the latest one may set the table. */
+        let active = true;
+        const keep = <T,>(set: (value: T) => void) => (value: T) => { if (active) set(value); };
         setLoading(true);
         if (isInternational) {
             Promise.all([
@@ -49,29 +55,32 @@ export const RankingPage = () => {
                     null,
                     searchParams.get("region"),
                     searchParams.get("institution"),
-                    generation
-                ).then(setColumnResults)
-                    .catch(() => setColumnResults([])),
+                    generation,
+                    subject
+                ).then(keep(setColumnResults))
+                    .catch(() => keep(setColumnResults)([])),
                 searchParams.has("institution")
                     ? getInstitutionById(Number(searchParams.get("institution")))
-                        .then(setInstitution)
+                        .then(keep(setInstitution))
                     : Promise.resolve()
-            ]).finally(() => setLoading(false));
-            return;
+            ]).finally(() => keep(setLoading)(false));
+            return () => { active = false; };
         }
         Promise.all([
             getPeopleRanking(
                 searchParams.get("region"),
                 searchParams.get("institution"),
                 generation,
-                scope
-            ).then(setResults),
+                scope,
+                subject
+            ).then(keep(setResults)),
             searchParams.has("institution") 
                 ? getInstitutionById(Number(searchParams.get("institution")))
-                    .then(setInstitution)
+                    .then(keep(setInstitution))
                 : Promise.resolve()
-        ]).finally(() => setLoading(false));
-    }, [searchParams, generation, scope, isInternational]);
+        ]).finally(() => keep(setLoading)(false));
+        return () => { active = false; };
+    }, [searchParams, generation, scope, isInternational, subject]);
 
     /* Other filters are preserved, so stepping years keeps any region or
        institution already applied. */

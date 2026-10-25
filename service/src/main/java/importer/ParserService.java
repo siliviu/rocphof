@@ -68,7 +68,7 @@ public class ParserService {
 					}
 					result.setPlace(curPos);
 					result.setScore(score);
-				} else
+				} else if (row.getCell(POS) != null)
 					result.setPlace((int) row.getCell(POS).getNumericCellValue());
 				result.setMedal(medal);
 				result.setPerson(person);
