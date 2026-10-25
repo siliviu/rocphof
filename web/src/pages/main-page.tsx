@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { MetaTags } from '../common/components';
 import './main-page.css';
 
+const FEEDBACK_FORM = 'https://forms.gle/Vepgby2yTCTETFWZ8';
+
 export const MainPage = () => {
     const { t } = useTranslation();
     const [input, setInput] = useState('');
@@ -76,7 +78,10 @@ export const MainPage = () => {
         </div>
         <div className='panel'>
             <p><strong>{t("Archive Description")}</strong></p>
-            <p>{t("Contact Info")}</p>
+            <p>
+                {t("Contact Info")}{' '}
+                <a href={FEEDBACK_FORM} target="_blank" rel="noopener noreferrer">{FEEDBACK_FORM}</a>
+            </p>
         </div>
     </>
 }

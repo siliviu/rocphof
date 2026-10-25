@@ -121,11 +121,11 @@ public class ResultsController {
 	}
 
 	/** Lets the table render its columns in the order the backend defines. */
-	@Cacheable(value = "internationalColumns")
+	@Cacheable(value = "internationalColumns", key = "#subject ?: 'All'")
 	@GetMapping(value = "/rankings/international/columns")
-	public InternationalColumns getInternationalColumns() {
+	public InternationalColumns getInternationalColumns(@RequestParam(required = false) String subject) {
 		return new InternationalColumns(
-				queryService.getInternationalColumns(),
+				queryService.getInternationalColumns(subject),
 				queryService.getParticipationOnlyColumns()
 		);
 	}

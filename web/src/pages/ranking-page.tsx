@@ -37,10 +37,10 @@ export const RankingPage = () => {
 
     useEffect(() => {
         if (!isInternational) return;
-        getInternationalColumns()
+        getInternationalColumns(subject)
             .then(setLayout)
             .catch(() => setLayout({ order: [], participationOnly: [] }));
-    }, [isInternational]);
+    }, [isInternational, subject]);
 
     useEffect(() => {
         /* Switching subject or scope can leave an older request in flight;

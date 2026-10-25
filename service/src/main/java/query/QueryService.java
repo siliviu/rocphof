@@ -113,8 +113,8 @@ public class QueryService {
 	}
 
 	/** Display order for the international ranking's columns. */
-	public List<String> getInternationalColumns() {
-		return Constants.INTERNATIONAL_COLUMNS;
+	public List<String> getInternationalColumns(String subject) {
+		return Constants.internationalColumns(subject);
 	}
 
 	/** Columns that award no medals, so only participations are shown for them. */

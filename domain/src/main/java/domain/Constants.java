@@ -14,8 +14,6 @@ public final class Constants {
 	 */
 	public static final List<String> NATIONAL_CONTESTS = List.of(CONTEST_ONI, CONTEST_ONM);
 
-	public static final String COUNTRY_ROMANIA = "Romania";
-
 	/**
 	 * Which contests a ranking covers. SCOPE_ONI is the national olympiad of the
 	 * requested subject (ONI or ONM); the value stays "ONI" because it is part of
@@ -62,8 +60,19 @@ public final class Constants {
 	public static final String COLUMN_LOT_GIRL = "Lot Fete";
 
 	public static final List<String> INTERNATIONAL_COLUMNS = List.of(
-			"IOI", "CEOI", "BOI", COLUMN_LOT_SENIOR, "EJOI", "JBOI", COLUMN_LOT_JUNIOR
+			"IOI", "IMO", "CEOI", "BOI", COLUMN_LOT_SENIOR, "EJOI", "JBOI", COLUMN_LOT_JUNIOR
 	);
+
+	/** Columns of maths contests; every other column is informatics. */
+	public static final List<String> MATHS_COLUMNS = List.of("IMO");
+
+	/** The international columns of one subject, or of every subject for SUBJECT_ALL. */
+	public static List<String> internationalColumns(String subject) {
+		if (subject == null || subject.isBlank() || SUBJECT_ALL.equals(subject))
+			return INTERNATIONAL_COLUMNS;
+		boolean maths = SUBJECT_MATHS.equals(subject);
+		return INTERNATIONAL_COLUMNS.stream().filter(c -> MATHS_COLUMNS.contains(c) == maths).toList();
+	}
 
 	/**
 	 * Columns that award no medals, so only their participation count is worth

@@ -119,7 +119,9 @@ export function getInternationalRanking(startYear: number | null, endYear: numbe
 }
 
 /* Column display order, plus which of those columns award no medals. */
-export function getInternationalColumns() {
-    return fetch(`${url}/rankings/international/columns`)
+/* The columns of the selected subject: IMO for maths, the informatics contests
+   and LOT for informatics, all of them combined. */
+export function getInternationalColumns(subject: Subject = SUBJECT_SELECTED_DEFAULT) {
+    return fetch(`${url}/rankings/international/columns?subject=${encodeURIComponent(subject)}`)
         .then(response => response.json())
 }
