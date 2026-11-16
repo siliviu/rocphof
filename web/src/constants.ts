@@ -24,7 +24,7 @@ export const SUBJECT_ALL = 'All';
 export const STORED_SUBJECTS = [SUBJECT_INFORMATICS, SUBJECT_MATHS] as const;
 export const SUBJECTS = [SUBJECT_INFORMATICS, SUBJECT_MATHS, SUBJECT_ALL] as const;
 export type Subject = typeof SUBJECTS[number];
-export const SUBJECT_SELECTED_DEFAULT: Subject = SUBJECT_ALL;
+export const SUBJECT_SELECTED_DEFAULT: Subject = SUBJECT_INFORMATICS;
 
 /* National olympiads: one sheet per grade, results carry an institution. */
 export const NATIONAL_CONTESTS: Record<string, string> = {
